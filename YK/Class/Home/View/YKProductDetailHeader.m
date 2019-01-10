@@ -1,0 +1,307 @@
+//
+//  YKProductDetailHeader.m
+//  YK
+//
+//  Created by LXL on 2017/11/22.
+//  Copyright © 2017年 YK. All rights reserved.
+//
+
+#import "YKProductDetailHeader.h"
+#import "YKProductType.h"
+
+@interface YKProductDetailHeader()
+
+@property (weak, nonatomic) IBOutlet UILabel *productDes;
+@property (weak, nonatomic) IBOutlet UILabel *productPrice;
+@property (weak, nonatomic) IBOutlet UIImageView *brandImage;
+@property (weak, nonatomic) IBOutlet UILabel *brandName;
+
+@property (nonatomic,strong)YKSizeView *sizeView;
+@property (nonatomic,strong)NSArray *stockArray;//库存数组
+@property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
+@property (weak, nonatomic) IBOutlet UIView *toBrandDetailView;
+@property (weak, nonatomic) IBOutlet UILabel *tishiLabel;
+@property (weak, nonatomic) IBOutlet UIScrollView *tishiImage;
+
+@property (weak, nonatomic) IBOutlet UILabel *recommentWords;
+@property (weak, nonatomic) IBOutlet UILabel *selectText;
+@property (weak, nonatomic) IBOutlet UIImageView *yellowImage;
+@property (weak, nonatomic) IBOutlet UILabel *yiwei;
+@property (weak, nonatomic) IBOutlet UILabel *clothName;
+@property (weak, nonatomic) IBOutlet UILabel *lineee;
+@property (weak, nonatomic) IBOutlet UILabel *lll;
+
+@end
+
+@implementation YKProductDetailHeader
+- (void)awakeFromNib{
+    [super awakeFromNib];
+    [_brandName setUserInteractionEnabled:YES];
+    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(toDetail)];
+    [_brandName addGestureRecognizer:tap];
+    
+    //
+     NSMutableParagraphStyle  *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
+    [paragraphStyle  setLineSpacing:4];
+    self.recommentWords.text = @"正在请求数据...";
+    
+//    NSMutableAttributedString  *setString = [[NSMutableAttributedString alloc] initWithString:self.recommentWords.text ];
+//    [setString  addAttribute:NSParagraphStyleAttributeName value:paragraphStyle range:NSMakeRange(0, [self.recommentWords.text  length])];
+    // 设置Label要显示的text
+//    [self.recommentWords  setAttributedText:setString];
+    self.recommentWords.font = PingFangSC_Regular(kSuitLength_H(12));
+    _lineee.hidden = NO;
+    
+    _selectText.font = PingFangSC_Regular(kSuitLength_H(14));
+    _lll.font = PingFangSC_Regular(kSuitLength_H(14));
+}
+
+//- (void)setClothingCreatedate:(NSString *)clothingCreatedate{
+//    _clothingCreatedate = clothingCreatedate;
+//    //判断上新时间是否在48小时内
+////    [self formateDate:clothingCreatedate];
+//}
+
+- (void)setIsNew:(BOOL)isNew{
+    _isNew = isNew;
+    
+    _lineee.hidden = isNew;
+    
+}
+
+- (void)formateDate:(NSString *)dateString
+{
+    
+    NSDate * nowDate = [NSDate date];
+    NSTimeInterval interval    =[dateString doubleValue] / 1000.0;
+    NSDate *needFormatDate               = [NSDate dateWithTimeIntervalSince1970:interval];
+    /////  这里的NSTimeInterval 并不是对象，是基本型，其实是double类型，是由c定义的:  typedef double NSTimeInterval;
+    NSTimeInterval time = [nowDate timeIntervalSinceDate:needFormatDate];
+    
+    //    NSLog(@"hahhahhahahhahahha%@",needFormatDate);
+    if (time<24*60*60*2) {
+        _lineee.hidden = YES;
+    }else {
+        _lineee.hidden = NO;
+        
+    }
+    
+}
+
+- (void)toDetail{
+    if (self.toDetailBlock ) {
+        self.toDetailBlock([_brand[@"brandId"] integerValue],_brand[@"brandName"]);
+    }
+}
+
+- (void)setProduct:(NSDictionary *)product{
+    _product = product;
+    [_brandImage setContentMode:UIViewContentModeScaleAspectFit];
+    NSString *des =  [product objectForKey:@"clothingName"];
+    _clothName.text = [NSString stringWithFormat:@"%@",product[@"clothingName"]];
+    _productDes.text = des;
+    _productPrice.text = [NSString stringWithFormat:@"参考价:¥%@",product[@"clothingPrice"]];
+    
+    _brandName.text = [NSString stringWithFormat:@"%@",product[@"brandName"]];
+    
+    self.stockArray = [NSArray arrayWithArray:product[@"clothingStockDTOS"]];
+    
+    _yiwei.text = [NSString stringWithFormat:@"占%@个衣位",product[@"occupySeat"]];
+    //尺码显示
+    self.sizeView = [[YKSizeView alloc]init];
+    [self.sizeView initViewWithArray:self.stockArray];
+    self.sizeView.frame = self.scrollView.frame;
+    self.sizeView.selectBlock = self.selectBlock;
+   
+    [self addSubview:self.sizeView];
+    
+}
+
+- (void)setBrand:(NSDictionary *)brand{
+    _brand = brand;
+     [_brandImage sd_setImageWithURL:[NSURL URLWithString:[self URLEncodedString:brand[@"brandDetailLogo"]]] placeholderImage:[UIImage imageNamed:@"首页品牌图"]];
+}
+
+- (void)setRecomment:(NSString *)recomment{
+    
+    _recomment = [recomment isEqual:[NSNull null]]  ? @"暂无买手推荐语～" : recomment;
+    _recommentWords.text = _recomment;
+    
+//    NSMutableParagraphStyle  *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
+//    [paragraphStyle  setLineSpacing:kSuitLength_H(4)];
+    self.recommentWords.text = _recomment;
+   
+
+//    NSMutableAttributedString  *setString = [[NSMutableAttributedString alloc] initWithString:self.recommentWords.text ];
+//    [setString  addAttribute:NSParagraphStyleAttributeName value:paragraphStyle range:NSMakeRange(0, [self.recommentWords.text  length])];
+//    // 设置Label要显示的text
+//    [self.recommentWords  setAttributedText:setString];
+    
+    
+}
+
+- (NSString *)URLEncodedString:(NSString *)str
+{
+    NSString *encodedString = (NSString *)
+    CFBridgingRelease(CFURLCreateStringByAddingPercentEscapes(kCFAllocatorDefault,
+                                                              (CFStringRef)str,
+                                                              (CFStringRef)@"!$&'()*+,-./:;=?@_~%#[]",
+                                                              NULL,
+                                                              kCFStringEncodingUTF8));
+    return encodedString;
+}
+
+- (void)resetUI{
+    _yellowImage.hidden = YES;
+    _scrollView.hidden = YES;
+    _selectText.hidden = YES;
+    _sizeView.hidden = YES;
+}
+
+@end
+
+
+@interface YKSizeView()
+
+@property (nonatomic,strong) UIButton *Button1;
+@property (nonatomic,strong) NSArray *stockArray;
+@property (nonatomic,assign) NSInteger selectindex;
+
+@property (nonatomic,strong)UILabel *stockStatuslabel;//显示库存状态
+@property (nonatomic,strong)NSMutableArray *stockStatusLabelArray;//存储库存状态label数组
+@property (nonatomic,strong)NSMutableArray *typeBtnArray;
+
+@property (nonatomic,strong)UILabel *tishilabel;
+@property (nonatomic,strong)UIImageView *tishiImage;
+
+
+@end
+@implementation YKSizeView
+
+- (void)initViewWithArray:(NSArray *)array{
+    
+    self.stockArray = [NSArray arrayWithArray:array];
+    self.stockStatusLabelArray = [NSMutableArray array];
+    self.typeBtnArray = [NSMutableArray array];
+    
+    //添加待返架提示
+    _tishilabel = [[UILabel alloc]init];
+    _tishilabel.text = @"待返架";
+    _tishilabel.textColor = YKRedColor;
+    _tishilabel.font = PingFangSC_Regular(kSuitLength_H(12));
+    [self addSubview:_tishilabel];
+    
+    _tishiImage = [[UIImageView alloc]init];
+    _tishiImage.image = [UIImage imageNamed:@"tishi"];
+    [self addSubview:_tishiImage];
+    
+    _tishilabel.hidden = YES;
+    _tishiImage.hidden = YES;
+    
+    [_tishilabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.right.equalTo(@(-24));
+        make.centerY.equalTo(self.mas_centerY).offset(-kSuitLength_H(8));
+    }];
+    [_tishiImage mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerY.equalTo(_tishilabel.mas_centerY);
+        make.right.equalTo(_tishilabel.mas_left).offset(-6);
+    }];
+    
+    for (int i=0; i<array.count; i++) {
+        UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
+//        btn.layer.masksToBounds = YES;
+//        btn.layer.borderColor = YKRedColor.CGColor;
+//        btn.layer.borderWidth = 1;
+        btn.backgroundColor = [UIColor colorWithHexString:@"f8f8f8"];
+        btn.frame = CGRectMake((kSuitLength_H(58)+kSuitLength_H(17))*i,kSuitLength_H(7),kSuitLength_H(58), kSuitLength_H(26));
+        [btn setTitle:array[i][@"clothingStockType"] forState:UIControlStateNormal];
+        btn.titleLabel.font = [UIFont systemFontOfSize:kSuitLength_H(12)];
+        [btn setTitleColor:[UIColor colorWithHexString:@"676869"] forState:UIControlStateNormal];
+        [btn addTarget:self action:@selector(btnClicked:) forControlEvents:UIControlEventTouchDown];
+        btn.layer.masksToBounds = YES;
+        btn.layer.cornerRadius = kSuitLength_H(26)/2;
+        btn.tag = i;
+        [self addSubview:btn];
+        
+//        UILabel *label = [[UILabel alloc]init];
+//        label.text = @"待返架";
+//        label.font = [UIFont systemFontOfSize:12];
+//        label.textColor = [UIColor colorWithHexString:@"ee2d2d"];
+//        [self addSubview:label];
+//        label.hidden = YES;
+        
+//        [label mas_makeConstraints:^(MASConstraintMaker *make) {
+//            make.centerX.equalTo(btn.mas_centerX);
+//            make.top.equalTo(btn.mas_bottom).offset(6);
+//        }];
+        
+        [self.typeBtnArray addObject:btn];
+//        [self.stockStatusLabelArray addObject:label];
+        
+    }
+}
+
+- (void)btnClicked:(id)sender {
+    UIButton *btn = (UIButton *)sender;
+    self.selectindex = btn.tag;
+    if (self.Button1 == btn) {
+        
+    }else{
+        
+        self.Button1.selected = NO;
+        
+        //判断显示标签
+        YKProductType *product = [[YKProductType alloc]init];
+        [product initWithDictionary:self.stockArray[self.selectindex]];
+//        self.stockStatuslabel = self.stockStatusLabelArray[self.selectindex];
+//        self.stockStatuslabel.hidden = product.isHadStock;
+       
+//        for (UILabel *otherlabel in self.stockStatusLabelArray) {
+//            if (otherlabel!=self.stockStatuslabel) {
+//                otherlabel.hidden = YES;
+//            }
+//        }
+       
+        btn.selected = YES;
+      
+        
+        [UIView animateWithDuration:0.3 animations:^{
+            btn.titleLabel.font = [UIFont systemFontOfSize:kSuitLength_H(12)];
+            btn.backgroundColor = YKRedColor;
+            [btn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+//             btn.layer.borderWidth = 1;
+            
+            self.Button1.titleLabel.font = [UIFont systemFontOfSize:kSuitLength_H(12)];
+            self.Button1.backgroundColor = [UIColor colorWithHexString:@"f8f8f8"];
+            [self.Button1 setTitleColor:[UIColor colorWithHexString:@"676869"] forState:UIControlStateNormal];
+//            self.Button1.layer.borderWidth = 1;
+            
+            if (!product.isHadStock) {//当前选择没有库存
+//                btn.frame = CGRectMake((44+20)*self.selectindex,4,48, 24);
+                btn.backgroundColor = YKRedColor;
+                btn.layer.borderWidth = 0;
+                _tishilabel.hidden = NO;
+                _tishiImage.hidden = NO;
+            }else {
+                _tishilabel.hidden = YES;
+                _tishiImage.hidden = YES;
+            }
+            
+//            for (int i=0; i<self.typeBtnArray.count; i++) {//找到上一个选中的下标
+//                UIButton *b = self.typeBtnArray[i];
+//                if (self.Button1 == b) {
+//                    btn.backgroundColor = mainColor;
+////                    self.Button1.frame = CGRectMake(20+(44+20)*i,12,44, 26);
+//                }
+//            }
+        }];
+        
+    }
+    
+    self.Button1 = btn;
+    
+    if (self.selectBlock) {
+        self.selectBlock(self.stockArray[self.selectindex][@"clothingStockId"],self.stockArray[self.selectindex][@"clothingStockType"],_tishiImage.hidden);
+    }
+}
+@end
