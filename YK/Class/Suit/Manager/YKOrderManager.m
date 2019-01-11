@@ -405,11 +405,22 @@
         [LBProgressHUD hideAllHUDsForView:[UIApplication sharedApplication].keyWindow animated:YES];
         
         if ([dic[@"status"] integerValue] == 200) {//成功确认收货
-        
-            [smartHUD alertText:kWindow alert:@"签收成功" delay:1.0];
-            if (onResponse) {
-                onResponse(dic);
-            }
+         
+            [smartHUD alertText:kWindow alert:@"订单签收成功" delay:1.0];
+            
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                
+                dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                    
+                    if (onResponse) {
+                        onResponse(dic);
+                    }
+                    
+                });
+                
+            });
+           
+            
             
         }else {
             [smartHUD alertText:kWindow alert:dic[@"msg"] delay:1.0];
@@ -444,7 +455,7 @@
 - (void)orderReceiveWithOrderNo:(NSString *)orderNo addressId:(NSString *)addressId time:(NSString *)time OnResponse:(void (^)(NSDictionary *dic))onResponse{
     [LBProgressHUD showHUDto:[UIApplication sharedApplication].keyWindow animated:YES];
     
-    NSString *url = [NSString stringWithFormat:@"%@?orderNo=%@&addressId=%@",orderReceiveOrder_Url,self.orderNo,addressId];
+    NSString *url = [NSString stringWithFormat:@"%@?orderNo=%@&addressId=%@",orderReceiveOrder_Url,orderNo,addressId];
     [YKHttpClient Method:@"POST" apiName:url Params:nil Completion:^(NSDictionary *dic) {
         
         [LBProgressHUD hideAllHUDsForView:[UIApplication sharedApplication].keyWindow animated:YES];
@@ -859,7 +870,7 @@
     
 }
 
-- (void)creatBuyOrderWithAddress:(YKAddress *)address clothingIdList:(NSArray *)clothingIdList OnResponse:(void (^)(NSArray *array))onResponse{
+- (void)creatBuyOrderWithAddress:(YKAddress *)address clothingIdList:(NSArray *)clothingIdList OnResponse:(void (^)(NSDictionary *dic))onResponse{
     
     [LBProgressHUD showHUDto:[UIApplication sharedApplication].keyWindow animated:YES];
     
@@ -869,23 +880,28 @@
     [YKHttpClient Method:@"POST" URLString:buyCloth_Url paramers:dic success:^(NSDictionary *dict) {
         
         [LBProgressHUD hideAllHUDsForView:[UIApplication sharedApplication].keyWindow animated:YES];
+        
+        if ([dict[@"status"] intValue] == 413) {//存在未付款订单
+            if (onResponse) {
+                onResponse(dict);
+            }
+            return ;
+        }
+        
         if ([dict[@"status"] intValue] != 200) {
-             [smartHUD alertText:[UIApplication sharedApplication].keyWindow alert:dict[@"data"] delay:1.2];
-//            if (onResponse) {
-//                onResponse(dict);
-//            }
+             [smartHUD alertText:[UIApplication sharedApplication].keyWindow alert:dict[@"msg"] delay:1.0];
             return ;
         }
        
         
-        [smartHUD alertText:[UIApplication sharedApplication].keyWindow alert:@"订单创建成功" delay:1.2];
+//        [smartHUD alertText:[UIApplication sharedApplication].keyWindow alert:@"订单创建成功" delay:1.2];
         
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
             
             dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
                 
                 if (onResponse) {
-                    onResponse(dict);
+                    onResponse(dict[@"data"]);
                 }
                 
             });
@@ -897,6 +913,7 @@
     }];
 }
 
+//订单查询
 - (void)searchBuyOrderWithOrderStatus:(NSInteger)orderState OnResponse:(void (^)(NSArray *array))onResponse{
     
     [LBProgressHUD showHUDto:[UIApplication sharedApplication].keyWindow animated:YES];
@@ -925,16 +942,63 @@
 }
 
 //取消订单
-- (void)cancleBuyOrderWithOrderId:(NSInteger)orderId type:(NSInteger)type OnResponse:(void (^)(NSArray *array))onResponse{
+- (void)cancleBuyOrderWithOrderId:(NSString *)orderId type:(NSInteger)type OnResponse:(void (^)(NSArray *array))onResponse{
     
-    [LBProgressHUD showHUDto:[UIApplication sharedApplication].keyWindow animated:YES];
-    NSString *str = [NSString stringWithFormat:@"%@?orderNo=%@&orderState=%@",changeOrderState_Url,@(orderId),@(type)];
+//    [LBProgressHUD showHUDto:[UIApplication sharedApplication].keyWindow animated:YES];
+    NSString *str = [NSString stringWithFormat:@"%@?orderNo=%@&orderState=%@",changeOrderState_Url,orderId,@(type)];
     [YKHttpClient Method:@"GET" apiName:str Params:nil Completion:^(NSDictionary *dic) {
         
         [LBProgressHUD hideAllHUDsForView:[UIApplication sharedApplication].keyWindow animated:YES];
         
         if ([dic[@"status"] integerValue] == 200) {
+            
+            if (type==1) {
+                [smartHUD alertText:kWindow alert:@"订单已取消" delay:1.0];
+            }
+            if (type==2) {
+                 [smartHUD alertText:kWindow alert:@"订单签收成功" delay:1.0];
+            }
+            if (type==3) {
+                [smartHUD alertText:kWindow alert:@"订单已删除" delay:1.0];
+            }
+            
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                
+                dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                    
+                    if (onResponse) {
+                        onResponse(nil);
+                    }
+                    
+                });
+                
+            });
            
+            
+        }else {
+            [smartHUD alertText:kWindow alert:dic[@"msg"] delay:1.0];
+        }
+        
+    }];
+}
+
+//订单详情
+- (void)getOrderDetailWithOrderId:(NSString *)orderId OnResponse:(void (^)(NSDictionary *dic))onResponse{
+    
+    [LBProgressHUD showHUDto:[UIApplication sharedApplication].keyWindow animated:YES];
+    NSString *str = [NSString stringWithFormat:@"%@?orderNo=%@",getOrderDetail_Url,orderId];
+    [YKHttpClient Method:@"GET" apiName:str Params:nil Completion:^(NSDictionary *dic) {
+        
+        [LBProgressHUD hideAllHUDsForView:[UIApplication sharedApplication].keyWindow animated:YES];
+        
+          NSLog(@"订单详情==%@",dic);
+        
+        if ([dic[@"status"] integerValue] == 200) {
+            NSDictionary *d = [NSDictionary dictionaryWithDictionary:dic[@"data"]];
+           
+            if (onResponse) {
+                onResponse(d);
+            }
             
         }else {
             [smartHUD alertText:kWindow alert:dic[@"msg"] delay:1.0];

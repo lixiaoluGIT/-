@@ -59,9 +59,21 @@
     self.isNewUser = Dictionary[@"userInfo"][@"newUser"];
     
     //待签收数量
-    self.toQianshouNum = [NSString stringWithFormat:@"%@",Dictionary[@"orderNumberList"][0][@"orderNum"]];
-    //待归还数量
-    self.toReceiveNum = [NSString stringWithFormat:@"%@",Dictionary[@"orderNumberList"][1][@"orderNum"]];
+    NSArray *a = [NSArray arrayWithArray:Dictionary[@"orderNumberList"]];
+    for (NSDictionary *dic in a) {
+        if ([dic[@"orderStatus"] intValue] == 3) {//待付款
+            self.toPayNum = [NSString stringWithFormat:@"%@",dic[@"orderNum"]];
+        }
+        if ([dic[@"orderStatus"] intValue] == 1) {//待签收
+            self.toQianshouNum  = [NSString stringWithFormat:@"%@",dic[@"orderNum"]];
+        }
+        if ([dic[@"orderStatus"] intValue] == 2) {//待归还
+            self.toReceiveNum = [NSString stringWithFormat:@"%@",dic[@"orderNum"]];
+        }
+    }
+//    self.toQianshouNum = [NSString stringWithFormat:@"%@",Dictionary[@"orderNumberList"][0][@"orderNum"]];
+//    //待归还数量
+//    self.toReceiveNum = [NSString stringWithFormat:@"%@",Dictionary[@"orderNumberList"][1][@"orderNum"]];
     
 //    if ([self.phone isEqual:[NSNull null]]) {
 //        [[YKUserManager sharedManager]clear];
@@ -82,6 +94,10 @@
         _WXimageUrl = [NSString stringWithFormat:@"%@",Dictionary[@"userInfo"][@"wxUserInfoVO"][@"headimgurl"]];
         _WXNickName = [NSString stringWithFormat:@"%@",Dictionary[@"userInfo"][@"wxUserInfoVO"][@"nickname"]];
     }
+    
+    self.balance = [NSString stringWithFormat:@"%@",Dictionary[@"userInfo"][@"balance"]];
+    
+    self.couponsNumber = [NSString stringWithFormat:@"%@",Dictionary[@"userInfo"][@"couponsNumber"]];
     
     return self;
 }

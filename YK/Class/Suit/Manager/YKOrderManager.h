@@ -47,6 +47,8 @@ typedef enum : NSInteger {
 @property (nonatomic,assign)BOOL isOnRoad;//订单是否发货
 @property (nonatomic,strong)NSString *sfOrderId;
 
+@property (nonatomic,assign)NSInteger selectIndex;//记录跳到哪个订单状态下
+
 + (YKOrderManager *)sharedManager;
 
 //提交订单
@@ -92,13 +94,15 @@ typedef enum : NSInteger {
 - (void)searchHistoryOrderWithOrderStatus:(NSInteger)status OnResponse:(void (^)(NSArray *array))onResponse;
 
 //购买衣物，创建订单
-- (void)creatBuyOrderWithAddress:(YKAddress *)address clothingIdList:(NSArray *)clothingIdList OnResponse:(void (^)(NSArray *array))onResponse;
+- (void)creatBuyOrderWithAddress:(YKAddress *)address clothingIdList:(NSArray *)clothingIdList OnResponse:(void (^)(NSDictionary *dic))onResponse;
 
 //查询购买历史订单（0-全部 1-待付款 2-待发货 3-待签收 4-已完成 5-已取消）
 - (void)searchBuyOrderWithOrderStatus:(NSInteger)orderState OnResponse:(void (^)(NSArray *array))onResponse;
 
-//取消买衣订单(1-取消订单 2-确认收货)
-- (void)cancleBuyOrderWithOrderId:(NSInteger)orderId type:(NSInteger)type OnResponse:(void (^)(NSArray *array))onResponse;
+//取消买衣订单(1-取消订单 2-确认收货 3-删除订单)
+- (void)cancleBuyOrderWithOrderId:(NSString *)orderId type:(NSInteger)type OnResponse:(void (^)(NSArray *array))onResponse;
 
 //订单详情
+- (void)getOrderDetailWithOrderId:(NSString *)orderId OnResponse:(void (^)(NSDictionary *dic))onResponse;
+
 @end

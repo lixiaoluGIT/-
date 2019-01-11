@@ -7,6 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "YKOrderDetail.h"
+#import "YKBuyOrderCell.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -16,9 +18,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)initWithDic:(NSDictionary *)dic;
 
-@property (nonatomic,copy)void (^btn1ActionBlock)(void);//按钮1的点击回调
-@property (nonatomic,copy)void (^btn2ActionBlock)(void);//按钮2的点击回调
-@property (nonatomic,copy)void (^btn3ActionBlock)(void);//按钮3的点击回调
+@property (nonatomic,copy)void (^btnActionBlock)(BtnActionType actionType);//按钮1的点击回调
+
+@property (nonatomic,strong)YKOrderDetail *orderDetail;
 
 @end
 

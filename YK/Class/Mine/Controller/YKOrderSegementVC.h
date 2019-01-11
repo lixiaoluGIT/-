@@ -12,6 +12,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface YKOrderSegementVC : YKBaseVC
 @property(nonatomic, assign) NSInteger type;
+@property(nonatomic ,assign) BOOL isFromOther;
 @end
 
 NS_ASSUME_NONNULL_END

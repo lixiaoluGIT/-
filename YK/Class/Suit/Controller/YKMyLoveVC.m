@@ -161,7 +161,7 @@
     layoutView.scrollDirection = UICollectionViewScrollDirectionVertical;
     layoutView.itemSize = CGSizeMake((WIDHT-30)/2, (w-30)/2*240/140);
    
-    self.collectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0, 0 , self.view.bounds.size.width, self.view.bounds.size.height - kSuitLength_H(50)) collectionViewLayout:layoutView];
+    self.collectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0, 0 , self.view.bounds.size.width, self.view.bounds.size.height - (50)) collectionViewLayout:layoutView];
     self.collectionView.backgroundColor = [UIColor whiteColor];
     [self.view addSubview:self.collectionView];
     self.collectionView.delegate = self;

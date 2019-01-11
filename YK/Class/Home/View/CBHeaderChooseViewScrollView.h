@@ -14,6 +14,8 @@ typedef void(^btnChooseClickBlock)(NSInteger x);
 
 @property (nonatomic, copy)btnChooseClickBlock btnChooseClickReturn;
 
+@property (nonatomic,assign)NSInteger selectIndex;
+
 - (void)setUpTitleArray :(NSArray <NSString *> *)array titleColor :(UIColor *)color titleSelectedColor:(UIColor *)selectedColor titleFontSize :(CGFloat)size;
 
 @end

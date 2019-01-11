@@ -9,5 +9,5 @@
 #import <UIKit/UIKit.h>
 
 @interface YKReturnVC : YKBaseVC
-
+@property (nonatomic,strong)NSString *orderId;
 @end

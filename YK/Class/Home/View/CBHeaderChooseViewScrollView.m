@@ -106,11 +106,19 @@
         [btn addTarget:self action:@selector(btnClick:) forControlEvents:UIControlEventTouchUpInside];
         [btn setBackgroundColor:[UIColor whiteColor]];
         
-        if (i==0) {
-            btn.selected=YES;
-            self.selectedBtn=btn;
+        if ([YKOrderManager sharedManager].selectIndex != 0) {
+            if (i==[YKOrderManager sharedManager].selectIndex) {
+                btn.selected=YES;
+                self.selectedBtn=btn;
+            }
+        }else
+            if (i==0) {
+                btn.selected=YES;
+                self.selectedBtn=btn;
+            }
+        
         }
-    }
+    
     
     //    滑块
     UIView*sliderView=[[UIView alloc]init];

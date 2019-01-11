@@ -77,11 +77,33 @@
     self.sizeView.selectTypeBlock = ^(BOOL hadStock) {
         if (hadStock) {
             [UIView animateWithDuration:0.3 animations:^{
-                [weakSelf.addBtn setTitle:@"买这件" forState:UIControlStateNormal];
+                if (_type==2) {
+                    [weakSelf.addBtn setTitle:@"买这件" forState:UIControlStateNormal];
+                }
+                
+                if (_type==1) {
+                    [weakSelf.addBtn setTitle:@"加入心愿单" forState:UIControlStateNormal];
+                }
+                
+                if (_type==3) {
+                    [weakSelf.addBtn setTitle:@"租这件" forState:UIControlStateNormal];
+                }
+               
             }];
         }else {
             [UIView animateWithDuration:0.3 animations:^{
-                [weakSelf.addBtn setTitle:@"预约购买" forState:UIControlStateNormal];
+                if (_type==2) {
+                    [weakSelf.addBtn setTitle:@"预约购买" forState:UIControlStateNormal];
+                }
+                
+                if (_type==1) {
+                    [weakSelf.addBtn setTitle:@"加入心愿单" forState:UIControlStateNormal];
+                }
+                
+                if (_type==3) {
+                    [weakSelf.addBtn setTitle:@"租这件" forState:UIControlStateNormal];
+                }
+                
             }];
         }
     };

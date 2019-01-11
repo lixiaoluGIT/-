@@ -30,6 +30,10 @@
 
 @implementation YKOrderBuyHistoryVC
 
+- (void)viewWillDisappear:(BOOL)animated{
+    [super viewWillDisappear:YES];
+    [YKOrderManager sharedManager].selectIndex = 0;
+}
 - (void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:YES];
     self.navigationController.navigationBar.barTintColor = [UIColor whiteColor];
@@ -37,6 +41,13 @@
     self.navigationController.navigationBar.layer.shadowOpacity = 1.0f;
     self.navigationController.navigationBar.layer.shadowRadius = 2.f;
     self.navigationController.navigationBar.layer.shadowOffset = CGSizeMake(2,0);
+    
+//    [self searchOrder:seletedIndex];
+    if ([YKOrderManager sharedManager].selectIndex == 1) {
+        seletedIndex = 1;
+    }
+    
+    [self searchOrder:seletedIndex];
 }
 
 - (NSArray *)orderList{
@@ -52,9 +63,18 @@
     [NC addObserver:self selector:@selector(wxpayresultCurrent:) name:@"wxpaysuc" object:nil];
     self.view.backgroundColor = [UIColor colorWithHexString:@"ffffff"];
     self.title = @"历史订单";
-    [self searchOrder:seletedIndex];
+    
+//    if ([YKOrderManager sharedManager].selectIndex == 1) {
+//        seletedIndex = [YKOrderManager sharedManager].selectIndex ;
+//    }
+//
+//    [self searchOrder:seletedIndex];
+    if ([YKOrderManager sharedManager].selectIndex == 1) {
+        seletedIndex = 1;
+    }
     [self setButtons];
     [self creatPayView];
+   
 }
 
 - (void)creatPayView{
@@ -66,7 +86,7 @@
     _backView.userInteractionEnabled = YES;
     UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(diss)];
     [_backView addGestureRecognizer:tap];
-    [self.view addSubview:_backView];
+    [kWindow addSubview:_backView];
     _payView = [[NSBundle mainBundle] loadNibNamed:@"YKSelectPayView" owner:self options:nil][0];
     _payView.frame = CGRectMake(0, HEIGHT, WIDHT, 236);
     _payView.selectPayBlock = ^(payMethod payMethod){
@@ -80,7 +100,7 @@
     _payView.cancleBlock = ^(void){
         [weakSelf diss];
     };
-    [self.view addSubview:_payView];
+    [kWindow addSubview:_payView];
 }
 
 - (void)diss{
@@ -111,7 +131,7 @@
     [self.view addSubview:headerView];
     
     [headerView setUpTitleArray:array titleColor:[UIColor colorWithHexString:@"999999"] titleSelectedColor:YKRedColor titleFontSize:kSuitLength_H(14)];
-    
+//    headerView.selectIndex = [YKOrderManager sharedManager].selectIndex;
     headerView.btnChooseClickReturn = ^(NSInteger x) {
         seletedIndex = x;
         [weakSelf searchOrder:seletedIndex];
@@ -133,7 +153,7 @@
             
         }];
     }
-    NoDataView.frame = CGRectMake(0, BarH+HEIGHT/4, WIDHT,HEIGHT-212);
+    NoDataView.frame = CGRectMake(0, HEIGHT/4, WIDHT,HEIGHT-212);
     self.view.backgroundColor = [UIColor colorWithHexString:@"ffffff"];
     NoDataView.backgroundColor = self.view.backgroundColor;
     self.tableView.backgroundColor = self.view.backgroundColor;
@@ -166,7 +186,7 @@
                 [self scanSMSInfor:orderId];
                 break;
             case ensureReceive://确认收货
-                
+                [weakSelf ensureRecevie:weakSelf.orderId];
                 break;
             case buyAgain://再次购买
                 [weakSelf toProductDetailclothingId:clothingId title:clothingName];
@@ -201,6 +221,7 @@
 }
 
 - (void)searchOrder:(NSInteger)orderState{
+    [YKOrderManager sharedManager].selectIndex = 0;
     [[YKOrderManager sharedManager]searchBuyOrderWithOrderStatus:orderState OnResponse:^(NSArray *array) {
          array=(NSMutableArray *)[[array reverseObjectEnumerator] allObjects];
         NSLog(@"订单状态===%ld",(long)orderState);
@@ -226,13 +247,13 @@
 - (void)dxAlertView:(DXAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
     if (buttonIndex==1) {
         if (alertView.tag == 101) {//取消订单
-            [[YKOrderManager sharedManager]cancleBuyOrderWithOrderId:currentOrderId type:1 OnResponse:^(NSArray *array) {
+            [[YKOrderManager sharedManager]cancleBuyOrderWithOrderId:self.orderId type:1 OnResponse:^(NSArray *array) {
                 [self searchOrder:seletedIndex];
             }];
         }
         
         if (alertView.tag == 102) {//确认收货
-            [[YKOrderManager sharedManager]cancleBuyOrderWithOrderId:currentOrderId type:2 OnResponse:^(NSArray *array) {
+            [[YKOrderManager sharedManager]cancleBuyOrderWithOrderId:self.orderId type:2 OnResponse:^(NSArray *array) {
                 [self searchOrder:seletedIndex];
             }];
         }
@@ -280,7 +301,7 @@
     
     NSDictionary *dict = [notify userInfo];
     if ([[dict objectForKey:@"resultStatus"] isEqualToString:@"9000"]) {
-        
+         [self diss];
         [self searchOrder:seletedIndex];
         
     }else if ([[dict objectForKey:@"resultStatus"] isEqualToString:@"6001"]) {
@@ -299,7 +320,7 @@
     NSDictionary *dict = [notify userInfo];
     
     if ([[dict objectForKey:@"codeid"]integerValue]==0) {
-        
+        [self diss];
        [self searchOrder:seletedIndex];
         
     }else{

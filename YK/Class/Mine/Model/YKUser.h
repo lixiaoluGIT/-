@@ -42,8 +42,12 @@
 @property (nonatomic,strong)NSString *QQimageUrl;
 @property (nonatomic,strong)NSString *QQNickName;
 
-@property (nonatomic,strong)NSString *toQianshouNum;
-@property (nonatomic,strong)NSString *toReceiveNum;
+@property (nonatomic,strong)NSString *toQianshouNum;//待签收
+@property (nonatomic,strong)NSString *toReceiveNum;//待归还
+@property (nonatomic,strong)NSString *toPayNum;//待付款
+@property (nonatomic,strong)NSString *balance;//余额
+@property (nonatomic,strong)NSString *couponsNumber;//卡券数量
+
 
 - (instancetype)initWithDictionary:(NSDictionary *)dictionary;
 

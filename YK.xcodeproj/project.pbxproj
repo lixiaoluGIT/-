@@ -133,6 +133,7 @@
 		0087C998211AC8480014E733 /* YKHomeAleartView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0087C996211AC8480014E733 /* YKHomeAleartView.xib */; };
 		0087C99C211AEA210014E733 /* YKShareCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0087C99A211AEA210014E733 /* YKShareCell.m */; };
 		0087C99D211AEA210014E733 /* YKShareCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0087C99B211AEA210014E733 /* YKShareCell.xib */; };
+		00953AEB21E713E500E41A1E /* YKOrderDetail.m in Sources */ = {isa = PBXBuildFile; fileRef = 00953AEA21E713E500E41A1E /* YKOrderDetail.m */; };
 		00961FE921A4037D003DD710 /* YKFilterUpHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 00961FE821A4037D003DD710 /* YKFilterUpHeaderView.m */; };
 		00961FEC21A64C4B003DD710 /* YKLoveNoDataView.m in Sources */ = {isa = PBXBuildFile; fileRef = 00961FEB21A64C4B003DD710 /* YKLoveNoDataView.m */; };
 		00961FEF21A804D6003DD710 /* YKSignalSuitVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 00961FEE21A804D6003DD710 /* YKSignalSuitVC.m */; };
@@ -904,6 +905,8 @@
 		0087C999211AEA210014E733 /* YKShareCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YKShareCell.h; sourceTree = "<group>"; };
 		0087C99A211AEA210014E733 /* YKShareCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YKShareCell.m; sourceTree = "<group>"; };
 		0087C99B211AEA210014E733 /* YKShareCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = YKShareCell.xib; sourceTree = "<group>"; };
+		00953AE921E713E500E41A1E /* YKOrderDetail.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YKOrderDetail.h; sourceTree = "<group>"; };
+		00953AEA21E713E500E41A1E /* YKOrderDetail.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YKOrderDetail.m; sourceTree = "<group>"; };
 		00961FE721A4037D003DD710 /* YKFilterUpHeaderView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YKFilterUpHeaderView.h; sourceTree = "<group>"; };
 		00961FE821A4037D003DD710 /* YKFilterUpHeaderView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YKFilterUpHeaderView.m; sourceTree = "<group>"; };
 		00961FEA21A64C4B003DD710 /* YKLoveNoDataView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YKLoveNoDataView.h; sourceTree = "<group>"; };
@@ -2953,6 +2956,8 @@
 				C5303A0E1FCFA4D500FB12CE /* YKSuit.m */,
 				C532A6D91FDF78A40068A31D /* YKOrder.h */,
 				C532A6DA1FDF78A40068A31D /* YKOrder.m */,
+				00953AE921E713E500E41A1E /* YKOrderDetail.h */,
+				00953AEA21E713E500E41A1E /* YKOrderDetail.m */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -4959,6 +4964,7 @@
 				C59D478A1FF623F3002208BF /* PickViewSelect.m in Sources */,
 				C5FB782A205904780076DD6F /* YYSpriteSheetImage.m in Sources */,
 				00E017F621DF59E200F52684 /* YKBindThirdVC.m in Sources */,
+				00953AEB21E713E500E41A1E /* YKOrderDetail.m in Sources */,
 				C5FB78D6205908F80076DD6F /* NSMutableDictionary+BlocksKit.m in Sources */,
 				C55D49221FC3CE2F000D2056 /* YKMyBagSMSCell.m in Sources */,
 				C532A6DB1FDF78A40068A31D /* YKOrder.m in Sources */,

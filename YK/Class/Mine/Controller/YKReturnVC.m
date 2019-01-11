@@ -198,7 +198,7 @@
 - (void)dxAlertView:(DXAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
     if (buttonIndex==1) {
         
-        [[YKOrderManager sharedManager]orderReceiveWithOrderNo:@"" addressId:self.address.addressId time:self.timeStr OnResponse:^(NSDictionary *dic) {
+        [[YKOrderManager sharedManager]orderReceiveWithOrderNo:self.orderId addressId:self.address.addressId time:self.timeStr OnResponse:^(NSDictionary *dic) {
             [self.navigationController popViewControllerAnimated:YES];
         }];
     }

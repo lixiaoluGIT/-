@@ -56,6 +56,12 @@
 //    self.navigationController.navigationBar.layer.shadowOffset = CGSizeMake(2,0);
 //    [NC addObserver:self selector:@selector(navigationBarHidden) name:@"NavigationHidden" object:nil];
 //    [NC addObserver:self selector:@selector(navigationBarNotHidden) name:@"NavigationNotHidden" object:nil];
+    
+    self.navigationController.navigationBar.barTintColor = [UIColor whiteColor];
+    self.navigationController.navigationBar.layer.shadowColor = [UIColor clearColor].CGColor;
+    self.navigationController.navigationBar.layer.shadowOpacity = 1.0f;
+    self.navigationController.navigationBar.layer.shadowRadius = 2.f;
+    self.navigationController.navigationBar.layer.shadowOffset = CGSizeMake(2,0);
    
     self.navigationController.navigationBar.barTintColor = [UIColor whiteColor];
     UIButton *btn=[UIButton buttonWithType:UIButtonTypeCustom];
@@ -122,7 +128,7 @@
         
         button.frame = CGRectMake(self.btnView.frame.size.width/self.titleArr.count*i, kSuitLength_V(0), self.btnView.frame.size.width/self.titleArr.count, kSuitLength_V(38));
         
-        if (i == _currentPageIndex) {
+        if (i == self.type) {
             button.selected = YES;
             [button setTitleColor:YKRedColor forState:UIControlStateNormal];
             clickButton = button;

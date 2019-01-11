@@ -197,6 +197,9 @@
             [self.rightBtn setTitle:@"立即付款" forState:UIControlStateNormal];
             self.leftBtn.hidden = NO;
             self.rightBtn.hidden = NO;
+            self.rightBtn.backgroundColor = YKRedColor;
+            [self.rightBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+            [self.rightBtn setUserInteractionEnabled:YES];
             break;
         case 2:
             self.orderStatusLabel.text = @"衣箱状态：待发货";
@@ -205,16 +208,26 @@
             self.rightBtn.backgroundColor = [UIColor whiteColor];
             [self.rightBtn setTitleColor:YKRedColor forState:UIControlStateNormal];
             [self.rightBtn setUserInteractionEnabled:NO];
+            self.rightBtn.hidden = NO;
             break;
         case 3:
             self.orderStatusLabel.text = @"衣箱状态：待签收";
             [self.leftBtn setTitle:@"查看物流" forState:UIControlStateNormal];
             [self.rightBtn setTitle:@"确认收货" forState:UIControlStateNormal];
+            self.rightBtn.backgroundColor = YKRedColor;
+            [self.rightBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+            [self.rightBtn setUserInteractionEnabled:YES];
+            self.leftBtn.hidden = NO;
+            self.rightBtn.hidden = NO;
             break;
         case 4:
             self.orderStatusLabel.text = @"衣箱状态：已完成";
             [self.rightBtn setTitle:@"再次购买" forState:UIControlStateNormal];
             self.leftBtn.hidden = YES;
+            self.rightBtn.hidden = NO;
+            self.rightBtn.backgroundColor = YKRedColor;
+            [self.rightBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+            [self.rightBtn setUserInteractionEnabled:YES];
             break;
         case 5:
             self.orderStatusLabel.text = @"衣箱状态：已取消";

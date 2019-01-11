@@ -234,7 +234,7 @@
     
     //yuer
     UILabel *ye = [[UILabel alloc]init];
-    ye.text = @"¥0.0";
+    ye.text = [YKUserManager sharedManager].user.balance;;
     ye.font = PingFangSC_Semibold(kSuitLength_H(14));
     ye.textColor = [UIColor whiteColor];
     ye.textAlignment = NSTextAlignmentCenter;
@@ -273,7 +273,7 @@
     
     //yuer
     UILabel *kj = [[UILabel alloc]init];
-    kj.text = @"6";
+    kj.text = [YKUserManager sharedManager].user.couponsNumber;
     kj.font = PingFangSC_Semibold(kSuitLength_H(14));
     kj.textColor = [UIColor whiteColor];
     kj.textAlignment = NSTextAlignmentCenter;
@@ -339,15 +339,15 @@
             l.textColor = [UIColor whiteColor];
             //            l.text = [NSString stringWithFormat:@"%d",i];
             if (i==1) {
-                l.text = [NSString stringWithFormat:@"%@",[YKUserManager sharedManager].user.toQianshouNum];
-                if ([[YKUserManager sharedManager].user.toQianshouNum intValue] == 0) {
+                l.text = [NSString stringWithFormat:@"%@",[YKUserManager sharedManager].user.toPayNum];
+                if ([[YKUserManager sharedManager].user.toPayNum intValue] == 0) {
                     l.hidden = YES;
                 }
                 self.l1 = l;
             }
             if (i==2) {
-                l.text = [NSString stringWithFormat:@"%@",[YKUserManager sharedManager].user.toReceiveNum];
-                if ([[YKUserManager sharedManager].user.toReceiveNum intValue] == 0) {
+                l.text = [NSString stringWithFormat:@"%@",[YKUserManager sharedManager].user.toQianshouNum];
+                if ([[YKUserManager sharedManager].user.toQianshouNum intValue] == 0) {
                     l.hidden = YES;
                 }
                 self.l2 = l;
@@ -562,13 +562,13 @@
         self.unLojiantou.hidden = YES;
         self.unLogin.hidden = YES;
         self.unLoginjiantou.hidden = YES;
-        self.l1.text =  [NSString stringWithFormat:@"%@",[YKUserManager sharedManager].user.toQianshouNum];
-        self.l2.text = [NSString stringWithFormat:@"%@",[YKUserManager sharedManager].user.toReceiveNum];
+        self.l1.text =  [NSString stringWithFormat:@"%@",[YKUserManager sharedManager].user.toPayNum];
+        self.l2.text = [NSString stringWithFormat:@"%@",[YKUserManager sharedManager].user.toQianshouNum];
         self.l3.text = [NSString stringWithFormat:@"%@",[YKUserManager sharedManager].user.toReceiveNum];
-        if ([[YKUserManager sharedManager].user.toQianshouNum intValue] == 0) {
+        if ([[YKUserManager sharedManager].user.toPayNum intValue] == 0) {
             self.l1.hidden = YES;
         }
-        if ([[YKUserManager sharedManager].user.toReceiveNum intValue] == 0) {
+        if ([[YKUserManager sharedManager].user.toQianshouNum intValue] == 0) {
             self.l2.hidden = YES;
         }
         if ([[YKUserManager sharedManager].user.toReceiveNum intValue] == 0) {

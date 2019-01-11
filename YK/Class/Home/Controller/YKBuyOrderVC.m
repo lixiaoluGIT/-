@@ -21,6 +21,7 @@
 #import "YKBuyCashCell.h"
 #import "YKBuyTypeCell.h"
 #import "YKBuyProductCell.h"
+#import "YKOrderSegementVC.h"
 
 @interface YKBuyOrderVC ()<UITableViewDelegate,UITableViewDataSource,DXAlertViewDelegate>{
     BOOL isHadDefaultAddress;
@@ -149,6 +150,7 @@
 }
 
 - (void)toPay{
+    WeakSelf(weakSelf)
     if (self.payMethod == 3) {
         [smartHUD alertText:kWindow alert:@"请选择支付方式" delay:1.0];
         return;
@@ -170,24 +172,60 @@
          [a addObject:self.product[@"clothingStockDTOS"][0][@"clothingStockId"]];
         
         //创建订单
-        [[YKOrderManager sharedManager]creatBuyOrderWithAddress:self.addressM clothingIdList:a OnResponse:^(NSArray *array) {
+        [[YKOrderManager sharedManager]creatBuyOrderWithAddress:self.addressM clothingIdList:a OnResponse:^(NSDictionary *dic) {
+            
+            if ([dic[@"status"] intValue] == 413) {//存在未付款订单
+                [weakSelf showAleart];
+                return ;
+            }
             
            //调起支付
             NSLog(@"调起支付");
+            
+            [weakSelf pay:dic[@"orderNo"]];
         }];
     }
    
    
 }
+
+- (void)showAleart{
+    DXAlertView *aleart = [[DXAlertView alloc]initWithTitle:@"温馨提示" message:@"您当前存在未支付订单" cancelBtnTitle:@"取消" otherBtnTitle:@"去支付"];
+    aleart.delegate = self;
+    aleart.tag = 102;
+    [aleart show];
+}
+- (void)pay:(NSString *)orderId{
+    [[YKPayManager sharedManager]payWithPayMethod:self.payMethod orderNo:orderId couponId:0 OnResponse:^(NSDictionary *dic) {
+        
+    }];
+}
+
 - (void)leftAction{
     DXAlertView *aleart = [[DXAlertView alloc]initWithTitle:@"确定要放弃付款吗？" message:@"您尚未完成支付，喜欢的商品可能会被抢空哦～" cancelBtnTitle:@"取消" otherBtnTitle:@"继续支付"];
     aleart.delegate = self;
+    aleart.tag = 101;
     [aleart show];
     
 }
 - (void)dxAlertView:(DXAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
-    if (buttonIndex==0) {
-        [self.navigationController popViewControllerAnimated:YES];
+    if (alertView.tag == 101) {
+        if (buttonIndex==0) {
+            [self.navigationController popViewControllerAnimated:YES];
+        }
+    }
+    if (alertView.tag == 102) {
+        if (buttonIndex==1) {
+            //调到买衣订单未支付订单
+            YKOrderSegementVC *seg = [[YKOrderSegementVC alloc]init];
+            seg.isFromOther = YES;
+            seg.type = 1;//到买衣
+            [YKOrderManager sharedManager].selectIndex = 1;//到未支付订单
+            seg.hidesBottomBarWhenPushed = YES;
+            [self.navigationController pushViewController:seg animated:YES];
+        }else {
+             [self.navigationController popViewControllerAnimated:YES];
+        }
     }
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section{

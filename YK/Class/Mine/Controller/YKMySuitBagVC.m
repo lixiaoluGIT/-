@@ -21,6 +21,7 @@
 {
     YKNoDataView *NoDataView;
     BOOL isHadOrderreceive;//是否预约订单
+    int type;
 }
 
 @property (nonatomic,strong) UIButton *Button0;
@@ -35,12 +36,23 @@
 
 @implementation YKMySuitBagVC
 
+- (void)viewWillDisappear:(BOOL)animated{
+    [super viewWillDisappear:YES];
+//    [YKOrderManager sharedManager].selectIndex = 0;
+}
 - (void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:YES];
 
-    if (_bagStatus==toBack) {
-        [self searchOrders:2];
-    }
+    self.navigationController.navigationBar.barTintColor = [UIColor whiteColor];
+    self.navigationController.navigationBar.layer.shadowColor = [UIColor clearColor].CGColor;
+    self.navigationController.navigationBar.layer.shadowOpacity = 1.0f;
+    self.navigationController.navigationBar.layer.shadowRadius = 2.f;
+    self.navigationController.navigationBar.layer.shadowOffset = CGSizeMake(2,0);
+//    if (_bagStatus==toBack) {
+//        [self searchOrders:type];
+//    }
+//
+    [self searchOrders:[YKOrderManager sharedManager].selectIndex-100];
 }
 
 - (void)test{
@@ -124,7 +136,7 @@
     }
     
   
-    NoDataView.frame = CGRectMake(0, BarH+HEIGHT/4, WIDHT,HEIGHT-212);
+    NoDataView.frame = CGRectMake(0, HEIGHT/4, WIDHT,HEIGHT-212);
     self.view.backgroundColor = [UIColor colorWithHexString:@"ffffff"];
     NoDataView.backgroundColor = self.view.backgroundColor;
     self.tableView.backgroundColor = self.view.backgroundColor;
@@ -132,6 +144,7 @@
 }
 
 -(void)settingButtons{
+    self.selectedIndex = [YKOrderManager sharedManager].selectIndex;
     UIView *backView=[[UIView alloc]initWithFrame:CGRectMake(0, 0, WIDHT, 50*WIDHT/375)];
     backView.backgroundColor = [UIColor whiteColor];
     [self.view addSubview:backView];
@@ -293,7 +306,7 @@
         index=3;
         _bagStatus = hadBack;
     }
-    
+    type = index;
     [UIView animateWithDuration:0.25 animations:^{
         _line.frame = CGRectMake(WIDHT/8+WIDHT/4*index-kSuitLength_H(30)/2, kSuitLength_H(45), kSuitLength_H(30), 2);
     }];
@@ -610,6 +623,7 @@
     UITapGestureRecognizer *TAP = [[UITapGestureRecognizer alloc]initWithActionBlock:^(id  _Nonnull sender) {
         //调到订单详情页
         YKOrderDetailVC *orderDetail = [[YKOrderDetailVC alloc]init];
+        orderDetail.orderId = self.orderList[section][@"orderNo"];
         [self.navigationController pushViewController:orderDetail animated:YES];
     }];
     [l addGestureRecognizer:TAP];

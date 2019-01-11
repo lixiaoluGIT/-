@@ -694,7 +694,7 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 		[keyPath isEqualToString:@"activityIndicatorColor"]) {
 		[self updateIndicators];
 	} else if ([keyPath isEqualToString:@"labelText"]) {
-		label.text = self.labelText;
+        label.text = [NSString stringWithFormat:@"%@",self.labelText];
 	} else if ([keyPath isEqualToString:@"labelFont"]) {
 		label.font = self.labelFont;
 	} else if ([keyPath isEqualToString:@"labelColor"]) {

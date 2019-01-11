@@ -186,9 +186,12 @@
                 if ([Token length] == 0) {
                     [weakSelf login];
                 }else {
-                    YKOrderSegementVC *account = [YKOrderSegementVC new];
-                    account.hidesBottomBarWhenPushed = YES;
-                    [weakSelf.navigationController pushViewController:account animated:YES];
+                    YKOrderSegementVC *seg = [YKOrderSegementVC new];
+                    seg.hidesBottomBarWhenPushed = YES;
+                    seg.isFromOther = NO;
+                    seg.type = 0;//到买衣
+                    [YKOrderManager sharedManager].selectIndex = 0;//到未支付订单
+                    [weakSelf.navigationController pushViewController:seg animated:YES];
                 }
                 break;
             case 101://待付款
@@ -196,9 +199,12 @@
                 if ([Token length] == 0) {
                     [weakSelf login];
                 }else {
-                    YKOrderSegementVC *account = [YKOrderSegementVC new];
-                    account.hidesBottomBarWhenPushed = YES;
-                    [weakSelf.navigationController pushViewController:account animated:YES];
+                    YKOrderSegementVC *seg = [YKOrderSegementVC new];
+                    seg.hidesBottomBarWhenPushed = YES;
+                    seg.isFromOther = NO;
+                    seg.type = 1;//到买衣
+                    [YKOrderManager sharedManager].selectIndex = 1;//到未支付订单
+                    [weakSelf.navigationController pushViewController:seg animated:YES];
                 }
                 break;
             case 102://待签收
@@ -206,9 +212,12 @@
                 if ([Token length] == 0) {
                     [weakSelf login];
                 }else {
-                    YKOrderSegementVC *account = [YKOrderSegementVC new];
-                    account.hidesBottomBarWhenPushed = YES;
-                    [weakSelf.navigationController pushViewController:account animated:YES];
+                    YKOrderSegementVC *seg = [YKOrderSegementVC new];
+                    seg.hidesBottomBarWhenPushed = YES;
+                    seg.isFromOther = NO;
+                    seg.type = 0;//到买衣
+                    [YKOrderManager sharedManager].selectIndex = 101;
+                    [weakSelf.navigationController pushViewController:seg animated:YES];
                 }
                 break;
             case 103://待归还
@@ -216,9 +225,12 @@
                 if ([Token length] == 0) {
                     [weakSelf login];
                 }else {
-                    YKOrderSegementVC *account = [YKOrderSegementVC new];
-                    account.hidesBottomBarWhenPushed = YES;
-                    [weakSelf.navigationController pushViewController:account animated:YES];
+                    YKOrderSegementVC *seg = [YKOrderSegementVC new];
+                    seg.hidesBottomBarWhenPushed = YES;
+                    seg.isFromOther = NO;
+                    seg.type = 0;
+                    [YKOrderManager sharedManager].selectIndex = 102;
+                    [weakSelf.navigationController pushViewController:seg animated:YES];
                 }
                 break;
             case 200://兑换卡
