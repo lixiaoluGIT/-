@@ -340,7 +340,7 @@
         }];
         if ([orderDetail.orderType intValue] == 2) {
             UILabel *productNum = [[UILabel alloc]init];
-            productNum.text = [NSString stringWithFormat:@"X%@",product[@"storage"]];
+            productNum.text = [NSString stringWithFormat:@"x%@",product[@"storage"]];
             productNum.textColor = [UIColor colorWithHexString:@"999999"];
             productNum.font = PingFangSC_Medium(kSuitLength_H(12));
             [productView addSubview:productNum];

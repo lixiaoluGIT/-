@@ -306,7 +306,7 @@
         buttom.frame = CGRectMake(kSuitLength_H(60),HEIGHT-kSuitLength_H(160), WIDHT-kSuitLength_H(60)*2, kSuitLength_H(36));
     }
     if (WIDHT==414) {
-        buttom.frame = CGRectMake(kSuitLength_H(60),HEIGHT-kSuitLength_H(160), WIDHT-kSuitLength_H(60)*2, kSuitLength_H(36));
+        buttom.frame = CGRectMake(kSuitLength_H(60),HEIGHT-kSuitLength_H(180), WIDHT-kSuitLength_H(60)*2, kSuitLength_H(36));
     }
     
     if (HEIGHT==812) {

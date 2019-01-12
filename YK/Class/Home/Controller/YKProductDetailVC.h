@@ -19,6 +19,6 @@
 
 @property (nonatomic,assign)BOOL isNew;//是否是刚上新
 
-
+@property (nonatomic,assign)BOOL canBuy;//是否可购买
 
 @end

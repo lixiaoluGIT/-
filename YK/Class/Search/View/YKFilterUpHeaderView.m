@@ -57,7 +57,7 @@
     [_seLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(kSuitLength_H(10));
         make.centerY.equalTo(_staticView.mas_centerY);
-        make.width.mas_equalTo(kSuitLength_H(kSuitLength_H(60)));
+        make.width.mas_equalTo(kSuitLength_H(kSuitLength_H(65)));
         make.height.mas_equalTo(kSuitLength_H(kSuitLength_H(20)));
     }];
     

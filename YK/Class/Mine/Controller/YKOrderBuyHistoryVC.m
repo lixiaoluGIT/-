@@ -43,8 +43,11 @@
     self.navigationController.navigationBar.layer.shadowOffset = CGSizeMake(2,0);
     
 //    [self searchOrder:seletedIndex];
-    if ([YKOrderManager sharedManager].selectIndex == 1) {
+    if ([YKOrderManager sharedManager].selectIndex == 1) {//待付款
         seletedIndex = 1;
+    }
+    if ([YKOrderManager sharedManager].selectIndex == 2) {//待签收
+        seletedIndex = 2;
     }
     
     [self searchOrder:seletedIndex];
@@ -215,6 +218,7 @@
     //到商品详情
     YKBuyOrderCell *cell = [tableView cellForRowAtIndexPath:indexPath];
     YKProductDetailVC  *detail = [[YKProductDetailVC alloc]init];
+    detail.canBuy = YES;
     detail.productId = cell.clothingId;
     detail.titleStr = cell.clothingName;
     [self.navigationController pushViewController:detail animated:YES];
@@ -262,6 +266,7 @@
 
 - (void)toProductDetailclothingId:(NSString *)clothingId title:(NSString *)title{
     YKProductDetailVC  *detail = [[YKProductDetailVC alloc]init];
+    detail.canBuy = YES;
     detail.productId = clothingId;
     detail.titleS = title;
     [self.navigationController pushViewController:detail animated:YES];

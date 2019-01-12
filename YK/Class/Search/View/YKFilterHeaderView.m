@@ -49,7 +49,8 @@
     _seLabel = [UIButton buttonWithType:UIButtonTypeCustom];
     [_seLabel setTitle:@"全部单品" forState:UIControlStateNormal];
     [_seLabel setTitle:@"在架优先" forState:UIControlStateSelected];
-    [_seLabel setTitleColor:[UIColor colorWithHexString:@"ffffff"] forState:UIControlStateNormal];
+    [_seLabel setTitleColor:[UIColor whiteColor]  forState:UIControlStateNormal];
+//     [_seLabel setTitleColor:[UIColor whiteColor]  forState:UIControlStateSelected];
     _seLabel.titleLabel.font = PingFangSC_Medium(kSuitLength_H(12));
     [_seLabel addTarget:self action:@selector(changeTypeAction:) forControlEvents:UIControlEventTouchUpInside];
     [_staticView addSubview:_seLabel];
@@ -58,7 +59,7 @@
     [_seLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(kSuitLength_H(10));
         make.centerY.equalTo(_staticView.mas_centerY);
-        make.width.mas_equalTo(kSuitLength_H(kSuitLength_H(60)));
+        make.width.mas_equalTo(kSuitLength_H(kSuitLength_H(65)));
         make.height.mas_equalTo(kSuitLength_H(kSuitLength_H(20)));
     }];
     

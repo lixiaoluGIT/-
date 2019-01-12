@@ -49,7 +49,7 @@
     title.text = self.title;
     title.textAlignment = NSTextAlignmentCenter;
     title.textColor = [UIColor colorWithHexString:@"333333"];
-    title.font = PingFangSC_Medium(kSuitLength_H(14));;
+    title.font = PingFangSC_Medium(15);;
     
     YKAddCCDesView *des = [[NSBundle mainBundle]loadNibNamed:@"YKAddCCDesView" owner:nil options:nil][0];
     des.frame = CGRectMake(0, kSuitLength_H(60), WIDHT, HEIGHT-kSuitLength_H(58));

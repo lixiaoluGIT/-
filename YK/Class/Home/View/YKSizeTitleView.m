@@ -42,17 +42,18 @@
     }];
     if (_hasEditSize) {//已添加尺码
         
-        if (recSize.length==0) {//没有推荐
-            [_editBtn setTitle:@"暂无推荐尺码" forState:UIControlStateNormal];
-            [_editBtn setImage:[UIImage imageNamed:@"右-2尺码详情"] forState:UIControlStateNormal];
-            [_editBtn setImageEdgeInsets:UIEdgeInsetsMake(0, 0, 0, -165)];
-            [_editBtn setTitleEdgeInsets:UIEdgeInsetsMake(0, 0, 0, 15)];
-            _editBtn.backgroundColor = [UIColor colorWithHexString:@"f8f8f8"];
-            [_editBtn setTitleColor:[UIColor colorWithHexString:@"666666"] forState:UIControlStateNormal];
-            _editBtn.layer.masksToBounds = YES;
-            _editBtn.layer.cornerRadius = 11;
-        }else {
-            [_editBtn setTitle:[NSString stringWithFormat:@"为我推荐%@",recSize] forState:UIControlStateNormal];
+//        if (recSize.length==0) {//没有推荐
+//            [_editBtn setTitle:@"暂无推荐尺码" forState:UIControlStateNormal];
+//            [_editBtn setImage:[UIImage imageNamed:@"右-2尺码详情"] forState:UIControlStateNormal];
+//            [_editBtn setImageEdgeInsets:UIEdgeInsetsMake(0, 0, 0, -165)];
+//            [_editBtn setTitleEdgeInsets:UIEdgeInsetsMake(0, 0, 0, 15)];
+//            _editBtn.backgroundColor = [UIColor colorWithHexString:@"f8f8f8"];
+//            [_editBtn setTitleColor:[UIColor colorWithHexString:@"666666"] forState:UIControlStateNormal];
+//            _editBtn.layer.masksToBounds = YES;
+//            _editBtn.layer.cornerRadius = 11;
+//        }else {
+//            [_editBtn setTitle:[NSString stringWithFormat:@"为我推荐%@",recSize] forState:UIControlStateNormal];
+            [_editBtn setTitle:@"编辑我的尺码" forState:UIControlStateNormal];
             [_editBtn setImage:[UIImage imageNamed:@"右-2 尺码详情"] forState:UIControlStateNormal];
             [_editBtn setImageEdgeInsets:UIEdgeInsetsMake(0, 0, 0, -165)];
             [_editBtn setTitleEdgeInsets:UIEdgeInsetsMake(0, 0, 0, 15)];
@@ -61,7 +62,7 @@
             _editBtn.layer.masksToBounds = YES;
             _editBtn.layer.cornerRadius = 11;
             
-        }
+//        }
     }else {
         [_editBtn setTitle:@"编辑我的尺码" forState:UIControlStateNormal];
         [_editBtn setImage:[UIImage imageNamed:@"右-2编辑尺码"] forState:UIControlStateNormal];

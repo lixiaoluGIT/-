@@ -9,6 +9,7 @@
 #import "YKOrderSegementVC.h"
 #import "YKMySuitBagVC.h"
 #import "YKOrderBuyHistoryVC.h"
+#import "YKHomeVC.h"
 //状态栏高度
 #define kStatusnBarHeight  ([[UIApplication sharedApplication] statusBarFrame].size.height)
 // 导航栏高度
@@ -90,7 +91,17 @@
 }
 
 - (void)leftAction{
-    [self.navigationController popViewControllerAnimated:YES];
+    if (self.isFromOther) {//不是从个人中心跳进来的
+        YKHomeVC *chatVC = [[YKHomeVC alloc] init];
+        chatVC.hidesBottomBarWhenPushed = YES;
+        UINavigationController *nav = self.tabBarController.viewControllers[0];
+        chatVC.hidesBottomBarWhenPushed = YES;
+        self.tabBarController.selectedViewController = nav;
+        [self.navigationController popToRootViewControllerAnimated:YES];
+    }else {
+        [self.navigationController popViewControllerAnimated:YES];
+    }
+    
 }
 
 

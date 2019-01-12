@@ -962,8 +962,14 @@
         
         if (onResponse) {
             onResponse(dict);
+            
         }
+//        [_mySizeArray addObject:dic[@"data"][@"shoulderWidth"]];//肩宽
+//        [_mySizeArray addObject:dic[@"data"][@"bust"]];//胸围
+//        [_mySizeArray addObject:dic[@"data"][@"hipline"]];//腰围
+//        [_mySizeArray addObject:dic[@"data"][@"theWaist"]];//臀围
 
+        
     
     } failure:^(NSError *error) {
         [LBProgressHUD hideAllHUDsForView:[UIApplication sharedApplication].keyWindow animated:YES];

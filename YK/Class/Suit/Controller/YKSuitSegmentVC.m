@@ -54,6 +54,13 @@
 - (void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:YES];
     self.navigationController.navigationBar.hidden = YES;
+    if ([UD boolForKey:@"toBuy"]) {
+//        [self updateCurrentPageIndex:1];
+//        UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
+//        btn.tag = BtnTag + 1;
+//        [self changeControllerClick:btn];
+//        [UD setBool:NO forKey:@"toBuy"];
+    }
 }
 
 - (void)viewWillDisappear:(BOOL)animated{

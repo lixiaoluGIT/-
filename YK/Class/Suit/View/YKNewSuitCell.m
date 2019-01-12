@@ -84,6 +84,9 @@
 
 - (void)addView{
     UIView *view = [[UIView alloc]initWithFrame:self.bounds];
+    if (WIDHT==320) {
+        view.frame = CGRectMake(0, 0, WIDHT, kSuitLength_H(130));
+    }
     view.backgroundColor = [UIColor colorWithHexString:@"e0e0e0"];
     view.alpha = 0.3;
     [self.contentView addSubview:view];

@@ -64,6 +64,8 @@
 }
 - (void)viewDidLoad {
     [super viewDidLoad];
+    [NC addObserver:self selector:@selector(alipayResult:) name:@"alipayres" object:nil];
+    [NC addObserver:self selector:@selector(wxpayresult:) name:@"wxpaysuc" object:nil];
     self.payMethod = 3;
     self.view.backgroundColor = [UIColor whiteColor];
     self.title = @"确认订单";
@@ -88,11 +90,11 @@
     title.text = self.title;
     title.textAlignment = NSTextAlignmentCenter;
     title.textColor = [UIColor colorWithHexString:@"333333"];
-    title.font = PingFangSC_Medium(kSuitLength_H(14));
+    title.font = PingFangSC_Medium(15);
     
     self.navigationItem.titleView = title;
     
-    self.tableView = [[UITableView alloc]initWithFrame:CGRectMake(0, 0, WIDHT, HEIGHT) style:UITableViewStylePlain];
+    self.tableView = [[UITableView alloc]initWithFrame:CGRectMake(0, 0, WIDHT, HEIGHT-kSuitLength_H(50)) style:UITableViewStylePlain];
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
     self.tableView.estimatedRowHeight = 140;
@@ -104,7 +106,7 @@
 }
 
 - (void)creatbottumView{
-    UIView *buttomView = [[UIView alloc]initWithFrame:CGRectMake(0, MSH-50, WIDHT, 50)];
+    UIView *buttomView = [[UIView alloc]initWithFrame:CGRectMake(0, MSH-kSuitLength_H(50), WIDHT, kSuitLength_H(50))];
     buttomView.backgroundColor = [UIColor whiteColor];
     [self.view addSubview:buttomView];
     
@@ -123,9 +125,12 @@
     }];
     
     UILabel *lable2 = [[UILabel alloc]init];
-    lable2.text = [NSString stringWithFormat:@"¥ %.f（免运费）",[self.product[@"clothingPrice"] intValue]*0.6];
+    lable2.text = [NSString stringWithFormat:@"¥%.f（免运费）",[self.product[@"clothingPrice"] intValue]*0.6];
     lable2.textColor = YKRedColor;
     lable2.font = PingFangSC_Regular(14);
+    if (WIDHT==320) {
+        lable2.font = PingFangSC_Regular(12);
+    }
     [buttomView addSubview:lable2];
     [lable2 mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(lable.mas_right);
@@ -145,12 +150,16 @@
         make.left.mas_equalTo(WIDHT/2);
         make.centerY.mas_equalTo(buttomView.mas_centerY);
         make.width.mas_equalTo(WIDHT/2);
-        make.height.mas_equalTo(50);
+        make.height.mas_equalTo(kSuitLength_H(50));
     }];
 }
 
 - (void)toPay{
     WeakSelf(weakSelf)
+    if (!self.addressM) {
+        [smartHUD alertText:kWindow alert:@"请添加收货地址" delay:1.0];
+        return;
+    }
     if (self.payMethod == 3) {
         [smartHUD alertText:kWindow alert:@"请选择支付方式" delay:1.0];
         return;
@@ -172,7 +181,7 @@
          [a addObject:self.product[@"clothingStockDTOS"][0][@"clothingStockId"]];
         
         //创建订单
-        [[YKOrderManager sharedManager]creatBuyOrderWithAddress:self.addressM clothingIdList:a OnResponse:^(NSDictionary *dic) {
+        [[YKOrderManager sharedManager]creatBuyOrderWithAddress:self.addressM  clothingIdList:a OnResponse:^(NSDictionary *dic) {
             
             if ([dic[@"status"] intValue] == 413) {//存在未付款订单
                 [weakSelf showAleart];
@@ -227,6 +236,18 @@
              [self.navigationController popViewControllerAnimated:YES];
         }
     }
+    if (alertView.tag == 103) {
+        
+        //跳到买衣订单未支付订单
+        YKOrderSegementVC *seg = [[YKOrderSegementVC alloc]init];
+        seg.isFromOther = YES;
+        seg.type = 1;//到买衣
+        [YKOrderManager sharedManager].selectIndex = 2;//到待签收订单
+        seg.hidesBottomBarWhenPushed = YES;
+        [self.navigationController pushViewController:seg animated:YES];
+        
+    }
+    
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section{
     return CGFLOAT_MIN;
@@ -336,5 +357,45 @@
     }
 }
 
+//支付宝支付结果
+-(void)alipayResult:(NSNotification *)notify{
+    
+    NSDictionary *dict = [notify userInfo];
+    if ([[dict objectForKey:@"resultStatus"] isEqualToString:@"9000"]) {
+        //支付成功
+        DXAlertView *aleart = [[DXAlertView alloc]initWithTitle:@"支付完成！" message:@"该订单已完成支付" cancelBtnTitle:@"这个隐藏" otherBtnTitle:@"查看订单"];
+        aleart.delegate = self;
+        aleart.tag = 103;
+        [aleart show];
+        
+    }else if ([[dict objectForKey:@"resultStatus"] isEqualToString:@"6001"]) {
+        
+        [smartHUD alertText:self.view alert:@"支付失败" delay:1.5];
+        
+    }else{
+        
+        
+    }
+}
+
+//微信支付结果
+-(void)wxpayresult:(NSNotification *)notify{
+    
+    NSDictionary *dict = [notify userInfo];
+    
+    if ([[dict objectForKey:@"codeid"]integerValue]==0) {
+        
+        //完成付费
+       DXAlertView *aleart = [[DXAlertView alloc]initWithTitle:@"支付成功" message:@"该订单已支付成功！" cancelBtnTitle:@"这个隐藏" otherBtnTitle:@"查看订单"];
+        aleart.delegate = self;
+        aleart.tag = 103;
+        [aleart show];
+        
+    }else{
+        
+        [smartHUD alertText:self.view alert:@"支付失败" delay:1.5];
+        
+    }
+}
 
 @end

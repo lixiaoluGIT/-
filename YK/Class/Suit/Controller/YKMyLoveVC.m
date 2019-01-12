@@ -149,7 +149,7 @@
     title.text = self.title;
     title.textAlignment = NSTextAlignmentCenter;
     title.textColor = [UIColor colorWithHexString:@"333333"];
-    title.font = PingFangSC_Medium(kSuitLength_H(14));
+    title.font = PingFangSC_Medium(15);
     self.navigationItem.titleView = title;
     
     self.categoryId = @"";
@@ -179,13 +179,13 @@
     self.collectionView.mj_footer = [MJRefreshAutoNormalFooter footerWithRefreshingBlock:^{
         _pageNum ++;
         //请求更多商品
-        [weakSelf filterProductWithCategoryId:_categoryList styleId:_styleList seasonId:_seasonList];
+        [weakSelf filterProductWithCategoryId:_categoryList seasonId:_seasonList exit:self.exitStatus];
     }];
     self.collectionView.mj_header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
        
         _pageNum = 0;
         //请求更多商品
-        [self filterProductWithCategoryId:self.categoryList styleId:self.styleList seasonId:self.seasonList];
+       [weakSelf filterProductWithCategoryId:_categoryList seasonId:_seasonList exit:self.exitStatus];
         
     }];
     
@@ -239,9 +239,16 @@
         self.seasonIds = [self brandsIdarrayWithArray:seas type:4];
         self.collectionView.hidden = NO;
         [self.collectionView reloadData];
-        [self.titleView setCategoryList:self.titles CategoryIdList:self.categotyIds sortIdList:self.sortIds sortList:self.sortTitles seasons:_seasons seasonIds:_seasonIds];
+        NSArray *e = [NSArray array];
+        NSArray *ex = [NSArray array];
+        e = @[@"全部单品",@"在架优先"];
+        ex = @[@"0",@"1"];
+        NSMutableArray *exitList = [NSMutableArray arrayWithArray:e];
+        NSMutableArray *exitIdList = [NSMutableArray arrayWithArray:ex];
         
-        [self filterProductWithCategoryId:self.categoryList styleId:self.styleList seasonId:self.seasonList];
+        [self.titleView setCategoryList:self.titles CategoryIdList:self.categotyIds sortIdList:_seasonIds sortList:_seasons seasons:exitList seasonIds:exitIdList];
+        
+        [self filterProductWithCategoryId:self.categoryList seasonId:self.seasonList exit:self.exitStatus];
     }];
 }
 
@@ -340,7 +347,7 @@
         self.titleView.frame = CGRectMake(0,0,WIDHT, kSuitLength_H(130));
         self.origialFrame = self.titleView.frame;
         //筛选
-        self.titleView.filterBlock = ^(NSString *categoryId,NSString *styleId,NSString *seasonId){
+        self.titleView.filterBlock = ^(NSString *categoryId,NSString *seasonId,NSString *exitStatus){
             _pageNum = 0;
             
             [weakSelf.categoryList removeAllObjects];
@@ -348,24 +355,21 @@
             [weakSelf.seasonList removeAllObjects];
     
             _seasonId = seasonId;
-            _styleId = styleId;
             _categoryId = categoryId;
+            _exitStatus = exitStatus;
             
             [weakSelf.categoryList addObject:weakSelf.categoryId];
-            [weakSelf.styleList addObject:weakSelf.styleId];
+
             [weakSelf.seasonList addObject:weakSelf.seasonId];
-            
+          
             if ([categoryId isEqual:@"0"]) {
                 [weakSelf.categoryList removeAllObjects];
-            }
-            if ([styleId isEqual:@"0"]) {
-                [weakSelf.styleList removeAllObjects];
             }
             if ([seasonId isEqual:@"0"]) {
                 [weakSelf.seasonList removeAllObjects];
             }
             
-            [weakSelf filterProductWithCategoryId:weakSelf.categoryList styleId:weakSelf.styleList seasonId:weakSelf.seasonList];
+            [weakSelf filterProductWithCategoryId:weakSelf.categoryList  seasonId:weakSelf.seasonList exit:weakSelf.exitStatus] ;
             
         };
         
@@ -410,47 +414,20 @@
     
 }
 
-- (void)filterProductWithCategoryId:(NSArray *)Categorys styleId:(NSArray *)styles seasonId:(NSArray *)seasons{
+- (void)filterProductWithCategoryId:(NSArray *)Categorys seasonId:(NSArray *)seasons exit:(NSString *)exit{
     
     [LBProgressHUD showHUDto:[UIApplication sharedApplication].keyWindow animated:YES];
-//    [[YKHomeManager sharedManager]requestForMoreProductsWithNumPage:_pageNum typeId:CategoryId sortId:sortId sytleId:styleId  brandId:@"" OnResponse:^(NSArray *array) {
-//
-//        [self.productList removeAllObjects];
-//
-//        if (array.count==0) {
-//            [self.collectionView.mj_footer endRefreshing];
-//        }else {
-//            [self.collectionView.mj_footer endRefreshing];
-//            for (int i=0; i<array.count; i++) {
-//                [self.productList addObject:array[i]];
-//            }
-//            [self.collectionView reloadData];
-//        }
-//
-//        self.collectionView.hidden = NO;
-//        [self.collectionView reloadData];
-//    }];
-//    NSArray *categoryId = @[categoryId];
-//    NSArray *styleIdList = @[styleId];
-//    NSArray *seasonIdList = @[_seasonId];
-//    NSArray *categoryL = [NSArray array];
-//    NSArray *colourIdList = [NSArray array];
-//    NSArray *elementIdList = [NSArray array];
-//    NSArray *labelIdList = [NSArray array];
-//    NSArray *seasonIdList = [NSArray array];
-//    NSArray *styleIdList = [NSArray array];
-//
-//    categoryL = @[CategoryId];
-//    seasonIdList = @[styleId];
-//    seasonIdList = @[seasonId];
-   
-    
-    [[YKSuitManager sharedManager]filterDataWithCategoryIdList:Categorys colourIdList:_colorList elementIdList:_elementList labelIdList:_hotTagList seasonIdList:seasons styleIdList:styles updateDay:_updateDay page:_pageNum size:10 exist:_exitStatus OnResponse:^(NSDictionary *dic) {
+
+   [[YKSuitManager sharedManager]filterDataWithCategoryIdList:Categorys colourIdList:_colorList elementIdList:_elementList labelIdList:_hotTagList seasonIdList:seasons styleIdList:_styleList updateDay:_updateDay page:_pageNum size:10 exist:_exitStatus OnResponse:^(NSDictionary *dic) {
         
         if (_pageNum==0) {
              [self.productList removeAllObjects];
         }
        
+        if ([dic[@"data"] isEqual:[NSNull null]]) {
+            [smartHUD alertText:kWindow alert:dic[@"msg"] delay:1.0];
+            return ;
+        }
         NSArray *array = [NSArray arrayWithArray:dic[@"data"]];
 //
 //        NSLog(@"dic===%@",dic);

@@ -6,6 +6,27 @@
 //  Copyright © 2017年 YK. All rights reserved.
 //
 
+//用户推荐尺码大小(以腰围为标准)
+//60-68 XS
+//68-71 S
+//71-75 M
+//75-79 L
+//79-84 XL
+//84-89 XXL
+//89-93 XXXL
+//93-97 XXXXL
+typedef enum : NSInteger {
+    XS = 0,//XS
+    S = 1,//S
+    M = 2,//M
+    L = 3,//L
+    XL = 4,//XL
+    XXL = 5,//XXL
+    XXXL = 6,//XXXL
+    XXXXL = 7,//XXXXL
+    Null = 8//没有上传尺码
+}UserSize;
+
 #import <Foundation/Foundation.h>
 
 @interface YKUser : NSObject
@@ -48,6 +69,8 @@
 @property (nonatomic,strong)NSString *balance;//余额
 @property (nonatomic,strong)NSString *couponsNumber;//卡券数量
 
+//根据计算得出用户尺码
+@property (nonatomic,assign)UserSize userSize;//用户的尺码大小
 
 - (instancetype)initWithDictionary:(NSDictionary *)dictionary;
 

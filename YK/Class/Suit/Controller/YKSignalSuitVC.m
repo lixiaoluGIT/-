@@ -70,7 +70,7 @@
     title.text = self.title;
     title.textAlignment = NSTextAlignmentCenter;
     title.textColor = [UIColor colorWithHexString:@"333333"];
-    title.font = PingFangSC_Medium(kSuitLength_H(14));
+    title.font = PingFangSC_Medium(15);
     self.navigationItem.titleView = title;
     
     [self creatHeader];

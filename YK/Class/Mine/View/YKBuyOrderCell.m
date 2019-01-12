@@ -79,6 +79,16 @@
     l.userInteractionEnabled = YES;
     [l addGestureRecognizer:tap];
     
+    UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
+    [self addSubview:btn];
+    [btn mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.top.mas_equalTo(0);
+        make.width.mas_equalTo(WIDHT);
+        make.height.mas_equalTo(kSuitLength_H(60));
+    }];
+    [btn setUserInteractionEnabled:YES];
+    [btn addGestureRecognizer:tap];
+    
     UILabel *line2 = [[UILabel alloc]init];
     line2.backgroundColor = [UIColor colorWithHexString:@"fafafa"];
     [self addSubview:line2];

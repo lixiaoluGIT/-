@@ -28,7 +28,32 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.view.backgroundColor = [UIColor whiteColor];
+    self.title = @"历史衣袋";
+    self.navigationController.navigationBar.barTintColor = [UIColor whiteColor];
+    UIButton *btn=[UIButton buttonWithType:UIButtonTypeCustom];
+    btn.frame = CGRectMake(0, 0, 20, 44);
+    if ([[UIDevice currentDevice].systemVersion floatValue] < 11) {
+        btn.frame = CGRectMake(0, 0, 44, 44);;//ios7以后右边距默认值18px，负数相当于右移，正数左移
+    }
+    btn.adjustsImageWhenHighlighted = NO;
+    [btn addTarget:self action:@selector(leftAction) forControlEvents:UIControlEventTouchUpInside];
+    [btn setImage:[UIImage imageNamed:@"back"] forState:UIControlStateNormal];
     
+    UIBarButtonItem *item=[[UIBarButtonItem alloc]initWithCustomView:btn];
+    UIBarButtonItem *negativeSpacer = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
+    negativeSpacer.width = -8;//ios7以后右边距默认值18px，负数相当于右移，正数左移
+    if ([[UIDevice currentDevice].systemVersion floatValue]< 11) {
+        negativeSpacer.width = -18;
+    }
+    self.navigationItem.leftBarButtonItems=@[negativeSpacer,item];
+    [self.navigationItem.leftBarButtonItem setTintColor:[UIColor blackColor]];
+    UILabel *title = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, 120, 30)];
+    title.text = self.title;
+    title.textAlignment = NSTextAlignmentCenter;
+    title.textColor = [UIColor colorWithHexString:@"333333"];
+    title.font = PingFangSC_Medium(15);
+    self.navigationItem.titleView = title;
     [self creatHeader];
     [self creatTableView];
     
@@ -50,7 +75,9 @@
     [self.view addSubview:NoDataView];
     
 }
-
+- (void)leftAction{
+    [self.navigationController popViewControllerAnimated:YES];
+}
 - (void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:YES];
 //    if ([Token length] == 0) {
@@ -102,12 +129,18 @@
     _historyHeader = [[NSBundle mainBundle]loadNibNamed:@"YKHisHeader" owner:nil options:nil][0];
     _historyHeader.frame = CGRectMake(0, 0, WIDHT, kSuitLength_H(58));
     
+    if (_isFromCanBuy) {
+        _historyHeader.frame = CGRectMake(0, 64, WIDHT, kSuitLength_H(58));
+    }
     [self.view addSubview:_historyHeader];
     
 }
 
 - (void)creatTableView{
     self.tableView = [[UITableView alloc]initWithFrame:CGRectMake(0, kSuitLength_H(58), WIDHT, self.view.frame.size.height - kSuitLength_H(58)- kSuitLength_H(110)) style:UITableViewStyleGrouped];
+    if (self.isFromCanBuy) {
+        self.tableView = [[UITableView alloc]initWithFrame:CGRectMake(0, _historyHeader.bottom, WIDHT, self.view.frame.size.height - kSuitLength_H(58)- 64) style:UITableViewStyleGrouped];
+    }
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
     self.tableView.estimatedRowHeight = 140;
@@ -237,6 +270,7 @@
         };
         cell.buyBlock = ^(NSString *sizeNum){
             YKProductDetailVC *detail = [YKProductDetailVC new];
+            detail.canBuy = YES;
             detail.productId = cell.suitId;
             detail.titleStr = cell.dic[@"clothingName"];
             detail.hidesBottomBarWhenPushed = YES;
@@ -252,6 +286,7 @@
 
         YKNewSuitCell *mycell = (YKNewSuitCell *)[self.tableView cellForRowAtIndexPath:indexPath];
         YKProductDetailVC *detail = [YKProductDetailVC new];
+        detail.canBuy = YES;
         detail.productId = mycell.suitId;
         detail.titleStr = mycell.suit.clothingName;
         detail.hidesBottomBarWhenPushed = YES;

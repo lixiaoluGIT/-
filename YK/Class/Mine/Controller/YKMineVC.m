@@ -33,6 +33,8 @@
 #import "YKChangeCardVC.h"
 
 #import "YKMineHeaderView.h"
+#import "YKSuitSegmentVC.h"
+#import "YKHistorySuitVC.h"
 
 
 @interface YKMineVC ()<UITableViewDelegate,UITableViewDataSource,DXAlertViewDelegate>
@@ -204,6 +206,7 @@
                     seg.isFromOther = NO;
                     seg.type = 1;//到买衣
                     [YKOrderManager sharedManager].selectIndex = 1;//到未支付订单
+                    [YKOrderManager sharedManager].oederSelectIndex = 0;
                     [weakSelf.navigationController pushViewController:seg animated:YES];
                 }
                 break;
@@ -216,7 +219,8 @@
                     seg.hidesBottomBarWhenPushed = YES;
                     seg.isFromOther = NO;
                     seg.type = 0;//到买衣
-                    [YKOrderManager sharedManager].selectIndex = 101;
+                    [YKOrderManager sharedManager].oederSelectIndex = 101;
+                    
                     [weakSelf.navigationController pushViewController:seg animated:YES];
                 }
                 break;
@@ -229,7 +233,7 @@
                     seg.hidesBottomBarWhenPushed = YES;
                     seg.isFromOther = NO;
                     seg.type = 0;
-                    [YKOrderManager sharedManager].selectIndex = 102;
+                    [YKOrderManager sharedManager].oederSelectIndex = 102;
                     [weakSelf.navigationController pushViewController:seg animated:YES];
                 }
                 break;
@@ -248,9 +252,15 @@
                 if ([Token length] == 0) {
                     [weakSelf login];
                 }else {
-                    YKChangeCardVC *account = [YKChangeCardVC new];
-                    account.hidesBottomBarWhenPushed = YES;
-                    [weakSelf.navigationController pushViewController:account animated:YES];
+                    [UD setBool:YES forKey:@"toBuy"];
+                    YKHistorySuitVC *chatVC = [[YKHistorySuitVC alloc] init];
+                    chatVC.isFromCanBuy = YES;
+                    chatVC.hidesBottomBarWhenPushed = YES;
+                    [weakSelf.navigationController pushViewController:chatVC animated:YES];
+//                    UINavigationController *nav = weakSelf.tabBarController.viewControllers[3];
+//                    chatVC.hidesBottomBarWhenPushed = YES;
+//                    weakSelf.tabBarController.selectedViewController = nav;
+//                    [weakSelf.navigationController popToRootViewControllerAnimated:YES];
                 }
                 break;
             case 202://资金账户

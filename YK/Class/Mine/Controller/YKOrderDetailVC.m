@@ -323,6 +323,7 @@
 //再次购买
 - (void)toProductDetailclothingId:(NSString *)clothingId title:(NSString *)title{
     YKProductDetailVC  *detail = [[YKProductDetailVC alloc]init];
+    detail.canBuy = YES;
     detail.productId = clothingId;
     detail.titleS = title;
     [self.navigationController pushViewController:detail animated:YES];

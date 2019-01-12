@@ -156,6 +156,48 @@
         self.imagesArr = [self getImageArray:self.product.bannerImages];
         NSArray *sizeArray = [NSArray arrayWithArray:dic[@"data"][@"sizeTableVos"]];
         NSDictionary *userSizeDic = [NSDictionary dictionaryWithDictionary:dic[@"data"][@"userSizeTable"]];
+        //判断用户大概属于哪个尺码
+//        [_mySizeArray addObject:dic[@"data"][@"shoulderWidth"]];//肩宽
+//        [_mySizeArray addObject:dic[@"data"][@"bust"]];//胸围
+//        [_mySizeArray addObject:dic[@"data"][@"hipline"]];//腰围
+//        [_mySizeArray addObject:dic[@"data"][@"theWaist"]];//臀围
+        
+        //根据范围判断
+        if ([userSizeDic[@"userSizeTableId"] isEqual:[NSNull null]]) {//没有上传尺码
+            [YKUserManager sharedManager].user.userSize = Null;
+        }else {
+            NSInteger hipline = 0;
+            if ([userSizeDic[@"hipline"] isEqual:[NSNull null]]) {
+                hipline=0;
+            }else {
+                hipline = [userSizeDic[@"hipline"] integerValue];
+            }
+            if (hipline<=68) {
+                [YKUserManager sharedManager].user.userSize = XS;
+            }
+            if (hipline>68&&hipline<=71) {
+                [YKUserManager sharedManager].user.userSize = S;
+            }
+            if (hipline>71&&hipline<=75) {
+                [YKUserManager sharedManager].user.userSize = L;
+            }
+            if (hipline>75&&hipline<=79) {
+                [YKUserManager sharedManager].user.userSize = M;
+            }
+            if (hipline>79&&hipline<=84) {
+                [YKUserManager sharedManager].user.userSize = XL;
+            }
+            if (hipline>84&&hipline<=89) {
+                [YKUserManager sharedManager].user.userSize = XXL;
+            }
+            if (hipline>89&&hipline<=93) {
+                [YKUserManager sharedManager].user.userSize = XXXL;
+            }
+            if (hipline>93&&hipline<=10000) {
+                [YKUserManager sharedManager].user.userSize = XXXXL;
+            }
+        }
+        
         if (_isSP) {//pei s
             _sizeNum = scroll.product[@"clothingStockDTOS"][0][@"clothingStockId"];
         }
@@ -273,7 +315,7 @@
     title.text = self.title;
     title.textAlignment = NSTextAlignmentCenter;
     title.textColor = [UIColor colorWithHexString:@"333333"];
-    title.font = PingFangSC_Medium(kSuitLength_H(14));
+    title.font = PingFangSC_Medium(15);
     self.navigationItem.titleView = title;
     
     //请求数据
@@ -340,7 +382,7 @@
       buttom.frame = CGRectMake(0,HEIGHT,WIDHT, kSuitLength_H(50));
     }
 //    buttom.product = self.product;
-    buttom.canBuy = YES;
+    buttom.canBuy = self.canBuy;
     buttom.likeSelectBlock = ^(BOOL isLike){
         if (isLike) {
             [weakSelf deCollect];
@@ -747,7 +789,7 @@
             sizeTitleView.backgroundColor = [UIColor whiteColor];
             if (!hadTi0) {
                 [headerView addSubview:sizeTitleView];
-                if ( self.userSizeArray.count==1) {//只有我的这个字段，说明没有添加尺码
+                if ([YKUserManager sharedManager].user.userSize==Null) {//只有我的这个字段，说明没有添加尺码
                     sizeTitleView.hasEditSize = NO;
                 }else {
                     sizeTitleView.hasEditSize = YES;
@@ -1235,7 +1277,7 @@
     
     //如果已编辑自己的尺码，拿到后台推荐的尺码
     //假数据
-        cell.recSize = @"均码";
+//        cell.recSize = @"均码";
         [cell setTitleRow:indexPath.row];
 //    }
     

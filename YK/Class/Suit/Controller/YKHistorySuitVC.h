@@ -9,5 +9,5 @@
 #import "YKBaseVC.h"
 
 @interface YKHistorySuitVC : YKBaseVC
-
+@property (nonatomic,assign)BOOL isFromCanBuy;
 @end

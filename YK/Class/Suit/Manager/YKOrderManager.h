@@ -47,7 +47,9 @@ typedef enum : NSInteger {
 @property (nonatomic,assign)BOOL isOnRoad;//订单是否发货
 @property (nonatomic,strong)NSString *sfOrderId;
 
-@property (nonatomic,assign)NSInteger selectIndex;//记录跳到哪个订单状态下
+@property (nonatomic,assign)NSInteger selectIndex;//买衣记录跳到哪个订单状态下
+
+@property (nonatomic,assign)NSInteger oederSelectIndex;//租衣记录跳到哪个订单状态下
 
 + (YKOrderManager *)sharedManager;
 

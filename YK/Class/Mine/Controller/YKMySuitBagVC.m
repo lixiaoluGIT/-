@@ -38,7 +38,7 @@
 
 - (void)viewWillDisappear:(BOOL)animated{
     [super viewWillDisappear:YES];
-//    [YKOrderManager sharedManager].selectIndex = 0;
+//    [YKOrderManager sharedManager].oederSelectIndex = 0;
 }
 - (void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:YES];
@@ -52,7 +52,7 @@
 //        [self searchOrders:type];
 //    }
 //
-    [self searchOrders:[YKOrderManager sharedManager].selectIndex-100];
+    [self searchOrders:[YKOrderManager sharedManager].oederSelectIndex-100];
 }
 
 - (void)test{
@@ -144,15 +144,11 @@
 }
 
 -(void)settingButtons{
-    self.selectedIndex = [YKOrderManager sharedManager].selectIndex;
+    self.selectedIndex = [YKOrderManager sharedManager].oederSelectIndex;
     UIView *backView=[[UIView alloc]initWithFrame:CGRectMake(0, 0, WIDHT, 50*WIDHT/375)];
     backView.backgroundColor = [UIColor whiteColor];
     [self.view addSubview:backView];
-    
-//    self.line = [[UILabel alloc]initWithFrame:CGRectMake(WIDHT/8-kSuitLength_H(30), kSuitLength_H(50)-1, kSuitLength_H(30), 1)];
-//    _line.backgroundColor = YKRedColor;
-//    [backView addSubview:_line];
- 
+
     NSArray *arr  =[NSArray arrayWithObjects:@"全部衣袋",@"待签收",@"待归还",@"已归还", nil];
     int index = 0;
     if (self.selectedIndex == 100) {
@@ -307,6 +303,7 @@
         _bagStatus = hadBack;
     }
     type = index;
+    [YKOrderManager sharedManager].oederSelectIndex = button.tag;
     [UIView animateWithDuration:0.25 animations:^{
         _line.frame = CGRectMake(WIDHT/8+WIDHT/4*index-kSuitLength_H(30)/2, kSuitLength_H(45), kSuitLength_H(30), 2);
     }];
@@ -627,6 +624,7 @@
         [self.navigationController pushViewController:orderDetail animated:YES];
     }];
     [l addGestureRecognizer:TAP];
+    [view addGestureRecognizer:TAP];
     
     UILabel *line2 = [[UILabel alloc]init];
     line2.backgroundColor = [UIColor colorWithHexString:@"fafafa"];
@@ -736,6 +734,7 @@
             
 //            if (cell.suit.classify==1) {
                 YKProductDetailVC *detail = [[YKProductDetailVC alloc]init];
+                detail.canBuy = YES;
                 detail.productId = cell.suit.clothingId;
                 detail.titleStr = cell.suit.clothingName;
                 detail.hidesBottomBarWhenPushed = YES;
