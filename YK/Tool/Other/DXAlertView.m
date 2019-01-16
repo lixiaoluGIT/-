@@ -138,9 +138,12 @@
         [self.alertview addSubview:self.titleLab];
         [self.alertview addSubview:self.messageLab];
 
-//        self.userInteractionEnabled = YES;
-//        UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(dismissAlertView)];
-//        [self addGestureRecognizer:tap];
+        if ([cancelTitle isEqual:@"拨打客服电话"]) {
+            self.userInteractionEnabled = YES;
+            UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(dismissAlertView)];
+            [self addGestureRecognizer:tap];
+        }
+
 
     }
     return self;
@@ -168,7 +171,7 @@
     self.alertview.transform = CGAffineTransformScale(CGAffineTransformIdentity,0.2,0.2);
     self.alertview.alpha = 0;
     [UIView animateWithDuration:0.3 delay:0.1 usingSpringWithDamping:0.5 initialSpringVelocity:10 options:UIViewAnimationOptionCurveLinear animations:^{
-        self.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:.7f];
+        self.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:.5f];
         self.alertview.transform = transform;
         self.alertview.alpha = 1;
     } completion:^(BOOL finished) {

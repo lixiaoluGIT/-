@@ -41,6 +41,7 @@
 #import "YKFashionRecView.h"
 #import "YKNewLoginView.h"
 #import "YKRecomentProductVC.h"
+#import "YKToBeVIPVC.h"
 
 @interface YKHomeVC ()<UICollectionViewDelegate, UICollectionViewDataSource,YKBaseScrollViewDelete,WMHCustomScrollViewDelegate,DCCycleScrollViewDelegate,NewDynamicsCellDelegate>
 {
@@ -504,6 +505,23 @@
         desCell.selectionStyle = UITableViewCellEditingStyleNone;
         desCell.frame = CGRectMake(0, _activity.bottom, WIDHT, kSuitLength_H(106));
         [headerView addSubview:desCell];
+        
+        UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc]initWithActionBlock:^(id  _Nonnull sender) {
+            if ([Token length] == 0) {
+                [[YKUserManager sharedManager]showLoginViewOnResponse:^(NSDictionary *dic) {
+                    
+                }];
+            }else {
+                YKToBeVIPVC *vip = [[YKToBeVIPVC alloc]initWithNibName:@"YKToBeVIPVC" bundle:[NSBundle mainBundle]];
+                UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:vip];
+                
+                [weakSelf presentViewController:nav animated:YES completion:^{
+                    
+                }];
+            }
+        }];
+        [desCell setUserInteractionEnabled:YES];
+        [desCell addGestureRecognizer:tap];
 //        desCell.backgroundColor = [UIColor yellowColor];
 
         //人气美衣
@@ -662,7 +680,7 @@
         //时尚穿搭-》搭配推荐
         YKRecommentTitleView  *ti3 =  [[NSBundle mainBundle] loadNibNamed:@"YKRecommentTitleView" owner:self options:nil][3];
         ti3.frame = CGRectMake(0, _activityView.bottom,WIDHT, kSuitLength_H(88));
-        UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc]initWithActionBlock:^(id  _Nonnull sender) {
+        UITapGestureRecognizer *tap2 = [[UITapGestureRecognizer alloc]initWithActionBlock:^(id  _Nonnull sender) {
             //去列表页
             NSLog(@"去列表页");
             YKLiseVC *list = [[YKLiseVC alloc]init];
@@ -672,7 +690,7 @@
             list.hidesBottomBarWhenPushed = YES;
             [self.navigationController pushViewController:list animated:YES];
         }];
-        [ti3 addGestureRecognizer:tap];
+        [ti3 addGestureRecognizer:tap2];
         if (!hadtitle5) {
             [headerView addSubview:ti3];
             hadtitle5 = YES;

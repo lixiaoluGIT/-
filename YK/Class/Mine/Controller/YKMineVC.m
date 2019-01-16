@@ -268,9 +268,9 @@
                 if ([Token length] == 0) {
                     [weakSelf login];
                 }else {
-                    YKChangeCardVC *account = [YKChangeCardVC new];
-                    account.hidesBottomBarWhenPushed = YES;
-                    [weakSelf.navigationController pushViewController:account animated:YES];
+                    YKUserAccountVC *user = [[YKUserAccountVC alloc]init];
+                    user.hidesBottomBarWhenPushed = YES;
+                    [weakSelf.navigationController pushViewController:user animated:YES];
                 }
                 break;
             case 300://联系客服
@@ -465,7 +465,7 @@
 //    }else {
 //        return kSuitLength_H(50);
 //    }
-    return 100;
+    return 200;
 }
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
@@ -496,7 +496,185 @@
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     
     UITableViewCell *cell = [[UITableViewCell alloc]init];
-    cell.backgroundColor = [UIColor colorWithHexString:@"ffffff"];
+    cell.backgroundColor = [UIColor colorWithHexString:@"fafafa"];
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     return cell;
 //    if ([Token length] == 0) {

@@ -41,7 +41,7 @@
 - (instancetype)initWithFrame:(CGRect)frame{
     self = [super initWithFrame:frame];
     if (self) {
-        self.backgroundColor = [UIColor colorWithHexString:@"ffffff"];
+        self.backgroundColor = [UIColor colorWithHexString:@"fafafa"];
         [self setUpUI];
         
     }
@@ -50,6 +50,8 @@
 
 //布局
 - (void)setUpUI{
+    
+    self.backgroundColor = [UIColor colorWithHexString:@"fafafa"];
     //红色背景
     UIView *backView1 = [[UIView alloc]init];
     backView1.backgroundColor = YKRedColor;
@@ -58,7 +60,7 @@
         make.top.mas_equalTo(-100000);
         make.centerX.mas_equalTo(self.mas_centerX);
         make.width.mas_equalTo(self.mas_width);
-        make.height.mas_equalTo(120000);
+        make.height.mas_equalTo(100000);
     }];
     
     UIView *backView = [[UIView alloc]init];
@@ -321,7 +323,7 @@
     }];
 
     NSArray *images = [NSArray array];
-    images = @[@"全部订单",@"待付款",@"待签收",@"待归还"];
+    images = @[@"全部订单",@"待付款-1",@"待签收",@"待归还"];
     NSArray *titles = [NSArray array];
     titles = @[@"全部订单",@"待付款",@"待签收",@"待归还"];
     for (int i=0; i<4; i++) {
@@ -580,7 +582,8 @@
         [self.headImage sd_setImageWithURL:[NSURL URLWithString:user.photo] placeholderImage:[UIImage imageNamed:@"touxianghuancun"]];
         
         self.VIPStatus = [user.effective integerValue];
-        
+        self.ye.text = [YKUserManager sharedManager].user.balance;
+        self.kj.text = [YKUserManager sharedManager].user.couponsNumber;
        
         if ([user.cardType intValue] == 0) {
             self.quanyi.hidden = YES;

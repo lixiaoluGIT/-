@@ -31,6 +31,8 @@
 @property (nonatomic,strong)NSString *suitStatus;
 @property (nonatomic,strong)UIButton *pubLicBtn;//晒图按钮
 @property (nonatomic,strong)UIButton *leaveBtn;//留下来按钮
+
+@property (nonatomic,strong)NSString *clothingStockNum;//库存数量
 //@property (nonatomic,strong)NSString *suitId;
 @end
 @implementation YKNewSuitCell
@@ -68,7 +70,7 @@
     
     _leaveBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     
-    [_leaveBtn setTitle:@"买下它" forState:UIControlStateNormal];
+    [_leaveBtn setTitle:@"买下来" forState:UIControlStateNormal];
     _leaveBtn.titleLabel.font = PingFangSC_Medium(kSuitLength_H(12));
     _leaveBtn.frame = CGRectMake(WIDHT-kSuitLength_H(52)-kSuitLength_H(20), self.price.centerY, kSuitLength_H(52), kSuitLength_H(20));
     _leaveBtn.layer.masksToBounds = YES;
@@ -187,6 +189,12 @@
         [self.pubLicBtn setTitle:@"已晒" forState:UIControlStateNormal];
         [self.pubLicBtn setTitleColor:[UIColor colorWithHexString:@"999999"] forState:UIControlStateNormal];
         [self.pubLicBtn setUserInteractionEnabled:NO];
+    }
+    
+    if ([dic[@"clothingStockNum"] intValue] == 0 ) {
+        [_leaveBtn setTitle:@"预约购买" forState:UIControlStateNormal];
+    }else {
+        [_leaveBtn setTitle:@"买下来" forState:UIControlStateNormal];
     }
 }
 @end

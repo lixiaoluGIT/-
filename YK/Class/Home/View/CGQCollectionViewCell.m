@@ -106,7 +106,7 @@
     _lable.text = _goodsName;
     _detailLabel.text = _brandName;
     _qiangkongImage.hidden = product.isHadStock;
-    _shangxinImage.hidden = !product.isNew;
+//    _shangxinImage.hidden = !product.isNew;
     
     //已抢空，不显示上新
    
@@ -118,35 +118,19 @@
     if (product.isStarSame) {//明星同款
         _shangxinImage.hidden = NO;
         _shangxinImage.image = [UIImage imageNamed:@"明星同款"];
-    }
-    
-    
-//    if ([Token length] == 0) {//未登录
-//        _freeBtn.hidden = NO;
-//        _des.hidden = NO;
-//    }else {
-//
-//    //未开通会员
-//    if ([[YKUserManager sharedManager].user.effective intValue] == 4) {
-//        _freeBtn.hidden = NO;
-//        _des.hidden = NO;
-//    }else {//已是会员
-//        _freeBtn.hidden = YES;
-//        _des.hidden = YES;
-//    }
-//    }
-    
-    if ([product.OwenNum intValue] == 2) {
-         _zhanyiweiNum.text = product.OwenNum;
-        _backView.hidden = NO;
     }else {
-        _backView.hidden = YES;
+         _shangxinImage.hidden = !product.isNew;
+//         _shangxinImage.hidden = YES;
+         _shangxinImage.image = [UIImage imageNamed:@"刚刚上新"];
     }
-   
-//    _zhanyiweiNum.text = @"2";
-    
-//    _backView.hidden = ([product.OwenNum intValue] == 1);
-    
+
+//    if ([product.OwenNum intValue] == 2) {
+//         _zhanyiweiNum.text = product.OwenNum;
+//        _backView.hidden = NO;
+//    }else {
+//        _backView.hidden = YES;
+//    }
+
     if (_isInLoveVC) {
         _freeBtn.hidden = YES;
         _des.hidden = YES;
@@ -171,7 +155,12 @@
             }
         }
     }
-    
+    if ([product.OwenNum intValue] == 2) {
+        _zhanyiweiNum.text = product.OwenNum;
+        _backView.hidden = NO;
+    }else {
+        _backView.hidden = YES;
+    }
     _collectionId = product.collectionId;
     
 }

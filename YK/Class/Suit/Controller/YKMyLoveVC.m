@@ -105,16 +105,19 @@
         [self.collectStatusArray removeAllObjects];
         [self.productList removeAllObjects];
         [self.collectionView reloadData];
-        [self getData];
+//        [self getData];
+          [self filterProductWithCategoryId:_categoryList seasonId:_seasonList exit:self.exitStatus];
 
         return;
     }
-    [self getData];
+//    [self getData];
+      [self filterProductWithCategoryId:_categoryList seasonId:_seasonList exit:self.exitStatus];
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    WeakSelf(weakSelf)
     _seasonList = [NSMutableArray array];
     _categoryList = [NSMutableArray array];
     _styleList = [NSMutableArray array];
@@ -161,13 +164,46 @@
     layoutView.scrollDirection = UICollectionViewScrollDirectionVertical;
     layoutView.itemSize = CGSizeMake((WIDHT-30)/2, (w-30)/2*240/140);
    
-    self.collectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0, 0 , self.view.bounds.size.width, self.view.bounds.size.height - (50)) collectionViewLayout:layoutView];
+    self.titleView =  [[NSBundle mainBundle] loadNibNamed:@"YKSearchHeader" owner:self options:nil][0];
+    self.titleView.frame = CGRectMake(0,BarH,WIDHT, kSuitLength_H(130));
+   //筛选
+    self.titleView.filterBlock = ^(NSString *categoryId,NSString *seasonId,NSString *exitStatus){
+        _pageNum = 0;
+        
+        [weakSelf.categoryList removeAllObjects];
+        [weakSelf.styleList removeAllObjects];
+        [weakSelf.seasonList removeAllObjects];
+        
+        _seasonId = seasonId;
+        _categoryId = categoryId;
+        _exitStatus = exitStatus;
+        
+        [weakSelf.categoryList addObject:weakSelf.categoryId];
+        [weakSelf.seasonList addObject:weakSelf.seasonId];
+        
+        if ([categoryId isEqual:@"0"]) {
+            [weakSelf.categoryList removeAllObjects];
+        }
+        if ([seasonId isEqual:@"0"]) {
+            [weakSelf.seasonList removeAllObjects];
+        }
+        
+        [weakSelf filterProductWithCategoryId:weakSelf.categoryList  seasonId:weakSelf.seasonList exit:weakSelf.exitStatus] ;
+        
+    };
+   
+    [self.view addSubview:self.titleView];
+      
+    [self.titleView setUserInteractionEnabled:YES];
+    self.collectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0, kSuitLength_H(130)+BarH, self.view.bounds.size.width, self.view.bounds.size.height - kSuitLength_H(50)-kSuitLength_H(130)-120) collectionViewLayout:layoutView];
+    if (HEIGHT!=812) {
+        self.collectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0, kSuitLength_H(130)+BarH, self.view.bounds.size.width, self.view.bounds.size.height - kSuitLength_H(50)-kSuitLength_H(130)-55) collectionViewLayout:layoutView];
+    }
     self.collectionView.backgroundColor = [UIColor whiteColor];
     [self.view addSubview:self.collectionView];
     self.collectionView.delegate = self;
     self.collectionView.dataSource = self;
-//    layoutView.headerReferenceSize = CGSizeMake(self.view.bounds.size.width, 66);
-//    layoutView.footerReferenceSize = CGSizeMake(self.view.bounds.size.width, 66);
+
     [self.collectionView registerNib:[UINib nibWithNibName:NSStringFromClass([CGQCollectionViewCell class]) bundle:[NSBundle mainBundle]] forCellWithReuseIdentifier:@"CGQCollectionViewCell"];
     [self.collectionView registerNib:[UINib nibWithNibName:NSStringFromClass([YKProductAdCell class]) bundle:[NSBundle mainBundle]] forCellWithReuseIdentifier:@"YKProductAdCell"];
     [self.collectionView registerClass:[UICollectionReusableView class] forSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:@"reusableView"];
@@ -175,27 +211,24 @@
     [self.collectionView registerClass:[UICollectionReusableView class] forSupplementaryViewOfKind:UICollectionElementKindSectionFooter withReuseIdentifier:@"footer2"];
     self.collectionView.hidden = YES;
     _pageNum = 0;
-    WeakSelf(weakSelf)
+    self.collectionView.mj_header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
+      
+       
+        _pageNum = 0;
+        //请求更多商品
+        [weakSelf filterProductWithCategoryId:_categoryList seasonId:_seasonList exit:self.exitStatus];
+    }];
     self.collectionView.mj_footer = [MJRefreshAutoNormalFooter footerWithRefreshingBlock:^{
         _pageNum ++;
         //请求更多商品
         [weakSelf filterProductWithCategoryId:_categoryList seasonId:_seasonList exit:self.exitStatus];
     }];
-    self.collectionView.mj_header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
-       
-        _pageNum = 0;
-        //请求更多商品
-       [weakSelf filterProductWithCategoryId:_categoryList seasonId:_seasonList exit:self.exitStatus];
-        
-    }];
-    
 //    self.collectionView.mj_header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
-////        _pageNum = 0;
-////        //请求更多商品
-////        [self filterProductWithCategoryId:self.categoryList styleId:self.styleList seasonId:self.seasonList];
-////
+//
+//
+//
 //    }];
-    
+   
     //空白图
     
     noDataView = [[YKLoveNoDataView alloc]initWithFrame:CGRectMake(0, BarH+ kSuitLength_H(130)+kSuitLength_H(20), WIDHT, kSuitLength_H(500))];
@@ -207,7 +240,7 @@
     
    
 //    [LBProgressHUD showHUDto:[UIApplication sharedApplication].keyWindow animated:YES];
-    
+        [self getData];
     
 }
 
@@ -241,7 +274,7 @@
         [self.collectionView reloadData];
         NSArray *e = [NSArray array];
         NSArray *ex = [NSArray array];
-        e = @[@"全部单品",@"在架优先"];
+        e = @[@"全部",@"在架优先"];
         ex = @[@"0",@"1"];
         NSMutableArray *exitList = [NSMutableArray arrayWithArray:e];
         NSMutableArray *exitIdList = [NSMutableArray arrayWithArray:ex];
@@ -328,7 +361,8 @@
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout referenceSizeForHeaderInSection:(NSInteger)section{
     
     //    return CGSizeMake(self.view.frame.size.width, (WIDHT-48)/3*2+40+kSuitLength_H(160));
-    return CGSizeMake(WIDHT, kSuitLength_H(130));
+//    return CGSizeMake(WIDHT, kSuitLength_H(130));
+    return CGSizeMake(WIDHT, 0);
 }
 
 - (UICollectionReusableView *)collectionView:(UICollectionView *)collectionView viewForSupplementaryElementOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath
@@ -343,41 +377,7 @@
         
         UICollectionReusableView *head = [collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:@"reusableView" forIndexPath:indexPath];
         
-        self.titleView =  [[NSBundle mainBundle] loadNibNamed:@"YKSearchHeader" owner:self options:nil][0];
-        self.titleView.frame = CGRectMake(0,0,WIDHT, kSuitLength_H(130));
-        self.origialFrame = self.titleView.frame;
-        //筛选
-        self.titleView.filterBlock = ^(NSString *categoryId,NSString *seasonId,NSString *exitStatus){
-            _pageNum = 0;
-            
-            [weakSelf.categoryList removeAllObjects];
-            [weakSelf.styleList removeAllObjects];
-            [weakSelf.seasonList removeAllObjects];
-    
-            _seasonId = seasonId;
-            _categoryId = categoryId;
-            _exitStatus = exitStatus;
-            
-            [weakSelf.categoryList addObject:weakSelf.categoryId];
-
-            [weakSelf.seasonList addObject:weakSelf.seasonId];
-          
-            if ([categoryId isEqual:@"0"]) {
-                [weakSelf.categoryList removeAllObjects];
-            }
-            if ([seasonId isEqual:@"0"]) {
-                [weakSelf.seasonList removeAllObjects];
-            }
-            
-            [weakSelf filterProductWithCategoryId:weakSelf.categoryList  seasonId:weakSelf.seasonList exit:weakSelf.exitStatus] ;
-            
-        };
-        
-        if (!hadScroll) {
-            [head addSubview:self.titleView];
-            hadScroll = YES;
-        }
-        [self.titleView setUserInteractionEnabled:YES];
+       
         
         return head;
     }
@@ -420,9 +420,9 @@
 
    [[YKSuitManager sharedManager]filterDataWithCategoryIdList:Categorys colourIdList:_colorList elementIdList:_elementList labelIdList:_hotTagList seasonIdList:seasons styleIdList:_styleList updateDay:_updateDay page:_pageNum size:10 exist:_exitStatus OnResponse:^(NSDictionary *dic) {
         
-        if (_pageNum==0) {
-             [self.productList removeAllObjects];
-        }
+       if (_pageNum==0) {
+           [self.productList removeAllObjects];
+       }
        
         if ([dic[@"data"] isEqual:[NSNull null]]) {
             [smartHUD alertText:kWindow alert:dic[@"msg"] delay:1.0];
@@ -431,6 +431,7 @@
         NSArray *array = [NSArray arrayWithArray:dic[@"data"]];
 //
 //        NSLog(@"dic===%@",dic);
+       
         if (array.count==0) {
             if (_pageNum==0) {
                 noDataView.hidden = NO;
@@ -438,6 +439,7 @@
                 [self.collectionView.mj_footer endRefreshing];
                 [self.collectionView reloadData];
             }else {
+                _pageNum--;
                 [self.collectionView.mj_header endRefreshing];
                 [self.collectionView.mj_footer endRefreshing];
             }
@@ -450,6 +452,9 @@
             self.collectionView.hidden = NO;
             [self.collectionView reloadData];
         }
+       
+       
+       
         
         self.collectStatusArray = [NSMutableArray array];
         

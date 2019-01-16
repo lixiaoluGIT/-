@@ -109,6 +109,9 @@
     [self settingButtons];
     
     self.tableView = [[UITableView alloc]initWithFrame:CGRectMake(kSuitLength_H(0), kSuitLength_H(50), WIDHT, HEIGHT-64-kSuitLength_H(50)-kSuitLength_H(38)) style:UITableViewStylePlain];
+    if (HEIGHT==812) {
+         self.tableView = [[UITableView alloc]initWithFrame:CGRectMake(kSuitLength_H(0), kSuitLength_H(50), WIDHT, HEIGHT-104-kSuitLength_H(50)-kSuitLength_H(38)) style:UITableViewStylePlain];
+    }
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
     self.tableView.estimatedRowHeight = 140;
@@ -118,6 +121,10 @@
     
     _buttom = [UIButton buttonWithType:UIButtonTypeCustom];
     _buttom.frame = CGRectMake(0, HEIGHT-kSuitLength_H(50)-kSuitLength_H(38)-64, WIDHT, kSuitLength_H(50));
+    if (HEIGHT==812) {
+         _buttom.frame = CGRectMake(0, HEIGHT-kSuitLength_H(50)-kSuitLength_H(38)-104, WIDHT, kSuitLength_H(50));
+    }
+    
     _buttom.backgroundColor = YKRedColor;
     [self.view  addSubview:_buttom];
     [_buttom setTitle:@"\\\\" forState:UIControlStateNormal];
@@ -575,14 +582,16 @@
     status.textColor = mainColor;
     
     NSDictionary *dic = [NSDictionary dictionaryWithDictionary:self.orderList[section]];
-    status.text = @"衣袋状态：待付款";
+    status.text = @"衣袋状态：";
     NSInteger sta = [dic[@"orderState"] intValue];
     switch (sta) {
         case 1:
             status.text = @"衣袋状态：待签收";
             break;
         case 2:
-            status.text = @"衣袋状态：待归还";
+            //待归还，看是否已经预约
+            [self isBack:status section:section];
+           
             break;
         case 3:
             status.text = @"衣袋状态：已归还";
@@ -718,6 +727,18 @@
     mycell.suit = suit;
     mycell.selectionStyle = UITableViewCellSelectionStyleNone;
     return mycell;
+}
+
+- (void)isBack:(UILabel *)lable section:(NSInteger)section{
+    [[YKOrderManager sharedManager]queryReceiveOrderNo:self.orderList[section][@"orderNo"] OnResponse:^(NSDictionary *dic) {
+        NSString *s = [NSString stringWithFormat:@"%@",dic[@"data"]];
+        if ([s isEqualToString:@"该订单未预约归还"]) {//未预约归还
+            lable.text = @"衣袋状态：待归还";
+        }else {//已预约
+            lable.text = @"衣袋状态：归还中";
+        }
+        
+    }];
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{

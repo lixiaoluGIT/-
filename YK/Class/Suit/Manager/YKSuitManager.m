@@ -225,7 +225,7 @@
 - (void)collectWithclothingId:(NSString *)clothingId
              clothingStckType:(NSString *)clothingStckType
                    OnResponse:(void (^)(NSDictionary *dic))onResponse{
-//    [LBProgressHUD showHUDto:[UIApplication sharedApplication].keyWindow animated:YES];
+    [LBProgressHUD showHUDto:[UIApplication sharedApplication].keyWindow animated:YES];
     //商品ID,库存ID
 //    NSString *url = [NSString stringWithFormat:@"%@?clothingId=%@&clothingStockId=%@",collect_Url,clothingId,clothingStckType];
     NSDictionary *d = @{@"clothingId":clothingId,@"clothingStockId":clothingStckType};
@@ -274,6 +274,7 @@
 //移除收藏
 - (void)deleteCollecttwithShoppingCartId:(NSMutableArray *)shoppingCartIdList OnResponse:(void (^)(NSDictionary *dic))onResponse{
     
+    [LBProgressHUD showHUDto:[UIApplication sharedApplication].keyWindow animated:YES];
 //    NSDictionary *d = @{@"collectionList":shoppingCartIdList};
     NSString *s = [NSString stringWithFormat:@"%@?clothingId=%@",deCollect_Url, shoppingCartIdList[0]];
 //    for (int i=0;i<shoppingCartIdList.count ; i++) {
@@ -299,6 +300,7 @@
 
 - (void)CollecttwithShoppingCartId:(NSMutableArray *)shoppingCartIdList OnResponse:(void (^)(NSDictionary *dic))onResponse{
     
+    [LBProgressHUD showHUDto:[UIApplication sharedApplication].keyWindow animated:YES];
     NSDictionary *d = @{@"batchCartDTO":shoppingCartIdList};
 
     [YKHttpClient Method:@"POST" apiName:collectToCart_Url Params:nil Completion:^(NSDictionary *dic) {
@@ -350,7 +352,7 @@
     NSLog(@"postDic ====== %@",postDic);
     [YKHttpClient Method:@"POST" URLString:filterLove_Url paramers:postDic success:^(NSDictionary *dict) {
         [LBProgressHUD hideAllHUDsForView:[UIApplication sharedApplication].keyWindow animated:YES];
-    
+     NSLog(@"responseDic ====== %@",dict);
         if (onResponse) {
             onResponse(dict);
         }

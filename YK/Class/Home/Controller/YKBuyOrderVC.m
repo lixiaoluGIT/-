@@ -33,6 +33,8 @@
 @property (nonatomic,strong)UITableView *tableView;
 @property (nonatomic,strong)YKAddress *addressM;
 @property (nonatomic,assign) payMethod payMethod;
+
+@property (nonatomic,assign) BOOL hadAppear;
 //@property (nonatomic,strong)YKOrder *order;
 @end
 
@@ -44,6 +46,11 @@
     [self getDefaultAddress];
 }
 
+- (void)viewWillDisappear:(BOOL)animated{
+    [super viewWillDisappear:YES];
+     [[NSNotificationCenter defaultCenter] removeObserver:self name:@"alipayres" object:nil];
+     [[NSNotificationCenter defaultCenter] removeObserver:self name:@"wxpaysuc" object:nil];
+}
 - (void)getDefaultAddress{
     if (self.addressM) {
         return;
@@ -362,11 +369,14 @@
     
     NSDictionary *dict = [notify userInfo];
     if ([[dict objectForKey:@"resultStatus"] isEqualToString:@"9000"]) {
-        //支付成功
-        DXAlertView *aleart = [[DXAlertView alloc]initWithTitle:@"支付完成！" message:@"该订单已完成支付" cancelBtnTitle:@"这个隐藏" otherBtnTitle:@"查看订单"];
-        aleart.delegate = self;
-        aleart.tag = 103;
-        [aleart show];
+        if (!_hadAppear) {
+            _hadAppear = YES;
+            //完成付费
+            DXAlertView *aleart = [[DXAlertView alloc]initWithTitle:@"支付成功" message:@"该订单已支付成功！" cancelBtnTitle:@"这个隐藏" otherBtnTitle:@"查看订单"];
+            aleart.delegate = self;
+            aleart.tag = 103;
+            [aleart show];
+        }
         
     }else if ([[dict objectForKey:@"resultStatus"] isEqualToString:@"6001"]) {
         
@@ -385,11 +395,27 @@
     
     if ([[dict objectForKey:@"codeid"]integerValue]==0) {
         
-        //完成付费
-       DXAlertView *aleart = [[DXAlertView alloc]initWithTitle:@"支付成功" message:@"该订单已支付成功！" cancelBtnTitle:@"这个隐藏" otherBtnTitle:@"查看订单"];
-        aleart.delegate = self;
-        aleart.tag = 103;
-        [aleart show];
+        if (!_hadAppear) {
+            _hadAppear = YES;
+            //完成付费
+            DXAlertView *aleart = [[DXAlertView alloc]initWithTitle:@"支付成功" message:@"该订单已支付成功！" cancelBtnTitle:@"这个隐藏" otherBtnTitle:@"查看订单"];
+            aleart.delegate = self;
+            aleart.tag = 103;
+           
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                
+                [smartHUD  Hide];
+                
+                dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                    
+                    [aleart show];
+                    
+                });
+                
+            });
+           
+        }
+      
         
     }else{
         

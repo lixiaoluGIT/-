@@ -46,6 +46,8 @@
 #import "YKSizeTitleView.h"
 #import "YKBuyOrderVC.h"
 
+#import "YKHadSelectSizeView.h"
+
 @interface YKProductDetailVC ()
 <UICollectionViewDelegate, UICollectionViewDataSource,ZYCollectionViewDelegate,DXAlertViewDelegate,UITableViewDelegate,UITableViewDataSource,NewDynamicsCellDelegate>{
     BOOL hadMakeHeader;
@@ -70,6 +72,7 @@
     NewDynamicsTableViewCell * cell;
    __block YKDetailFootView *buttom;
    __block YKProductAleartView *aleartView;
+    __block YKHadSelectSizeView *toPayView;
     UIView *backView;
     BOOL isShake;//是否伸缩
     UIView *collectionheaderView;
@@ -364,15 +367,15 @@
 //        self.collectionView.hidden = NO;
     });
     
-    UIButton *btn11=[UIButton buttonWithType:UIButtonTypeCustom];
-    btn11.frame = CGRectMake(3, BarH-44, 44, 44);
-    if ([[UIDevice currentDevice].systemVersion floatValue]>= 12) {
-        btn11.frame = CGRectMake(5, BarH-44, 44, 44);
-    }
-    btn11.adjustsImageWhenHighlighted = NO;
-    [btn11 setImage:[UIImage imageNamed:@"back"] forState:UIControlStateNormal];
-    [btn11 addTarget:self action:@selector(leftAction) forControlEvents:UIControlEventTouchUpInside];
-    [self.view addSubview:btn11];
+//    UIButton *btn11=[UIButton buttonWithType:UIButtonTypeCustom];
+//    btn11.frame = CGRectMake(3, BarH-44, 44, 44);
+//    if ([[UIDevice currentDevice].systemVersion floatValue]>= 12) {
+//        btn11.frame = CGRectMake(5, BarH-44, 44, 44);
+//    }
+//    btn11.adjustsImageWhenHighlighted = NO;
+//    [btn11 setImage:[UIImage imageNamed:@"back"] forState:UIControlStateNormal];
+//    [btn11 addTarget:self action:@selector(leftAction) forControlEvents:UIControlEventTouchUpInside];
+//    [self.view addSubview:btn11];
     
     WeakSelf(weakSelf)
     buttom =  [[NSBundle mainBundle] loadNibNamed:@"YKDetailFootView" owner:self options:nil][0];
@@ -408,15 +411,15 @@
             return;
         }
         
-        YKSearchSegmentVC *chatVC = [[YKSearchSegmentVC alloc] init];
-        chatVC.hidesBottomBarWhenPushed = YES;
-        UINavigationController *nav = weakSelf.tabBarController.viewControllers[3];
-        chatVC.hidesBottomBarWhenPushed = YES;
-        weakSelf.tabBarController.selectedViewController = nav;
-        [weakSelf.navigationController popToRootViewControllerAnimated:YES];
-//        YKSignalSuitVC *suit = [[YKSignalSuitVC alloc] init];
-//
-//        [weakSelf.navigationController pushViewController:suit animated:YES];
+//        YKSearchSegmentVC *chatVC = [[YKSearchSegmentVC alloc] init];
+//        chatVC.hidesBottomBarWhenPushed = YES;
+//        UINavigationController *nav = weakSelf.tabBarController.viewControllers[3];
+//        chatVC.hidesBottomBarWhenPushed = YES;
+//        weakSelf.tabBarController.selectedViewController = nav;
+//        [weakSelf.navigationController popToRootViewControllerAnimated:YES];
+        YKSignalSuitVC *suit = [[YKSignalSuitVC alloc] init];
+
+        [weakSelf.navigationController pushViewController:suit animated:YES];
     };
     
     [self.view addSubview:buttom];
@@ -448,6 +451,26 @@
     };
     [[UIApplication sharedApplication].keyWindow addSubview:aleartView];
     
+    toPayView = [[YKHadSelectSizeView alloc]init];
+    toPayView.frame = CGRectMake(0, HEIGHT, WIDHT, kSuitLength_H(197));
+    toPayView.Dic = self.dic;
+    toPayView.closeAction = ^(void){
+        [weakSelf disMiss];
+    };
+    toPayView.payAction = ^(NSDictionary *dic){
+        YKBuyOrderVC *buyOrder = [[YKBuyOrderVC alloc]init];
+        //商品信息传过去
+        buyOrder.product = self.product.product;
+        //商品尺码id传过去
+        buyOrder.sizeId = self.sizeNum;
+        //尺码大小
+        buyOrder.sizeNum = [NSString stringWithFormat:@"%@",dic[@"size"]];
+        [self.navigationController pushViewController:buyOrder animated:YES];
+        
+        [self disMiss];
+    };
+    [kWindow addSubview:toPayView];
+    
     cycleView = [[ZYCollectionView alloc]initWithFrame:CGRectMake(0,0,WIDHT, WIDHT*1.1)];
     sizeTitleView = [[YKSizeTitleView alloc]init];
     scroll=  [[NSBundle mainBundle] loadNibNamed:@"YKProductDetailHeader" owner:self options:nil][0];
@@ -462,6 +485,18 @@
     line2 = [[UILabel alloc]init];
     moreBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     [self creatHeaderView];
+    
+    //如果从购买过来的
+    if (_hadSelectSize) {
+        [self showToPayView];
+    }
+}
+
+- (void)showToPayView{
+    [UIView animateWithDuration:0.2 animations:^{
+        backView.hidden = NO;
+        toPayView.frame = CGRectMake(0,HEIGHT-kSuitLength_H(197),WIDHT, kSuitLength_H(197));
+    }];
 }
 
 - (void)creatHeaderView{
@@ -471,6 +506,7 @@
 - (void)disMiss{
     [UIView animateWithDuration:0.25 animations:^{
         aleartView.frame = CGRectMake(0, HEIGHT, WIDHT, kSuitLength_H(300));
+        toPayView.frame = CGRectMake(0, HEIGHT, WIDHT, kSuitLength_H(197));
     }completion:^(BOOL finished) {
         backView.hidden = YES;
     }];
@@ -539,12 +575,22 @@
 //取消收藏
 - (void)deCollect{
    
+//    if (_sizeNum==0 && !_isSP) {
+//        //        [smartHUD alertText:self.view alert:@"请选择尺码大小" delay:1.2];
+//        //弹出尺码选择的页面
+//
+//        [UIView animateWithDuration:0.25 animations:^{
+//            backView.hidden = NO;
+//            aleartView.frame = CGRectMake(0, HEIGHT-kSuitLength_H(300), WIDHT, kSuitLength_H(300));
+//            aleartView.type = 1;
+//        }];
+//        return ;
+//    }
     NSMutableArray *shopCartList = [NSMutableArray array];
     [shopCartList addObject:self.productId];
     [[YKSuitManager sharedManager]deleteCollecttwithShoppingCartId:shopCartList OnResponse:^(NSDictionary *dic) {
         [self getPruductDetail];
     }];
-    
 }
 
 //收藏商品
@@ -758,7 +804,9 @@
                 weakSelf.hadStock = hadStock;
                 
                 buttom.hadStock = hadStock;
+//                buttom.isLike = isLike;
             };
+            
             scroll.toDetailBlock = ^(NSInteger brandId,NSString *brandName){
                 YKBrandDetailVC *brand = [YKBrandDetailVC new];
                 brand.hidesBottomBarWhenPushed = YES;
@@ -770,6 +818,7 @@
             scroll.frame = CGRectMake(0, WIDHT*1.1,WIDHT, 330);
             scroll.clothingCreatedate = self.clothingCreatedate;
             scroll.isNew = self.isNew;
+            
             if (!hadMakeHeader) {
                 [headerView addSubview:scroll];
                 hadMakeHeader = YES;

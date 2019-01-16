@@ -304,7 +304,24 @@
 - (void)scanSMSInfor:(NSString *)orderId{
     //需判断租衣还是买衣
     YKSMSInforVC *sms = [YKSMSInforVC new];
-    sms.isFromeSF = YES;
+    if ([self.orderDetail.orderType intValue] == 1) {//租衣
+        if ([self.orderDetail.orderState intValue] == 1) {//待签收
+            if (self.orderDetail.isOnRoad) {//已发货,顺丰快递
+                sms.isFromeSF = YES;
+            }else {//未发货
+                sms.isFromeSF = YES;
+            }
+        }
+        
+        if ([self.orderDetail.orderState intValue] == 2) {//待归还，返件京东快递
+            sms.isFromeSF = NO;
+        }
+        
+       
+    }else {//买衣，顺丰快递
+         sms.isFromeSF = YES;
+    }
+   
     sms.orderNo = orderId;
     [self.navigationController pushViewController:sms animated:YES];
 }
@@ -423,9 +440,20 @@
     
     NSDictionary *dict = [notify userInfo];
     if ([[dict objectForKey:@"resultStatus"] isEqualToString:@"9000"]) {
-        
         [self diss];
-        [self getOrderDetail:self.orderId];
+        [smartHUD alertText:self.view alert:@"支付成功" delay:1.2];
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            
+            [smartHUD  Hide];
+            
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                
+                
+                [self getOrderDetail:self.orderId];
+                
+            });
+            
+        });
         
     }else if ([[dict objectForKey:@"resultStatus"] isEqualToString:@"6001"]) {
         
@@ -443,9 +471,21 @@
     NSDictionary *dict = [notify userInfo];
     
     if ([[dict objectForKey:@"codeid"]integerValue]==0) {
+         [self diss];
+        [smartHUD alertText:self.view alert:@"支付成功" delay:1.2];
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            
+            [smartHUD  Hide];
+            
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                
+               
+                [self getOrderDetail:self.orderId];
+                
+            });
+            
+        });
         
-        [self diss];
-        [self getOrderDetail:self.orderId];
         
     }else{
         

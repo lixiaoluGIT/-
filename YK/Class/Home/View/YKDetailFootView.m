@@ -91,6 +91,18 @@
 //        [smartHUD alertText:[UIApplication sharedApplication].keyWindow alert:@"您已喜欢该商品" delay:1.2];
 //        return;
 //    }
+//    _likeBtn.selected = !_likeBtn.selected;
+//    if (_likeBtn.selected) {//已收藏
+//        _likeBtn.selected = YES;
+//        _likeImage.image = [UIImage imageNamed:@"喜欢已选"];
+//        _likeLabel.text = @"已喜欢";
+//        
+//    }else {//未收藏
+//        _likeBtn.selected = NO;
+//        _likeImage.image = [UIImage imageNamed:@"心111"];
+//        _likeLabel.text = @"喜欢";
+//    }
+    
     if (self.likeSelectBlock) {
         self.likeSelectBlock(_likeBtn.selected);
     }
@@ -131,6 +143,21 @@
     
 }
 
+- (void)setIsLike:(BOOL)isLike{
+    _isLike = isLike;
+    
+    
+    if (isLike) {//已收藏
+        _likeBtn.selected = YES;
+        _likeImage.image = [UIImage imageNamed:@"喜欢已选"];
+        _likeLabel.text = @"已喜欢";
+        
+    }else {//未收藏
+        _likeBtn.selected = NO;
+        _likeImage.image = [UIImage imageNamed:@"心111"];
+        _likeLabel.text = @"喜欢";
+    }
+}
 //添加购物车动画(曲线动画)
 - (void)addAnimatedWithFrame:(CGRect)frame {
     

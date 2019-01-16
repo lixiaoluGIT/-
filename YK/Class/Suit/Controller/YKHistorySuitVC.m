@@ -118,7 +118,7 @@
         NoDataView.hidden = YES;
          self.tableView.hidden = NO;
         self.dataArray = [NSMutableArray arrayWithArray:dic[@"data"][@"userOrderVoList"]];
-         _dataArray=(NSMutableArray *)[[_dataArray reverseObjectEnumerator] allObjects];
+//         _dataArray=(NSMutableArray *)[[_dataArray reverseObjectEnumerator] allObjects];
         _historyHeader.Number = [NSString stringWithFormat:@"%@",dic[@"data"][@"totalNumber"]];
          _historyHeader.Price = [NSString stringWithFormat:@"%@",dic[@"data"][@"totalPrice"]];
         [self.tableView reloadData];
@@ -130,16 +130,20 @@
     _historyHeader.frame = CGRectMake(0, 0, WIDHT, kSuitLength_H(58));
     
     if (_isFromCanBuy) {
-        _historyHeader.frame = CGRectMake(0, 64, WIDHT, kSuitLength_H(58));
+        _historyHeader.frame = CGRectMake(0, BarH, WIDHT, kSuitLength_H(58));
     }
     [self.view addSubview:_historyHeader];
     
 }
 
 - (void)creatTableView{
-    self.tableView = [[UITableView alloc]initWithFrame:CGRectMake(0, kSuitLength_H(58), WIDHT, self.view.frame.size.height - kSuitLength_H(58)- kSuitLength_H(110)) style:UITableViewStyleGrouped];
+    self.tableView = [[UITableView alloc]initWithFrame:CGRectMake(0, kSuitLength_H(58), WIDHT, self.view.frame.size.height - kSuitLength_H(58)- kSuitLength_H(38)-60) style:UITableViewStyleGrouped];
+    if (HEIGHT==812) {
+         self.tableView = [[UITableView alloc]initWithFrame:CGRectMake(0, kSuitLength_H(58), WIDHT, HEIGHT - kSuitLength_H(58)- kSuitLength_H(38)-50-90) style:UITableViewStyleGrouped];
+    }
     if (self.isFromCanBuy) {
         self.tableView = [[UITableView alloc]initWithFrame:CGRectMake(0, _historyHeader.bottom, WIDHT, self.view.frame.size.height - kSuitLength_H(58)- 64) style:UITableViewStyleGrouped];
+//        self.tableView = [[UITableView alloc]initWithFrame:CGRectMake(0, _historyHeader.bottom, WIDHT, self.view.frame.size.height - kSuitLength_H(58)-64-40) style:UITableViewStyleGrouped];
     }
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
@@ -268,11 +272,21 @@
             public.hidesBottomBarWhenPushed = YES;
             [weakSelf.navigationController pushViewController:public animated:YES];
         };
+
+    NSMutableDictionary *d = [NSMutableDictionary dictionary];
+    [d setValue:cell.dic[@"clothingImgUrl"] forKey:@"image"];
+    [d setValue:cell.dic[@"clothingPrice"] forKey:@"price"];
+    [d setValue:cell.dic[@"clothingName"] forKey:@"name"];
+     [d setValue:cell.dic[@"clothingStockType"] forKey:@"size"];
         cell.buyBlock = ^(NSString *sizeNum){
             YKProductDetailVC *detail = [YKProductDetailVC new];
             detail.canBuy = YES;
             detail.productId = cell.suitId;
             detail.titleStr = cell.dic[@"clothingName"];
+            detail.hadSelectSize = YES;
+            
+            detail.dic = d;
+            
             detail.hidesBottomBarWhenPushed = YES;
             [self.navigationController pushViewController:detail animated:YES];
         };

@@ -52,6 +52,16 @@
     }
     
     _collectionId = [NSString stringWithFormat:@"%@",dic[@"collectionId"]];
+    
+    NSString *s = [NSString stringWithFormat:@"%@",dic[@"starSameStyle"]];
+    
+    if ([s intValue] == 1){
+        _isStarSame = YES;
+    }else {
+        _isStarSame = NO;
+    }
+    //占衣位数
+    _OwenNum = [NSString stringWithFormat:@"%@",dic[@"occupySeat"]];
 }
 - (void)initWithDictionary:(NSDictionary *)dic{
     

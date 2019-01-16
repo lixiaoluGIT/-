@@ -94,7 +94,7 @@
     if (self.isFromOther) {//不是从个人中心跳进来的
         YKHomeVC *chatVC = [[YKHomeVC alloc] init];
         chatVC.hidesBottomBarWhenPushed = YES;
-        UINavigationController *nav = self.tabBarController.viewControllers[0];
+        UINavigationController *nav = self.tabBarController.viewControllers[1];
         chatVC.hidesBottomBarWhenPushed = YES;
         self.tabBarController.selectedViewController = nav;
         [self.navigationController popToRootViewControllerAnimated:YES];

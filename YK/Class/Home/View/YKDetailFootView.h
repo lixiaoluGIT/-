@@ -27,4 +27,6 @@
 @property (nonatomic,assign)BOOL canBuy;//是否可购买
 
 @property (nonatomic,assign)BOOL hadStock;//所选尺码是否有库存
+
+@property (nonatomic,assign)BOOL isLike;//所选尺码是否喜欢
 @end

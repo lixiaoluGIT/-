@@ -647,7 +647,7 @@
         }
         
         NSArray *array = [NSArray arrayWithArray:dic[@"data"][@"userOrderVoList"]];
-          array=(NSMutableArray *)[[array reverseObjectEnumerator] allObjects];
+//          array=(NSMutableArray *)[[array reverseObjectEnumerator] allObjects];
         if (onResponse) {
             onResponse(array);
         }

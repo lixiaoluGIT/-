@@ -25,10 +25,10 @@
     self.recommentProductList = [NSArray arrayWithArray:dic[@"clothingVoList"]];
     
     if ([dic[@"sendTime"] isEqual:[NSNull null]]) {
-        self.isOnRoad = NO;//未发货
+        self.isOnRoad = NO;//未发货 
     }else {
         self.isOnRoad = YES;//已发货
     }
-    
 }
+
 @end

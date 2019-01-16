@@ -31,6 +31,10 @@
 @property (weak, nonatomic) IBOutlet UILabel *lineee;
 @property (weak, nonatomic) IBOutlet UILabel *lll;
 
+@property (weak, nonatomic) IBOutlet UILabel *Lable;
+
+@property (nonatomic,assign)BOOL isCreat;
+
 @end
 
 @implementation YKProductDetailHeader
@@ -54,6 +58,12 @@
     
     _selectText.font = PingFangSC_Regular(kSuitLength_H(14));
     _lll.font = PingFangSC_Regular(kSuitLength_H(14));
+    
+    //尺码显示
+    self.sizeView = [[YKSizeView alloc]init];
+    [self.sizeView initViewWithArray:self.stockArray];
+    self.sizeView.frame = self.scrollView.frame;
+    [self addSubview:self.sizeView];
 }
 
 //- (void)setClothingCreatedate:(NSString *)clothingCreatedate{
@@ -67,26 +77,16 @@
     
     _lineee.hidden = isNew;
     
+    if (!isNew) {
+        self.Lable.text = @"";
+        [self.Lable mas_remakeConstraints:^(MASConstraintMaker *make) {
+            make.left.mas_equalTo(0);
+            make.width.mas_equalTo(0);
+        }];
+    }
 }
 
-- (void)formateDate:(NSString *)dateString
-{
-    
-    NSDate * nowDate = [NSDate date];
-    NSTimeInterval interval    =[dateString doubleValue] / 1000.0;
-    NSDate *needFormatDate               = [NSDate dateWithTimeIntervalSince1970:interval];
-    /////  这里的NSTimeInterval 并不是对象，是基本型，其实是double类型，是由c定义的:  typedef double NSTimeInterval;
-    NSTimeInterval time = [nowDate timeIntervalSinceDate:needFormatDate];
-    
-    //    NSLog(@"hahhahhahahhahahha%@",needFormatDate);
-    if (time<24*60*60*2) {
-        _lineee.hidden = YES;
-    }else {
-        _lineee.hidden = NO;
-        
-    }
-    
-}
+
 
 - (void)toDetail{
     if (self.toDetailBlock ) {
@@ -107,13 +107,17 @@
     self.stockArray = [NSArray arrayWithArray:product[@"clothingStockDTOS"]];
     
     _yiwei.text = [NSString stringWithFormat:@"占%@个衣位",product[@"occupySeat"]];
-    //尺码显示
-    self.sizeView = [[YKSizeView alloc]init];
-    [self.sizeView initViewWithArray:self.stockArray];
-    self.sizeView.frame = self.scrollView.frame;
-    self.sizeView.selectBlock = self.selectBlock;
+//    //尺码显示
+//    self.sizeView = [[YKSizeView alloc]init];
    
-    [self addSubview:self.sizeView];
+    if (!self.isCreat) {
+        [self.sizeView initViewWithArray:self.stockArray];
+        self.isCreat = YES;
+    }
+//    self.sizeView.frame = self.scrollView.frame;
+    self.sizeView.selectBlock = self.selectBlock;
+//
+//    [self addSubview:self.sizeView];
     
 }
 

@@ -456,41 +456,41 @@
     loginView = [[NSBundle mainBundle]loadNibNamed:@"YKHomeAleartView" owner:nil options:nil][0];
     loginView.frame = CGRectMake(0, HEIGHT, 0, 0);
     [[UIApplication sharedApplication].keyWindow addSubview:loginView];
-    
-    NSString *s1 = [NSString stringWithFormat:@"%@",[UD objectForKey:@"popupImg"]];
-    NSString *s2 = [NSString stringWithFormat:@"%@",[UD objectForKey:@"couponId"]];
-    NSString *s3 = [NSString stringWithFormat:@"%@",[UD objectForKey:@"couponAmount"]];
-    if ([s1 length] != 0) {
-        NSMutableDictionary *dic = [NSMutableDictionary dictionary];
-        
-        [dic setObject:s1 forKey:@"popupImg"];
-        [dic setObject:s2 forKey:@"couponId"];
-        [dic setObject:s3 forKey:@"couponAmount"];
-        loginView.Dic = dic;
-        
-//        [self performSelectorOnMainThread:@selector(show) withObject:nil waitUntilDone:3.0];
-        
-        
+//
+//    NSString *s1 = [NSString stringWithFormat:@"%@",[UD objectForKey:@"popupImg"]];
+//    NSString *s2 = [NSString stringWithFormat:@"%@",[UD objectForKey:@"couponId"]];
+//    NSString *s3 = [NSString stringWithFormat:@"%@",[UD objectForKey:@"couponAmount"]];
+//    if ([s1 length] != 0) {
+//        NSMutableDictionary *dic = [NSMutableDictionary dictionary];
+//
+//        [dic setObject:s1 forKey:@"popupImg"];
+//        [dic setObject:s2 forKey:@"couponId"];
+//        [dic setObject:s3 forKey:@"couponAmount"];
+//        loginView.Dic = dic;
+//
+////        [self performSelectorOnMainThread:@selector(show) withObject:nil waitUntilDone:3.0];
+//
+//
+//        [self getHomeAleartImageOnResponse:^(NSDictionary *dic) {
+//            [UD setObject:dic[@"popupImg"] forKey:@"popupImg"];
+//            [UD setObject:dic[@"couponId"] forKey:@"couponId"];
+//            [UD setObject:dic[@"couponAmount"] forKey:@"couponAmount"];
+//            loginView.Dic = dic;
+////            [loginView appear];
+//        }];
+//    }
+//    else {
         [self getHomeAleartImageOnResponse:^(NSDictionary *dic) {
-            [UD setObject:dic[@"popupImg"] forKey:@"popupImg"];
-            [UD setObject:dic[@"couponId"] forKey:@"couponId"];
-            [UD setObject:dic[@"couponAmount"] forKey:@"couponAmount"];
-            loginView.Dic = dic;
-//            [loginView appear];
-        }];
-    }
-    else {
-        [self getHomeAleartImageOnResponse:^(NSDictionary *dic) {
-            if (dic[@"status"]) {
-                
+            if ([dic[@"status"] intValue] == 200) {
+                loginView.Dic = dic;
             }
-            [UD setObject:dic[@"popupImg"] forKey:@"homeImage"];
-            [UD setObject:dic[@"couponId"] forKey:@"couponId"];
-            [UD setObject:dic[@"couponAmount"] forKey:@"couponAmount"];
-            loginView.Dic = dic;
+//            [UD setObject:dic[@"popupImg"] forKey:@"homeImage"];
+//            [UD setObject:dic[@"couponId"] forKey:@"couponId"];
+//            [UD setObject:dic[@"couponAmount"] forKey:@"couponAmount"];
+//            loginView.Dic = dic;
 //           [self performSelectorOnMainThread:@selector(show) withObject:nil waitUntilDone:2.0];
         }];
-    }
+//    }
 }
 
 - (void)show{
@@ -565,10 +565,8 @@
         
         [LBProgressHUD hideAllHUDsForView:[UIApplication sharedApplication].keyWindow animated:YES];
         
-        if ([dic[@"data"][@"couponAmount"] intValue] == 0) {
-//            [UD setObject:@"" forKey:@"homeImage"];
-//            [UD setObject:@"" forKey:@"couponId"];
-//            [UD setObject:@"" forKey:@"couponAmount"];
+        if ([dic[@"data"][@"popupImg"] isEqual:[NSNull null]]) {
+
             return ;
         }
         

@@ -98,6 +98,7 @@
 		0062BCFB20D2761F00D978BD /* YKActivityheader.m in Sources */ = {isa = PBXBuildFile; fileRef = 0062BCF920D2761F00D978BD /* YKActivityheader.m */; };
 		0062BCFC20D2761F00D978BD /* YKActivityheader.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0062BCFA20D2761F00D978BD /* YKActivityheader.xib */; };
 		00698505207F3C57006F774E /* play1.png in Resources */ = {isa = PBXBuildFile; fileRef = 00698504207F3C57006F774E /* play1.png */; };
+		006B761221EDCF0900CCCFE1 /* YKHadSelectSizeView.m in Sources */ = {isa = PBXBuildFile; fileRef = 006B761121EDCF0900CCCFE1 /* YKHadSelectSizeView.m */; };
 		006E6B85216077F70050886E /* newbanner.png in Resources */ = {isa = PBXBuildFile; fileRef = 006E6B84216077F70050886E /* newbanner.png */; };
 		00753FAF210F0BAF00550A66 /* YKVipCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 00753FAD210F0BAF00550A66 /* YKVipCell.m */; };
 		00753FB0210F0BAF00550A66 /* YKVipCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 00753FAE210F0BAF00550A66 /* YKVipCell.xib */; };
@@ -846,6 +847,8 @@
 		0062BCF920D2761F00D978BD /* YKActivityheader.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YKActivityheader.m; sourceTree = "<group>"; };
 		0062BCFA20D2761F00D978BD /* YKActivityheader.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = YKActivityheader.xib; sourceTree = "<group>"; };
 		00698504207F3C57006F774E /* play1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = play1.png; path = YK/Assets.xcassets/icon/newka.imageset/play1.png; sourceTree = SOURCE_ROOT; };
+		006B761021EDCF0900CCCFE1 /* YKHadSelectSizeView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YKHadSelectSizeView.h; sourceTree = "<group>"; };
+		006B761121EDCF0900CCCFE1 /* YKHadSelectSizeView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YKHadSelectSizeView.m; sourceTree = "<group>"; };
 		006E6B84216077F70050886E /* newbanner.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = newbanner.png; sourceTree = "<group>"; };
 		00753FAC210F0BAF00550A66 /* YKVipCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YKVipCell.h; sourceTree = "<group>"; };
 		00753FAD210F0BAF00550A66 /* YKVipCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YKVipCell.m; sourceTree = "<group>"; };
@@ -2583,6 +2586,8 @@
 				8F0EF64921D38A910082A7DA /* YKBuyCashCell.h */,
 				8F0EF64A21D38A920082A7DA /* YKBuyCashCell.m */,
 				8F0EF64B21D38A920082A7DA /* YKBuyCashCell.xib */,
+				006B761021EDCF0900CCCFE1 /* YKHadSelectSizeView.h */,
+				006B761121EDCF0900CCCFE1 /* YKHadSelectSizeView.m */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -4908,6 +4913,7 @@
 				00961FF621ABE610003DD710 /* YKInvitVC.m in Sources */,
 				C5343C971FC6A87900F5132A /* CBSegmentView.m in Sources */,
 				C5E0231F1FDA604C00C33629 /* NSDate+FD.m in Sources */,
+				006B761221EDCF0900CCCFE1 /* YKHadSelectSizeView.m in Sources */,
 				C5FB7872205904780076DD6F /* YYTimer.m in Sources */,
 				C5FB78DD205908F80076DD6F /* UIPopoverController+BlocksKit.m in Sources */,
 				004FAB162170C9FF0083F607 /* YKMyLoveVC.m in Sources */,

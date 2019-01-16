@@ -789,8 +789,10 @@
             default:
                 break;
         }
+        //广告监测
         [MobClick event:@"__finish_payment" attributes:@{@"userid":[YKUserManager sharedManager].user.userId,@"orderid":[YKUserManager sharedManager].user.phone,@"item":des,@"amount":_total.text}];
-        //监测
+        
+        //移动监测
         [MobClick event:@"pay"];
         
     }else if ([[dict objectForKey:@"resultStatus"] isEqualToString:@"6001"]) {
@@ -847,10 +849,10 @@
 }
 
 - (void)share{
-    if (_payType == ONCE_CARD) {
-        [smartHUD alertText:self.view alert:@"次卡暂不支持优惠劵" delay:2.0];
-        return;
-    }
+//    if (_payType == ONCE_CARD) {
+//        [smartHUD alertText:self.view alert:@"次卡暂不支持优惠劵" delay:2.0];
+//        return;
+//    }
     YKCouponListVC *Coupon = [YKCouponListVC new];
     Coupon.isFromPay = YES;
     Coupon.selectedIndex = 101;

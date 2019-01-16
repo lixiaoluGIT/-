@@ -175,7 +175,7 @@
     }];
     
     UILabel *orderId = [[UILabel alloc]init];
-    orderId.text = [NSString stringWithFormat:@"下单时间：%@",orderDetail.orderNo];
+    orderId.text = [NSString stringWithFormat:@"订单编号：%@",orderDetail.orderNo];
     orderId.textColor = [UIColor colorWithHexString:@"333333"];
     orderId.font = PingFangSC_Regular(kSuitLength_H(14));
     [inforView addSubview:orderId];

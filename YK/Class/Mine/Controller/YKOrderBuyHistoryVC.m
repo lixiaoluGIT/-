@@ -140,7 +140,11 @@
         [weakSelf searchOrder:seletedIndex];
     };
     
-    self.tableView = [[UITableView alloc]initWithFrame:CGRectMake(0, kSuitLength_H(50), WIDHT, HEIGHT-kSuitLength_H(150)) style:UITableViewStylePlain];
+//    self.tableView = [[UITableView alloc]initWithFrame:CGRectMake(0, kSuitLength_H(50), WIDHT, HEIGHT-kSuitLength_H(150)) style:UITableViewStylePlain];
+    self.tableView = [[UITableView alloc]initWithFrame:CGRectMake(kSuitLength_H(0), kSuitLength_H(50), WIDHT, HEIGHT-64-kSuitLength_H(50)-kSuitLength_H(38)) style:UITableViewStylePlain];
+    if (HEIGHT==812) {
+        self.tableView = [[UITableView alloc]initWithFrame:CGRectMake(kSuitLength_H(0), kSuitLength_H(50), WIDHT, HEIGHT-104-kSuitLength_H(50)-kSuitLength_H(38)) style:UITableViewStylePlain];
+    }
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
 //    self.tableView.estimatedRowHeight = 140;
@@ -227,7 +231,7 @@
 - (void)searchOrder:(NSInteger)orderState{
     [YKOrderManager sharedManager].selectIndex = 0;
     [[YKOrderManager sharedManager]searchBuyOrderWithOrderStatus:orderState OnResponse:^(NSArray *array) {
-         array=(NSMutableArray *)[[array reverseObjectEnumerator] allObjects];
+//         array=(NSMutableArray *)[[array reverseObjectEnumerator] allObjects];
         NSLog(@"订单状态===%ld",(long)orderState);
         if (array.count==0) {//无订单
             self.tableView.hidden = YES;
@@ -306,8 +310,21 @@
     
     NSDictionary *dict = [notify userInfo];
     if ([[dict objectForKey:@"resultStatus"] isEqualToString:@"9000"]) {
+        [smartHUD alertText:self.view alert:@"支付成功" delay:1.5];
          [self diss];
-        [self searchOrder:seletedIndex];
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            
+            [smartHUD  Hide];
+           
+           
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                
+                [self searchOrder:seletedIndex];
+                
+            });
+            
+        });
+        
         
     }else if ([[dict objectForKey:@"resultStatus"] isEqualToString:@"6001"]) {
         
@@ -325,8 +342,20 @@
     NSDictionary *dict = [notify userInfo];
     
     if ([[dict objectForKey:@"codeid"]integerValue]==0) {
+        [smartHUD alertText:self.view alert:@"支付成功" delay:1.5];
         [self diss];
-       [self searchOrder:seletedIndex];
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            
+            [smartHUD  Hide];
+            
+            
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                
+                [self searchOrder:seletedIndex];
+                
+            });
+            
+        });
         
     }else{
         
