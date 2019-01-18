@@ -330,7 +330,7 @@
         }];
         
         UILabel *productPrice = [[UILabel alloc]init];
-        productPrice.text = [NSString stringWithFormat:@"%@",product[@"clothingPrice"]];;
+        productPrice.text = [NSString stringWithFormat:@"¥%@",product[@"clothingPrice"]];;
         productPrice.textColor = [UIColor colorWithHexString:@"333333"];
         productPrice.font = PingFangSC_Medium(kSuitLength_H(14));
         [productView addSubview:productPrice];

@@ -99,6 +99,7 @@
 		0062BCFC20D2761F00D978BD /* YKActivityheader.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0062BCFA20D2761F00D978BD /* YKActivityheader.xib */; };
 		00698505207F3C57006F774E /* play1.png in Resources */ = {isa = PBXBuildFile; fileRef = 00698504207F3C57006F774E /* play1.png */; };
 		006B761221EDCF0900CCCFE1 /* YKHadSelectSizeView.m in Sources */ = {isa = PBXBuildFile; fileRef = 006B761121EDCF0900CCCFE1 /* YKHadSelectSizeView.m */; };
+		006B761621F091B000CCCFE1 /* RewardView.m in Sources */ = {isa = PBXBuildFile; fileRef = 006B761521F091B000CCCFE1 /* RewardView.m */; };
 		006E6B85216077F70050886E /* newbanner.png in Resources */ = {isa = PBXBuildFile; fileRef = 006E6B84216077F70050886E /* newbanner.png */; };
 		00753FAF210F0BAF00550A66 /* YKVipCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 00753FAD210F0BAF00550A66 /* YKVipCell.m */; };
 		00753FB0210F0BAF00550A66 /* YKVipCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 00753FAE210F0BAF00550A66 /* YKVipCell.xib */; };
@@ -849,6 +850,8 @@
 		00698504207F3C57006F774E /* play1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = play1.png; path = YK/Assets.xcassets/icon/newka.imageset/play1.png; sourceTree = SOURCE_ROOT; };
 		006B761021EDCF0900CCCFE1 /* YKHadSelectSizeView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YKHadSelectSizeView.h; sourceTree = "<group>"; };
 		006B761121EDCF0900CCCFE1 /* YKHadSelectSizeView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YKHadSelectSizeView.m; sourceTree = "<group>"; };
+		006B761421F091B000CCCFE1 /* RewardView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RewardView.h; sourceTree = "<group>"; };
+		006B761521F091B000CCCFE1 /* RewardView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RewardView.m; sourceTree = "<group>"; };
 		006E6B84216077F70050886E /* newbanner.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = newbanner.png; sourceTree = "<group>"; };
 		00753FAC210F0BAF00550A66 /* YKVipCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YKVipCell.h; sourceTree = "<group>"; };
 		00753FAD210F0BAF00550A66 /* YKVipCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YKVipCell.m; sourceTree = "<group>"; };
@@ -2148,6 +2151,15 @@
 			path = HW3DBannerView;
 			sourceTree = "<group>";
 		};
+		006B761321F091AF00CCCFE1 /* RewardView */ = {
+			isa = PBXGroup;
+			children = (
+				006B761421F091B000CCCFE1 /* RewardView.h */,
+				006B761521F091B000CCCFE1 /* RewardView.m */,
+			);
+			path = RewardView;
+			sourceTree = "<group>";
+		};
 		00961FF021A80E19003DD710 /* Nav */ = {
 			isa = PBXGroup;
 			children = (
@@ -2489,6 +2501,7 @@
 		C525DC5D1FBAB15D002802AE /* View */ = {
 			isa = PBXGroup;
 			children = (
+				006B761321F091AF00CCCFE1 /* RewardView */,
 				C5343C941FC6A87800F5132A /* CBSegment */,
 				0079290921D5E8D200B943C4 /* CBHeaderChooseViewScrollView.h */,
 				0079290821D5E8D100B943C4 /* CBHeaderChooseViewScrollView.m */,
@@ -4745,6 +4758,7 @@
 				C5FB7831205904780076DD6F /* MKAnnotationView+YYWebImage.m in Sources */,
 				C525DD711FBAB2A8002802AE /* AFURLRequestSerialization.m in Sources */,
 				0048BA1120C922F000D4699D /* YKCommunicationImageView.m in Sources */,
+				006B761621F091B000CCCFE1 /* RewardView.m in Sources */,
 				004FAB1A2170E9300083F607 /* YKDetailFootView.m in Sources */,
 				C5FB7857205904780076DD6F /* UIControl+YYAdd.m in Sources */,
 				C5FB78D3205908F80076DD6F /* NSArray+BlocksKit.m in Sources */,
@@ -5184,7 +5198,7 @@
 				CODE_SIGN_ENTITLEMENTS = YK/Resource/YK.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				CODE_SIGN_STYLE = Manual;
+				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 22F9ZLB38V;
 				ENABLE_BITCODE = YES;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -5287,7 +5301,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.lymykapp.com;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
-				PROVISIONING_PROFILE_SPECIFIER = YKDevFile;
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SYSTEM_HEADER_SEARCH_PATHS = "";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				USER_HEADER_SEARCH_PATHS = "\"$(SRCROOT)/YK/Vender/JPush/Lib\"";
@@ -5302,7 +5316,7 @@
 				CODE_SIGN_ENTITLEMENTS = YK/Resource/YK.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
-				CODE_SIGN_STYLE = Manual;
+				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 22F9ZLB38V;
 				ENABLE_BITCODE = YES;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -5413,7 +5427,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.lymykapp.com;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "a98be9ff-688d-4df1-a535-adc5de2c3991";
-				PROVISIONING_PROFILE_SPECIFIER = YKDisFile;
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SYSTEM_HEADER_SEARCH_PATHS = "";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				USER_HEADER_SEARCH_PATHS = "\"$(SRCROOT)/YK/Vender/JPush/Lib\"";

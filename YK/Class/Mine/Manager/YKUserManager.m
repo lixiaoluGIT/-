@@ -333,8 +333,8 @@
         url = [NSString stringWithFormat:@"%@?phone=%@&captcha=%@&schoolId=%@",BindPhone_Url,phone,vetifiCode,colledgeId];
     }
     if (status==1) {
-        urlStr = ChangePhone_Url;
-        url = [NSString stringWithFormat:@"%@?phone=%@&captcha=%@",ChangePhone_Url,phone,vetifiCode];
+        urlStr = BindPhone_Url;
+        url = [NSString stringWithFormat:@"%@?phone=%@&captcha=%@",BindPhone_Url,phone,vetifiCode];
     }
     
 //     NSString *url = [NSString stringWithFormat:@"%@?phone=%@&captcha=%@",urlStr,phone,vetifiCode];

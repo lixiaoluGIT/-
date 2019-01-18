@@ -110,9 +110,9 @@
     
     //已抢空，不显示上新
    
-    if (!product.isHadStock) {
-        _shangxinImage.hidden = YES;
-    }
+//    if (!product.isHadStock) {
+//        _shangxinImage.hidden = YES;
+//    }
     _imageView.backgroundColor = [UIColor colorWithHexString:@"ffffff"];
     
     if (product.isStarSame) {//明星同款
@@ -121,8 +121,13 @@
     }else {
          _shangxinImage.hidden = !product.isNew;
 //         _shangxinImage.hidden = YES;
+        if (!product.isHadStock) {
+            _shangxinImage.hidden = YES;
+        }
          _shangxinImage.image = [UIImage imageNamed:@"刚刚上新"];
     }
+    
+    
 
 //    if ([product.OwenNum intValue] == 2) {
 //         _zhanyiweiNum.text = product.OwenNum;

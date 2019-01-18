@@ -206,7 +206,7 @@
 }
 
 - (void)showAleart{
-    DXAlertView *aleart = [[DXAlertView alloc]initWithTitle:@"温馨提示" message:@"您当前存在未支付订单" cancelBtnTitle:@"取消" otherBtnTitle:@"去支付"];
+    DXAlertView *aleart = [[DXAlertView alloc]initWithTitle:@"温馨提示" message:@"您当前存在未支付订单，请先支付哦~" cancelBtnTitle:@"取消" otherBtnTitle:@"去支付"];
     aleart.delegate = self;
     aleart.tag = 102;
     [aleart show];
@@ -372,7 +372,7 @@
         if (!_hadAppear) {
             _hadAppear = YES;
             //完成付费
-            DXAlertView *aleart = [[DXAlertView alloc]initWithTitle:@"支付成功" message:@"该订单已支付成功！" cancelBtnTitle:@"这个隐藏" otherBtnTitle:@"查看订单"];
+            DXAlertView *aleart = [[DXAlertView alloc]initWithTitle:@"支付成功" message:@"该订单支付成功！" cancelBtnTitle:@"这个隐藏" otherBtnTitle:@"查看订单"];
             aleart.delegate = self;
             aleart.tag = 103;
             [aleart show];
@@ -398,7 +398,7 @@
         if (!_hadAppear) {
             _hadAppear = YES;
             //完成付费
-            DXAlertView *aleart = [[DXAlertView alloc]initWithTitle:@"支付成功" message:@"该订单已支付成功！" cancelBtnTitle:@"这个隐藏" otherBtnTitle:@"查看订单"];
+            DXAlertView *aleart = [[DXAlertView alloc]initWithTitle:@"支付成功" message:@"该订单支付成功！" cancelBtnTitle:@"这个隐藏" otherBtnTitle:@"查看订单"];
             aleart.delegate = self;
             aleart.tag = 103;
            

@@ -148,6 +148,8 @@
 	<string>是否允许此APP来访问您的位置以获取您的位置信息？</string>
 	<key>NSMicrophoneUsageDescription</key>
 	<string>APP需要获取您的麦克风以获取录音权限</string>
+	<key>NSPhotoLibraryAddUsageDescription</key>
+	<string>是否允许此app访问你的相册来保存图像</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>是否允许此App访问你的媒体资料库来上传你的头像？</string>
 	<key>UIBackgroundModes</key>

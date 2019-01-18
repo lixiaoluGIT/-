@@ -947,7 +947,7 @@
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSString *,id> *)change context:(void *)context{
 //
-//    UIScrollView * scrollView = (UIScrollView *)object;
+    UIScrollView * scrollView = (UIScrollView *)object;
 //
 //    if (self.tableView != scrollView) {
 //        return;
@@ -962,11 +962,13 @@
 //        self.navigationController.navigationBar.hidden = NO;
 //    }
 //    if (scrollView.contentOffset.y>200) {
+//        self.navigationController.navigationBar.hidden = NO;
 //        self.navigationController.navigationBar.alpha = 1;
-//
+//        
 //    }else {
 //        self.navigationController.navigationBar.alpha = scrollView.contentOffset.y/200 ;
 //        [UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleDefault;
+//        
 //        if (scrollView.contentOffset.y<=0) {
 //            [UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleLightContent;
 //        }

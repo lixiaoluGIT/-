@@ -418,7 +418,7 @@
     
     [LBProgressHUD showHUDto:[UIApplication sharedApplication].keyWindow animated:YES];
 
-   [[YKSuitManager sharedManager]filterDataWithCategoryIdList:Categorys colourIdList:_colorList elementIdList:_elementList labelIdList:_hotTagList seasonIdList:seasons styleIdList:_styleList updateDay:_updateDay page:_pageNum size:10 exist:_exitStatus OnResponse:^(NSDictionary *dic) {
+   [[YKSuitManager sharedManager]filterDataWithCategoryIdList:Categorys colourIdList:_colorList elementIdList:_elementList labelIdList:_hotTagList seasonIdList:seasons styleIdList:_styleList updateDay:_updateDay page:_pageNum size:20 exist:_exitStatus OnResponse:^(NSDictionary *dic) {
         
        if (_pageNum==0) {
            [self.productList removeAllObjects];
@@ -439,7 +439,7 @@
                 [self.collectionView.mj_footer endRefreshing];
                 [self.collectionView reloadData];
             }else {
-                _pageNum--;
+//                _pageNum--;
                 [self.collectionView.mj_header endRefreshing];
                 [self.collectionView.mj_footer endRefreshing];
             }

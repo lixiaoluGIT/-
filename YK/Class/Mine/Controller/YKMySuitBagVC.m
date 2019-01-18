@@ -137,7 +137,7 @@
     if (WIDHT!=320) {
         NoDataView = [[NSBundle mainBundle] loadNibNamed:@"YKNoDataView" owner:self options:nil][0];
         
-        [NoDataView noDataViewWithStatusImage:[UIImage imageNamed:@"暂无订单111"] statusDes:@"暂无订单" hiddenBtn:YES actionTitle:@"" actionBlock:^{
+        [NoDataView noDataViewWithStatusImage:[UIImage imageNamed:@"无订单"] statusDes:@"暂无订单哦~" hiddenBtn:YES actionTitle:@"" actionBlock:^{
             
         }];
     }
@@ -233,11 +233,13 @@
                          if ([dic[@"sendTime"] isEqual:[NSNull null]]) {//是否发货
                              [_buttom setTitle:@"等待发货" forState:UIControlStateNormal];
                              [_buttom setUserInteractionEnabled:NO];
-                              _buttom.backgroundColor = [UIColor colorWithHexString:@"999999"];
+                              _buttom.backgroundColor = [UIColor colorWithHexString:@"f1f1f1"];
+                             [_buttom setTitleColor:[UIColor colorWithHexString:@"666666"] forState:UIControlStateNormal];
                          }else {
                              [_buttom setTitle:@"确认发货" forState:UIControlStateNormal];
                              _buttom.backgroundColor = YKRedColor;
                              [_buttom setUserInteractionEnabled:YES];
+                              [_buttom setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
                          }
                      }
                  }else {

@@ -620,7 +620,8 @@
         if ([user.cardType intValue] == 7) {
 //            [_vipBtn setTitle:@"兑换卡" forState:UIControlStateNormal];
 //            _cardImage.image = [UIImage imageNamed:@"月卡"];
-             self.vip.text = @"兑换卡";
+//             self.vip.text = @"兑换卡";
+            self.vip.text = @"月卡会员";
         }
         
         if ([user.effective intValue] != 4) {//会员状态,已开通

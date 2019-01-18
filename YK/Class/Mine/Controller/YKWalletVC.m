@@ -109,7 +109,7 @@
         [LBProgressHUD hideAllHUDsForView:[UIApplication sharedApplication].keyWindow animated:YES];
         validityStatus = [dic[@"depositEffective"] integerValue];//押金:0>未交,不是VIP,1>有效,2>退还中,3>无效
         depositStatus = [dic[@"effective"] integerValue];//1>使用中,2>已过期,3>无押金,4>未开通
-        cardType = [dic[@"cardType"] integerValue];//会员卡类型 1季卡 2月卡 3年卡 4体验卡 5助力卡
+        cardType = [dic[@"cardType"] integerValue];//会员卡类型 1季卡 2月卡 3年卡 4体验卡 5助力卡 7兑换卡
         effectiveDay = [dic[@"validity"] integerValue];//会员卡剩余天数
         
       
@@ -211,7 +211,7 @@
     la1.font = PingFangSC_Regular(kSuitLength_H(14));
     [header addSubview:la1];
     
-    if (depositStatus == 1) {//使用中
+    if (depositStatus == 1 && validityStatus == 1) {//会员卡有效，押金有效，使用中的状态
         leftLabel.text = [NSString stringWithFormat:@"会员剩余%ld天",(long)effectiveDay];
         if (cardType==4) {
             leftLabel.text = [NSString stringWithFormat:@"会员剩余%ld天",(long)effectiveDay];
@@ -232,8 +232,8 @@
              la.text = @"尊享年卡会员";
         }
         if (cardType==7) {//兑换卡
-            image.image = [UIImage imageNamed:@"会员卡正在使用"];
-            la.text = @"尊享兑换卡会员";
+            image.image = [UIImage imageNamed:@"月卡正在使用"];
+            la.text = @"尊享兑换卡月员";
         }
 //        if (cardType==3) {//季卡
 //            des.text = @"年卡剩余有效期";
@@ -246,8 +246,8 @@
 //        }
         
         [btn setTitle:@"续费" forState:UIControlStateNormal];
-    }
-    if (depositStatus == 2 || depositStatus == 3) {//无押金或已过期
+    }else {
+//    if (depositStatus == 2 || depositStatus == 3) {//无押金或已过期
         leftLabel.text = [NSString stringWithFormat:@"会员剩余%ld天",(long)effectiveDay];
 //        image.image = [UIImage imageNamed:@"zanting-2"];
         la1.text = @"暂停使用";
@@ -270,16 +270,7 @@
                     image.image = [UIImage imageNamed:@"暂停使用"];
                     la.text = @"尊享体验卡会员";
                 }
-//        //判断卡类型
-//        if (cardType==3) {//季卡
-//            des.text = @"年卡剩余有效期";
-//        }
-//        if (cardType==1) {//月卡
-//            des.text = @"月卡剩余有效期";
-//        }
-//        if (cardType==2) {//年卡
-//            des.text = @"季卡剩余有效期";
-//        }
+
         [btn setTitle:@"充值" forState:UIControlStateNormal];
     }
  

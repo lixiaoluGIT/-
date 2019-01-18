@@ -342,7 +342,7 @@
         NSDictionary *model;
         if (arr.count>0) {
             model = [NSDictionary dictionaryWithDictionary:arr[0]];
-            _sfOrderId = model[@"mailNo"];
+            _sfOrderId = model[@"billCode"];
         }
         
         NSInteger SMSStatus = [model[@"opcode"] integerValue];

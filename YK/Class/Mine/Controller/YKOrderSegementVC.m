@@ -26,7 +26,7 @@
 
 #define BtnTag 1001
 
-@interface YKOrderSegementVC ()<UIPageViewControllerDataSource, UIPageViewControllerDelegate, UIScrollViewDelegate>
+@interface YKOrderSegementVC ()<UIPageViewControllerDataSource, UIPageViewControllerDelegate, UIScrollViewDelegate,DXAlertViewDelegate>
 
 @property (nonatomic, strong) NSMutableArray *controllerArr;
 
@@ -82,7 +82,15 @@
     }
     
     self.navigationItem.leftBarButtonItems=@[negativeSpacer,item];
-    
+    UIButton *releaseButton=[UIButton buttonWithType:UIButtonTypeCustom];
+    releaseButton.frame = CGRectMake(0, 25, 25, 25);
+    [releaseButton setBackgroundImage:[UIImage imageNamed:@"question-1"] forState:UIControlStateNormal];
+    [releaseButton addTarget:self action:@selector(alert) forControlEvents:UIControlEventTouchUpInside];
+    UIBarButtonItem *item2=[[UIBarButtonItem alloc]initWithCustomView:releaseButton];
+    UIBarButtonItem *negativeSpacer2 = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
+    negativeSpacer.width = -8;
+    self.navigationItem.rightBarButtonItems=@[negativeSpacer2,item2];
+    [self.navigationItem.rightBarButtonItem setTintColor:[UIColor blackColor]];
     //
     [self setConfig];
     [self addControllerToArr];
@@ -90,11 +98,16 @@
     [self updateCurrentPageIndex:self.type];
 }
 
+-(void)alert{
+    DXAlertView *alertView = [[DXAlertView alloc] initWithTitle:@"问题解决" message:@"如果遇到特殊情况无法预约或预约出现问题，需要您主动联系快递上门取件(快递费由衣库平台承担)。收件地址：山东省 青州市 丰收二路 衣库仓储中心,收件人信息：衣库APP,收件人联系方式：15614205180" cancelBtnTitle:@"取消" otherBtnTitle:@"确定"];
+    alertView.delegate = self;
+    [alertView show];
+}
 - (void)leftAction{
     if (self.isFromOther) {//不是从个人中心跳进来的
         YKHomeVC *chatVC = [[YKHomeVC alloc] init];
         chatVC.hidesBottomBarWhenPushed = YES;
-        UINavigationController *nav = self.tabBarController.viewControllers[1];
+        UINavigationController *nav = self.tabBarController.viewControllers[4];
         chatVC.hidesBottomBarWhenPushed = YES;
         self.tabBarController.selectedViewController = nav;
         [self.navigationController popToRootViewControllerAnimated:YES];

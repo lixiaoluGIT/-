@@ -79,7 +79,7 @@
     if (_isHadCC) {
         [_tempBtn setTitle:@"使用加衣券" forState:UIControlStateNormal];
     }else {
-        [_tempBtn setTitle:@"购买加衣券" forState:UIControlStateNormal];
+        [_tempBtn setTitle:@"使用加衣券" forState:UIControlStateNormal];
     }
 }
 

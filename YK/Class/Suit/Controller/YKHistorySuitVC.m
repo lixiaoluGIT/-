@@ -61,7 +61,7 @@
          NoDataView = [[NSBundle mainBundle] loadNibNamed:@"YKNoDataView" owner:self options:nil][0];
     }
    
-    [NoDataView noDataViewWithStatusImage:[UIImage imageNamed:@"暂无订单111"] statusDes:@"暂无历史衣袋" hiddenBtn:NO actionTitle:@"去逛逛" actionBlock:^{
+    [NoDataView noDataViewWithStatusImage:[UIImage imageNamed:@"无订单"] statusDes:@"暂无衣袋哦~" hiddenBtn:NO actionTitle:@"去逛逛" actionBlock:^{
         YKSearchVC *chatVC = [[YKSearchVC alloc] init];
         chatVC.hidesBottomBarWhenPushed = YES;
         UINavigationController *nav = self.tabBarController.viewControllers[1];

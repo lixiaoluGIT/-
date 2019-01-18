@@ -17,7 +17,8 @@
 
 - (void)awakeFromNib {
     [super awakeFromNib];
-    _statusDes.font = PingFangSC_Regular(kSuitLength_H(14));
+    _statusDes.font = PingFangSC_Medium(kSuitLength_H(14));
+    _statusDes.textColor = [UIColor colorWithHexString:@"999999"];
     _statusAction.titleLabel.font = PingFangSC_Regular(14);
     _statusAction.backgroundColor = YKRedColor;
     _statusAction.layer.cornerRadius = _statusAction.frame.size.height/2;

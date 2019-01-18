@@ -35,6 +35,7 @@
     _btnW.constant = kSuitLength_H(243);
    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(addToCartSuccess) name:@"addToCartSuccess" object:nil];
     
+    _addBtn.backgroundColor = YKRedColor;
     if (WIDHT==320) {
         _likeLabel.hidden = YES;
         _yidai.hidden = YES;
@@ -96,7 +97,7 @@
 //        _likeBtn.selected = YES;
 //        _likeImage.image = [UIImage imageNamed:@"喜欢已选"];
 //        _likeLabel.text = @"已喜欢";
-//        
+//
 //    }else {//未收藏
 //        _likeBtn.selected = NO;
 //        _likeImage.image = [UIImage imageNamed:@"心111"];

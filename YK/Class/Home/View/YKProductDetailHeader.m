@@ -80,7 +80,7 @@
     if (!isNew) {
         self.Lable.text = @"";
         [self.Lable mas_remakeConstraints:^(MASConstraintMaker *make) {
-            make.left.mas_equalTo(0);
+            make.left.mas_equalTo(-10);
             make.width.mas_equalTo(0);
         }];
     }
@@ -203,9 +203,16 @@
     _tishiImage.hidden = YES;
     
     [_tishilabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.right.equalTo(@(-24));
+        make.right.equalTo(@(-80));
         make.centerY.equalTo(self.mas_centerY).offset(-kSuitLength_H(8));
     }];
+    
+    if (WIDHT==375) {
+        [_tishilabel mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.right.equalTo(@(-130));
+            make.centerY.equalTo(self.mas_centerY).offset(-kSuitLength_H(8));
+        }];
+    }
     [_tishiImage mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerY.equalTo(_tishilabel.mas_centerY);
         make.right.equalTo(_tishilabel.mas_left).offset(-6);

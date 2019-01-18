@@ -287,6 +287,8 @@
     UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(invite)];
     [image setUserInteractionEnabled:YES];
     [image addGestureRecognizer:tap];
+    
+    
 }
 
 - (void)invite{

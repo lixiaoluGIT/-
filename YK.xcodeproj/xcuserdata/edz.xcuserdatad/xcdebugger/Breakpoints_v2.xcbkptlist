@@ -30,12 +30,28 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "YK/Class/Home/Manager/YKHomeManager.m"
-            timestampString = "569330321.687609"
+            timestampString = "569474708.053183"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "484"
             endingLineNumber = "484"
             landmarkName = "-showAleart"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "YK/Class/Suit/Manager/YKOrderManager.m"
+            timestampString = "569474708.053316"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "265"
+            endingLineNumber = "265"
+            landmarkName = "-searchForSMSInforWithOrderNo:OnResponse:"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

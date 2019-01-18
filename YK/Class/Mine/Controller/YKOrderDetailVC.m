@@ -152,8 +152,21 @@
 //头
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout referenceSizeForHeaderInSection:(NSInteger)section{
     if ([self.orderDetail.orderType intValue] == 1) {
-         return CGSizeMake(WIDHT, kSuitLength_H(276) + kSuitLength_H(14) + kSuitLength_H(10) + kSuitLength_H(79)*(self.orderDetail.productList.count-1) + kSuitLength_H(30)*2 + kSuitLength_H(40) + kSuitLength_H(90)+kSuitLength_H(30));
+        
+        if (HEIGHT==812) {
+            return CGSizeMake(WIDHT, kSuitLength_H(276) + kSuitLength_H(14) + kSuitLength_H(10) + kSuitLength_H(79)*(self.orderDetail.productList.count-1) + kSuitLength_H(30)*2 + kSuitLength_H(40) + kSuitLength_H(90)+kSuitLength_H(30)+20);
+        }
+        if (WIDHT==375) {
+            return CGSizeMake(WIDHT, kSuitLength_H(276) + kSuitLength_H(14) + kSuitLength_H(10) + kSuitLength_H(79)*(self.orderDetail.productList.count-1) + kSuitLength_H(30)*2 + kSuitLength_H(40) + kSuitLength_H(90)+kSuitLength_H(30));
+        }
+        return CGSizeMake(WIDHT, kSuitLength_H(276) + kSuitLength_H(14) + kSuitLength_H(10) + kSuitLength_H(79)*(self.orderDetail.productList.count-1) + kSuitLength_H(30)*2 + kSuitLength_H(40) + kSuitLength_H(90)+kSuitLength_H(30));
     }else {
+        if (HEIGHT==812) {
+            return CGSizeMake(WIDHT, kSuitLength_H(276) + kSuitLength_H(125)*2 +(self.orderDetail.productList.count-1)*(kSuitLength_H(79)) + kSuitLength_H(14)*2 + kSuitLength_H(90)-kSuitLength_H(30)+20);
+        }
+        if (WIDHT==375) {
+             return CGSizeMake(WIDHT, kSuitLength_H(276) + kSuitLength_H(125)*2 +(self.orderDetail.productList.count-1)*(kSuitLength_H(79)) + kSuitLength_H(14)*2 + kSuitLength_H(90)-kSuitLength_H(30));
+        }
         return CGSizeMake(WIDHT, kSuitLength_H(276) + kSuitLength_H(125)*2 +(self.orderDetail.productList.count-1)*(kSuitLength_H(79)) + kSuitLength_H(14)*2 + kSuitLength_H(90)-kSuitLength_H(30));
     }
 }
@@ -175,9 +188,23 @@
            
             if ([self.orderDetail.orderType intValue] == 1) {
                 self.header.frame = CGRectMake(0,-64, WIDHT, kSuitLength_H(276) + kSuitLength_H(14) + kSuitLength_H(10) + (kSuitLength_H(79)*(self.orderDetail.productList.count-1)) + kSuitLength_H(30)*2 + kSuitLength_H(40) + kSuitLength_H(90));
+                if (HEIGHT==812) {
+                    self.header.frame = CGRectMake(0,-24, WIDHT, kSuitLength_H(276) + kSuitLength_H(14) + kSuitLength_H(10) + (kSuitLength_H(79)*(self.orderDetail.productList.count-1)) + kSuitLength_H(30)*2 + kSuitLength_H(40) + kSuitLength_H(90));
+                }
+                if (WIDHT==375) {
+                    self.header.frame = CGRectMake(0,-44, WIDHT, kSuitLength_H(276) + kSuitLength_H(14) + kSuitLength_H(10) + (kSuitLength_H(79)*(self.orderDetail.productList.count-1)) + kSuitLength_H(30)*2 + kSuitLength_H(40) + kSuitLength_H(90));
+                }
             }else {
                 self.header.frame = CGRectMake(0,-64, WIDHT, kSuitLength_H(276) + kSuitLength_H(125)*2 +(self.orderDetail.productList.count-1)*(kSuitLength_H(79)) + kSuitLength_H(14)*2 + kSuitLength_H(90));
+                if (HEIGHT==812) {
+                    self.header.frame = CGRectMake(0,-24, WIDHT, kSuitLength_H(276) + kSuitLength_H(125)*2 +(self.orderDetail.productList.count-1)*(kSuitLength_H(79)) + kSuitLength_H(14)*2 + kSuitLength_H(90));
+                }
+                if (WIDHT==375) {
+                     self.header.frame = CGRectMake(0,-44, WIDHT, kSuitLength_H(276) + kSuitLength_H(125)*2 +(self.orderDetail.productList.count-1)*(kSuitLength_H(79)) + kSuitLength_H(14)*2 + kSuitLength_H(90));
+                }
             }
+            
+            
            self.header.btnActionBlock = ^(BtnActionType actionType){
                 switch (actionType) {
                     

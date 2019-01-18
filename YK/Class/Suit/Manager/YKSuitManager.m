@@ -231,6 +231,9 @@
     NSDictionary *d = @{@"clothingId":clothingId,@"clothingStockId":clothingStckType};
     
     [YKHttpClient Method:@"POST" URLString:collect_Url paramers:d success:^(NSDictionary *dict) {
+        
+        [LBProgressHUD hideAllHUDsForView:[UIApplication sharedApplication].keyWindow animated:YES];
+        
         if ([dict[@"status"] integerValue] == 200) {
 //                        [smartHUD alertText:[UIApplication sharedApplication].keyWindow alert:@"已添加至心愿单" delay:1.2];
             if (onResponse) {
@@ -336,7 +339,7 @@
     }
   
 
-    NSDictionary *postDic = @{@"CategoryIdList":CategoryIdList,
+    NSDictionary *postDic = @{@"categoryIdList":CategoryIdList,
                               @"colourIdList":colourIdList,
                               @"elementIdList":elementIdList,
                               @"labelIdList":labelIdList,
@@ -346,7 +349,8 @@
                               @"page":@(page),
                               @"size":@(size),
                               @"exist":exist,
-                              @"classify":@"0"
+                              @"classify":@"1",
+                              @"clothingIdList":@[]
                               };
     
     NSLog(@"postDic ====== %@",postDic);
@@ -361,3 +365,4 @@
     }];
 }
 @end
+

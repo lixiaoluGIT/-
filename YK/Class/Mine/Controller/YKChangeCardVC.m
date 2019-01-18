@@ -252,22 +252,42 @@
             DXAlertView *aleart = [[DXAlertView alloc]initWithTitle:@"兑换成功！" message:@"您已成为月卡会员，缴纳押金后即可享受衣库会员服务。" cancelBtnTitle:@"取消 " otherBtnTitle:@"缴纳押金"];
             aleart.titleColor = YKRedColor;
             aleart.delegate = self;
+            aleart.tag = 101;
             [aleart show];
         }else {//已付费
-            DXAlertView *aleart = [[DXAlertView alloc]initWithTitle:@"兑换成功！" message:@"您的会员有效期已增加30天，快去选衣吧" cancelBtnTitle:@"这个隐藏" otherBtnTitle:@"确认"];
-            aleart.titleColor = YKRedColor;
-//            aleart.delegate = self;
-            [aleart show];
+            //押金有效
+            if ([[YKUserManager sharedManager].user.depositEffective intValue] == 1) {
+                DXAlertView *aleart = [[DXAlertView alloc]initWithTitle:@"兑换成功！" message:@"您的会员有效期已增加30天，快去选衣吧" cancelBtnTitle:@"取消" otherBtnTitle:@"去选衣"];
+                aleart.titleColor = YKRedColor;
+                aleart.delegate = self;
+                aleart.tag = 102;
+                [aleart show];
+            }else {//押金无效
+                DXAlertView *aleart = [[DXAlertView alloc]initWithTitle:@"兑换成功！" message:@"您的会员有效期已增加30天，缴纳押金后即可享受衣库会员服务。" cancelBtnTitle:@"取消" otherBtnTitle:@"缴纳押金"];
+                aleart.titleColor = YKRedColor;
+                aleart.delegate = self;
+                aleart.tag = 103;
+                [aleart show];
+            }
+            
         }
         
     }];
 }
 
 - (void)dxAlertView:(DXAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
-    if (buttonIndex==1) {
-        YKDepositVC *deposit = [[YKDepositVC alloc]initWithNibName:@"YKDepositVC" bundle:[NSBundle mainBundle]];
-        deposit.validityStatus = [[YKUserManager sharedManager].user.depositEffective intValue];
-        [self.navigationController pushViewController:deposit animated:YES];
+    if (alertView.tag==103||alertView.tag==101) {
+        if (buttonIndex==1) {
+            YKDepositVC *deposit = [[YKDepositVC alloc]initWithNibName:@"YKDepositVC" bundle:[NSBundle mainBundle]];
+            deposit.validityStatus = [[YKUserManager sharedManager].user.depositEffective intValue];
+            [self.navigationController pushViewController:deposit animated:YES];
+        }
+    }
+    if (alertView.tag == 102) {
+      
+        UINavigationController *nav = self.tabBarController.viewControllers[1];
+        self.tabBarController.selectedViewController = nav;
+        [self.navigationController popToRootViewControllerAnimated:YES];
     }
 }
 

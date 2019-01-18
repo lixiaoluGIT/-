@@ -42,14 +42,14 @@
     }
     NSArray *clothingStockArray = [NSArray arrayWithArray:dic[@"clothingStockDTOS"]];
     //遍历所有的型号
-    for (NSDictionary *type in clothingStockArray) {
-        if ([type[@"clothingStockNum"] intValue] != 0) {//如果有库存数量不为0的型号
+//    for (NSDictionary *type in clothingStockArray) {
+        NSDictionary *type = [NSDictionary dictionaryWithDictionary:clothingStockArray[0]];
+        if ([type[@"clothingStockNum"] intValue] == 0) {//如果有库存数量不为0的型号
+            _isHadStock = NO;//无库存
+        }else {
             _isHadStock = YES;//有库存
         }
-        //        }else {
-        //            _isHadStock = NO;//无库存
-        //        }
-    }
+//    }
     
     _collectionId = [NSString stringWithFormat:@"%@",dic[@"collectionId"]];
     

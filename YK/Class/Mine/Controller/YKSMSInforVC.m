@@ -50,7 +50,7 @@
     
     [self logisticsInfoData];
     
-    self.navigationItem.title = @"物流状态";
+    self.navigationItem.title = @"物流信息";
     _logisticsTableView = [[UITableView alloc]initWithFrame:self.view.frame style:UITableViewStylePlain];
     _logisticsTableView.delegate = self;
     _logisticsTableView.dataSource = self;

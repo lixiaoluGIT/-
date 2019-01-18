@@ -263,7 +263,7 @@
     self.clothingName = self.name.text;
     self.brand.text = [NSString stringWithFormat:@"%@",product[@"clothingBrandName"]];
     self.size.text = [NSString stringWithFormat:@"%@",product[@"clothingStockType"]];
-    self.price.text = [NSString stringWithFormat:@"%@",product[@"clothingPrice"]];
+    self.price.text = [NSString stringWithFormat:@"¥%@",product[@"clothingPrice"]];
 }
 //赋值
 - (void)initWithDic:(NSDictionary *)dic{
