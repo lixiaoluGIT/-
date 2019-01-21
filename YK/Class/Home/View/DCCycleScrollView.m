@@ -56,6 +56,7 @@ static NSString *const cellID = @"cellID";
     }
     return self;
 }
+
 -(void)initialization
 {
     //初始化

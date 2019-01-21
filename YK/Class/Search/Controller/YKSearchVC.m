@@ -517,7 +517,7 @@
     if ([dic[@"adUrl"] isEqual:[NSNull null]]) {//正常商品
         CGQCollectionViewCell *cell = (CGQCollectionViewCell *)[self.collectionView cellForItemAtIndexPath:indexPath];
         YKProductDetailVC *detail = [[YKProductDetailVC alloc]init];
-        detail.canBuy = YES;
+//        detail.canBuy = YES;
         detail.isNew = cell.product.isNew;
         detail.productId = cell.goodsId;
         detail.titleStr = cell.goodsName;

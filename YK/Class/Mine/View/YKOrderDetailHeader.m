@@ -381,8 +381,12 @@
                     [BBtn setTitle:@"确认收货" forState:UIControlStateNormal];
                     [BBtn setUserInteractionEnabled:YES];
                     [BBtn addTarget:self action:@selector(btnAction:) forControlEvents:UIControlEventTouchUpInside];
+                    BBtn.backgroundColor = YKRedColor;
+                    [BBtn setTitleColor:[UIColor colorWithHexString:@"ffffff"] forState:UIControlStateNormal];
                 }else {//未发货
                     [BBtn setTitle:@"待发货" forState:UIControlStateNormal];
+                    BBtn.backgroundColor = [UIColor colorWithHexString:@"f1f1f1"];
+                    [BBtn setTitleColor:[UIColor colorWithHexString:@"666666"] forState:UIControlStateNormal];
                     [BBtn setUserInteractionEnabled:YES];
                 }
                 break;
@@ -390,15 +394,22 @@
                 if (_isHadOrderreceive) {//已预约归还
                     [BBtn setTitle:@"归还中" forState:UIControlStateNormal];
                     [BBtn setUserInteractionEnabled:YES];
+                    BBtn.backgroundColor = [UIColor colorWithHexString:@"f1f1f1"];
+                    [BBtn setTitleColor:[UIColor colorWithHexString:@"666666"] forState:UIControlStateNormal];
                 }else {
                     [BBtn setTitle:@"预约归还" forState:UIControlStateNormal];
                     [BBtn setUserInteractionEnabled:YES];
                     [BBtn addTarget:self action:@selector(btnAction:) forControlEvents:UIControlEventTouchUpInside];
+                    BBtn.backgroundColor = YKRedColor;
+                    [BBtn setTitleColor:[UIColor colorWithHexString:@"ffffff"] forState:UIControlStateNormal];
                 }
                 break;
             case 3://已归还
                 [BBtn setTitle:@"已归还" forState:UIControlStateNormal];
                 [BBtn setUserInteractionEnabled:YES];
+                
+                BBtn.backgroundColor = [UIColor colorWithHexString:@"f1f1f1"];
+                [BBtn setTitleColor:[UIColor colorWithHexString:@"666666"] forState:UIControlStateNormal];
                 break;
             default:
                 break;

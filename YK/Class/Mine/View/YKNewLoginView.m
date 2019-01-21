@@ -308,7 +308,7 @@
         _containView.left = -(WIDHT-kSuitLength_H(60)*2);
         nextBtn.centerX = _containView.centerX;
     }completion:^(BOOL finished) {
-        [self getCode];
+//        [self getCode];
     }];
    
 }

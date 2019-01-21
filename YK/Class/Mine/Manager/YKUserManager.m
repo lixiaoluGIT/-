@@ -204,7 +204,7 @@
 - (void)getUserInforOnResponse:(void (^)(NSDictionary *dic))onResponse{
 
     [YKHttpClient Method:@"GET" apiName:GetUserInfor_Url Params:nil Completion:^(NSDictionary *dic) {
-        
+         [LBProgressHUD hideAllHUDsForView:[UIApplication sharedApplication].keyWindow animated:YES];
         if ([dic[@"status"] intValue] == 401) {//未登录
             [UD setObject:@"" forKey:@"token"];
             if (onResponse) {

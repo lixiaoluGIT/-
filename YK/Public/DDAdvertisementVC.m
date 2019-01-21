@@ -117,12 +117,22 @@
 - (void)toWeb{
     [MobClick event:@"__cust_event_1"];
     
-    dispatch_source_cancel(_timer);
-    YKLinkWebVC *web =[YKLinkWebVC new];
-    web.url = _click_url;
-    web.status = 1;
-    web.hidesBottomBarWhenPushed = YES;
-    [self.navigationController pushViewController:web animated:YES];
+    if ([_click_url containsString:@"http"]) {
+        
+        dispatch_source_cancel(_timer);
+        YKLinkWebVC *web =[YKLinkWebVC new];
+        web.url = _click_url;
+        web.status = 1;
+        web.hidesBottomBarWhenPushed = YES;
+        [self.navigationController pushViewController:web animated:YES];
+       
+        
+    } else {
+        
+      
+        
+    }
+   
 
 }
 

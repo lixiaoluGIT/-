@@ -90,8 +90,8 @@
 @property (nonatomic, strong) NSArray *images;
 @property (nonatomic, strong) NSArray *images2;
 @property (nonatomic, assign) CGRect origialFrame;
-@property (nonatomic,assign)NSString *sizeNum;
-@property (nonatomic,strong)NSString *sizeType;
+//@property (nonatomic,assign)NSString *sizeNum;
+//@property (nonatomic,strong)NSString *sizeType;
 @property (nonatomic,assign)BOOL hadStock;
 
 @property (nonatomic,strong)UITableView *tableView;
@@ -270,7 +270,8 @@
     isShake = YES;//尺码表默认展开
     [self getPruductDetail];
             
-    _sizeNum = 0;
+//    _sizeNum == 0;
+    
     if (_isFromShare) {
         self.title = @"商品详情";
     }else{
@@ -602,10 +603,10 @@
         return;
     }
     
-    if (_sizeNum==0 && !_isSP) {
+    if ([_sizeNum intValue] <= 0 && !_isSP) {
 //        [smartHUD alertText:self.view alert:@"请选择尺码大小" delay:1.2];
         //弹出尺码选择的页面
-        
+
         [UIView animateWithDuration:0.25 animations:^{
             backView.hidden = NO;
             aleartView.frame = CGRectMake(0, HEIGHT-kSuitLength_H(300), WIDHT, kSuitLength_H(300));
@@ -631,10 +632,11 @@
 
         return;
     }
-    if (_sizeNum==0 && !_isSP) {
+    if ([_sizeNum intValue] <= 0
+        && !_isSP) {
 //        [smartHUD alertText:self.view alert:@"请选择尺码大小" delay:1.2];
         //弹出尺码选择的页面
-        
+//
         [UIView animateWithDuration:0.25 animations:^{
             backView.hidden = NO;
             aleartView.frame = CGRectMake(0, HEIGHT-kSuitLength_H(300), WIDHT, kSuitLength_H(300));

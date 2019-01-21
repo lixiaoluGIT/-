@@ -28,6 +28,8 @@
 
 @implementation YKOrderDetailVC
 
+
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     
@@ -61,7 +63,7 @@
     title.text = self.title;
     title.textAlignment = NSTextAlignmentCenter;
     title.textColor = [UIColor colorWithHexString:@"ffffff"];
-    title.font = PingFangSC_Medium(kSuitLength_H(18));
+    title.font = PingFangSC_Medium(kSuitLength_H(16));
     self.navigationItem.titleView = title;
     
     self.productArray = [NSArray array];
@@ -93,9 +95,13 @@
 
 - (void)viewWillDisappear:(BOOL)animated{
     [self.navigationController.navigationBar setBackgroundImage:nil  forBarMetrics:UIBarMetricsDefault];
+    
+     [UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleDefault;
 }
 
 - (void)viewWillAppear:(BOOL)animated {
+    
+     [UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleLightContent;
     
     //设置导航渐变
     self.navigationController.navigationBar.layer.shadowColor = [UIColor clearColor].CGColor;

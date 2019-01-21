@@ -184,7 +184,7 @@
     isLogining = YES;
     NSDictionary *dict = [notify userInfo];
     [[YKUserManager sharedManager]getWechatAccessTokenWithCode:dict[@"code"] OnResponse:^(NSDictionary *dic) {
-        
+        isLogining = NO;
         [self.view removeAllSubviews];
         [self setUpUI];
         
@@ -193,9 +193,14 @@
 
 //接收qq登录成功的通知
 - (void)TencentDidLoginNotification:(NSNotification *)notify{
+    if (isLogining) {
+        return;
+    }
+    isLogining = YES;
     NSDictionary *dic = [NSDictionary dictionaryWithDictionary:notify.userInfo];
     [[YKUserManager sharedManager]loginSuccessByTencentDic:dic[@"code"] OnResponse:^(NSDictionary *dic) {
         
+        isLogining = NO;
         [self.view removeAllSubviews];
         [self setUpUI];
       

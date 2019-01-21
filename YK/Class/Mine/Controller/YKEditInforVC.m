@@ -112,7 +112,11 @@
     self.headImage.layer.masksToBounds = YES;
     self.headImage.layer.cornerRadius = self.headImage.frame.size.height/2;
     
-    [self.headImage sd_setImageWithURL:[NSURL URLWithString:[YKUserManager sharedManager].user.photo] placeholderImage:[UIImage imageNamed:@"touxianghuancun"]];
+    if (![[YKUserManager sharedManager].user.photo isEqual:[NSNull null]]) {
+        [self.headImage sd_setImageWithURL:[NSURL URLWithString:[YKUserManager sharedManager].user.photo] placeholderImage:[UIImage imageNamed:@"touxianghuancun"]];
+    }
+    
+    
     self.nickNameText.delegate = self;
     
     if ([[YKUserManager sharedManager].user.nickname isEqual:[NSNull null]]) {

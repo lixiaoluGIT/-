@@ -236,7 +236,7 @@
                               _buttom.backgroundColor = [UIColor colorWithHexString:@"f1f1f1"];
                              [_buttom setTitleColor:[UIColor colorWithHexString:@"666666"] forState:UIControlStateNormal];
                          }else {
-                             [_buttom setTitle:@"确认发货" forState:UIControlStateNormal];
+                             [_buttom setTitle:@"确认收货" forState:UIControlStateNormal];
                              _buttom.backgroundColor = YKRedColor;
                              [_buttom setUserInteractionEnabled:YES];
                               [_buttom setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
@@ -760,6 +760,8 @@
                 detail.canBuy = YES;
                 detail.productId = cell.suit.clothingId;
                 detail.titleStr = cell.suit.clothingName;
+                detail.sizeNum = cell.suit.clothingStockId;
+                detail.sizeType = cell.suit.clothingStockType;
                 detail.hidesBottomBarWhenPushed = YES;
                 [self.navigationController pushViewController:detail animated:YES];
 //            }else {

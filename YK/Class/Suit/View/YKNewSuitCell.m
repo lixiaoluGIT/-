@@ -17,7 +17,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *barnd;
 @property (weak, nonatomic) IBOutlet UILabel *price;
 @property (weak, nonatomic) IBOutlet UILabel *owendNum;
-@property (weak, nonatomic) IBOutlet UILabel *type;
+//@property (weak, nonatomic) IBOutlet UILabel *type;
 @property (weak, nonatomic) IBOutlet UIImageView *tipImage;
 @property (weak, nonatomic) IBOutlet UILabel *noSuit;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *gapT;
@@ -182,7 +182,7 @@
     
 //    self.suitStatus = suit.clothingStockNum;//剩余库存数量
     self.suitId = [NSString stringWithFormat:@"%@",dic[@"clothingId"]];
-    
+    self.clothingStockId = [NSString stringWithFormat:@"%@",dic[@"clothingStockId"]];
     if ([dic[@"photograph"] intValue] == 2) {//没晒过
         
     }else {

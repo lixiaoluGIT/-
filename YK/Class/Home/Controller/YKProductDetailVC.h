@@ -24,4 +24,7 @@
 @property (nonatomic,strong)NSDictionary *dic;//传过来的商品
 @property (nonatomic,assign)BOOL hadSelectSize;;//是否从购买过来的，带着尺码
 
+@property (nonatomic,strong)NSString *sizeNum;
+@property (nonatomic,strong)NSString *sizeType;
+
 @end

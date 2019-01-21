@@ -413,10 +413,15 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 
+     [LBProgressHUD showHUDto:[UIApplication sharedApplication].keyWindow animated:YES];
     self.title = @"我的";
 //    [self.view addSubview:[self imageview]];
     [self.view addSubview:self.tableView];
+    self.tableView.bounces = NO;
+    
+
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+    
     [self addHeadView];
 
     

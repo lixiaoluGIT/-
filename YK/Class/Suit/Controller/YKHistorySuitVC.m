@@ -303,6 +303,8 @@
         detail.canBuy = YES;
         detail.productId = mycell.suitId;
         detail.titleStr = mycell.suit.clothingName;
+        detail.sizeNum = mycell.clothingStockId;
+        detail.sizeType = [NSString stringWithFormat:@"%@",mycell.type.text];
         detail.hidesBottomBarWhenPushed = YES;
         [self.navigationController pushViewController:detail animated:YES];
 }

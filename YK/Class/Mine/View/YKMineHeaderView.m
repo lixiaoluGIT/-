@@ -34,6 +34,8 @@
 @property (nonatomic,strong)UIImageView *unLoginjiantou;
 
 @property (nonatomic,strong)UIImageView *vipImage;
+@property (nonatomic,strong)CAShapeLayer *firstLayer;
+@property (nonatomic,strong)CAShapeLayer *secondLayer;
 @end
 
 @implementation YKMineHeaderView
@@ -53,25 +55,94 @@
     
     self.backgroundColor = [UIColor colorWithHexString:@"fafafa"];
     //红色背景
-    UIView *backView1 = [[UIView alloc]init];
-    backView1.backgroundColor = YKRedColor;
-    [self addSubview:backView1];
-    [backView1 mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.mas_equalTo(-100000);
-        make.centerX.mas_equalTo(self.mas_centerX);
-        make.width.mas_equalTo(self.mas_width);
-        make.height.mas_equalTo(100000);
-    }];
+//    UIView *backView1 = [[UIView alloc]init];
+//    backView1.backgroundColor = YKRedColor;
+//    [self addSubview:backView1];
+   
+//    NSArray *imagess=[NSArray arrayWithObjects:[UIImage imageNamed:@"背景1"],[UIImage imageNamed:@"背景2"],[UIImage imageNamed:@"背景3"],[UIImage imageNamed:@"背景4"],[UIImage imageNamed:@"背景5"],[UIImage imageNamed:@"背景6"],[UIImage imageNamed:@"背景7"],[UIImage imageNamed:@"背景8"],[UIImage imageNamed:@"背景9"], [UIImage imageNamed:@"背景10"],[UIImage imageNamed:@"背景11"],[UIImage imageNamed:@"背景12"],[UIImage imageNamed:@"背景13"],[UIImage imageNamed:@"背景14"],[UIImage imageNamed:@"背景15"],[UIImage imageNamed:@"背景16"],[UIImage imageNamed:@"背景17"],[UIImage imageNamed:@"背景18"],[UIImage imageNamed:@"背景19"],[UIImage imageNamed:@"背景20"],[UIImage imageNamed:@"背景21"],[UIImage imageNamed:@"背景22"],nil];
+    NSArray *imagess=[NSArray arrayWithObjects:[UIImage imageNamed:@"背景1-1"],nil];
+//    背景1-1
+    
+//    UIImageView  *_musicImageView2 = [[UIImageView alloc]init];
+//    CATransition *transition = [CATransition animation];
+//    transition.duration = 60;
+//    transition.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
+//    transition.type = kCATransitionFade;
+//    [_musicImageView2.layer addAnimation:transition forKey:@"a"];
+    
+    
+    //定义结构体，方块大小
+//    CGRect frame2=CGRectMake(0, -100000, WIDHT, 100000);
+//    [_musicImageView2 mas_makeConstraints:^(MASConstraintMaker *make) {
+//        make.top.mas_equalTo(-100000);
+//        make.centerX.mas_equalTo(self.mas_centerX);
+//        make.width.mas_equalTo(self.mas_width);
+//        make.height.mas_equalTo(100000);
+//    }];
+    //初始化图像视图对象，大小是frame
+////    _musicImageView2 = [[UIImageView alloc] initWithFrame:frame2];
+//    _musicImageView2.image = [UIImage imageNamed:@"背景"];
+//    //imageView的动画图片是数组images
+//    _musicImageView2.animationImages = imagess;
+//    //按照原始比例缩放图片，保持纵横比
+////    _musicImageView2.contentMode = UIViewContentModeScaleAspectFit;
+//    //切换动作的时间3秒，来控制图像显示的速度有多快，
+//    _musicImageView2.animationDuration = 60;
+//    //动画的重复次数，想让它无限循环就赋成0
+//    _musicImageView2.animationRepeatCount = 0;
+//
+//    //添加控件
+//    [self addSubview:_musicImageView2];
+//    _musicImageView2.transform = CGAffineTransformRotate(_musicImageView2.transform, M_PI);//旋转180
+//    [_musicImageView2 startAnimating];
+//
+//    [_musicImageView2 mas_makeConstraints:^(MASConstraintMaker *make) {
+//        make.top.mas_equalTo(-100000);
+//        make.centerX.mas_equalTo(self.mas_centerX);
+//        make.width.mas_equalTo(self.mas_width);
+//        make.height.mas_equalTo(100000);
+//    }];
+    
     
     UIView *backView = [[UIView alloc]init];
     backView.backgroundColor = YKRedColor;
+    backView.backgroundColor = [UIColor colorWithHexString:@"ff4236"];
     [self addSubview:backView];
+
+    UIImageView  *_musicImageView = [[UIImageView alloc]init];
+    CATransition *transition2 = [CATransition animation];
+    transition2.duration = 60;
+    transition2.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
+    transition2.type = kCATransitionFade;
+    [_musicImageView.layer addAnimation:transition2 forKey:@"a"];
+    
+    
+    //定义结构体，方块大小
+    CGRect frame=CGRectMake(0, 0, WIDHT, kSuitLength_H(220));
+    //初始化图像视图对象，大小是frame
+    _musicImageView = [[UIImageView alloc] initWithFrame:frame];
+    _musicImageView.image = [UIImage imageNamed:@"背景1-1"];
+    //imageView的动画图片是数组images
+    _musicImageView.animationImages = imagess;
+    //按照原始比例缩放图片，保持纵横比
+    _musicImageView.contentMode = UIViewContentModeScaleAspectFit;
+    //切换动作的时间3秒，来控制图像显示的速度有多快，
+    _musicImageView.animationDuration = 60;
+    //动画的重复次数，想让它无限循环就赋成0
+    _musicImageView.animationRepeatCount = 0;
+    //添加控件
+    [backView addSubview:_musicImageView];
+    [_musicImageView startAnimating];
+    
+    [UIView animateWithDuration:1 animations:^{ _musicImageView.alpha = 1; } completion:^(BOOL finished){ }];
+
     [backView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(0);
         make.centerX.mas_equalTo(self.mas_centerX);
         make.width.mas_equalTo(self.mas_width);
         make.height.mas_equalTo(kSuitLength_H(220));
     }];
+    
     UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
     btn.tag = 1;
     btn.backgroundColor = [UIColor clearColor];
@@ -96,7 +167,7 @@
     
     //yonghuming
     UILabel *name = [[UILabel alloc]init];
-    name.text = @"用户名";
+    name.text = @"";
     name.font = PingFangSC_Medium(kSuitLength_H(16));
     name.textColor = [UIColor whiteColor];
     [backView addSubview:name];
@@ -105,10 +176,11 @@
         make.left.mas_equalTo(image.mas_right).offset(kSuitLength_H(14));
     }];
     self.name = name;
+     name.hidden = YES;
     
     //genggai shezhi
     UILabel *set = [[UILabel alloc]init];
-    set.text = @"更改用户信息";
+    set.text = @"";
     set.font = PingFangSC_Regular(kSuitLength_H(12));
     set.textColor = [UIColor whiteColor];
     [backView addSubview:set];
@@ -117,6 +189,7 @@
         make.left.mas_equalTo(image.mas_right).offset(kSuitLength_H(14));
     }];
     self.set = set;
+     set.hidden = YES;
     
     //jiantou
     UIImageView *jiantou = [[UIImageView alloc]initWithImage:[UIImage imageNamed:    @"白右-2 copy 4"]];
@@ -126,6 +199,7 @@
         make.left.mas_equalTo(set.mas_right).offset(kSuitLength_H(5));
     }];
     self.jiantou = jiantou;
+    jiantou.hidden = YES;
     
     //genggai shezhi
     UILabel *unLo = [[UILabel alloc]init];
@@ -138,6 +212,7 @@
         make.left.mas_equalTo(image.mas_right).offset(kSuitLength_H(14));
     }];
     self.unLo = unLo;
+     unLo.hidden = YES;
     
     //jiantou
     UIImageView *jiantou4 = [[UIImageView alloc]initWithImage:[UIImage imageNamed:    @"白右-2 copy 4"]];
@@ -147,6 +222,7 @@
         make.left.mas_equalTo(unLo.mas_right).offset(kSuitLength_H(5));
     }];
     self.unLojiantou  = jiantou4;
+    jiantou4.hidden = YES;
     
     //you bian banyuan
     UIView *rightView = [[UIView alloc]init];
@@ -192,6 +268,7 @@
         make.top.mas_equalTo(kSuitLength_H(6));
     }];
     self.vip = cardType;
+    self.vip.hidden = YES;
     //zhuanshuquanyi
     UILabel *zs = [[UILabel alloc]init];
     zs.text = @"专属权益";
@@ -203,6 +280,7 @@
         make.top.mas_equalTo(cardType.mas_bottom);
     }];
     self.quanyi = zs;
+    self.quanyi.hidden = YES;
     
     //jianou 2
     UIImageView *jiantou2 = [[UIImageView alloc]initWithImage:[UIImage imageNamed:    @"右-2 尺码详情"]];
@@ -212,6 +290,7 @@
         make.left.mas_equalTo(zs.mas_right).offset(kSuitLength_H(5));
     }];
     self.jiantou1  = jiantou2;
+    self.jiantou1.hidden = YES;
     
     //未登录文字
     UILabel *unLogin = [[UILabel alloc]init];
@@ -224,6 +303,7 @@
         make.centerY.mas_equalTo(i2.mas_centerY);
     }];
     self.unLogin = unLogin;
+    self.unLogin.hidden = YES;
     
     //jianou 2
     UIImageView *jiantou3 = [[UIImageView alloc]initWithImage:[UIImage imageNamed:    @"右-2 尺码详情"]];
@@ -233,6 +313,7 @@
         make.left.mas_equalTo(unLogin.mas_right).offset(kSuitLength_H(5));
     }];
     self.unLoginjiantou = jiantou3;
+    self.unLoginjiantou.hidden = YES;
     
     //yuer
     UILabel *ye = [[UILabel alloc]init];
@@ -564,6 +645,7 @@
         self.unLojiantou.hidden = YES;
         self.unLogin.hidden = YES;
         self.unLoginjiantou.hidden = YES;
+        self.set.text = @"更改用户信息";
         self.l1.text =  [NSString stringWithFormat:@"%@",[YKUserManager sharedManager].user.toPayNum];
         self.l2.text = [NSString stringWithFormat:@"%@",[YKUserManager sharedManager].user.toQianshouNum];
         self.l3.text = [NSString stringWithFormat:@"%@",[YKUserManager sharedManager].user.toReceiveNum];
@@ -579,7 +661,9 @@
         
         self.name.text = [NSString stringWithFormat:@"%@",[YKUserManager sharedManager].user.nickname];
         
-        [self.headImage sd_setImageWithURL:[NSURL URLWithString:user.photo] placeholderImage:[UIImage imageNamed:@"touxianghuancun"]];
+        if (![user.photo isEqual:[NSNull null]]) {
+             [self.headImage sd_setImageWithURL:[NSURL URLWithString:user.photo] placeholderImage:[UIImage imageNamed:@"touxianghuancun"]];
+        }
         
         self.VIPStatus = [user.effective integerValue];
         self.ye.text = [YKUserManager sharedManager].user.balance;
