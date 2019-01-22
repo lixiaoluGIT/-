@@ -262,6 +262,7 @@
             
             break;
         case 101://qq登录
+             isLogining = NO;
             [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(wechatDidLoginNotification:) name:@"wechatDidLoginNotification" object:nil];
             
             [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(TencentDidLoginNotification:) name:@"TencentDidLoginNotification" object:nil];
@@ -272,6 +273,7 @@
             
             break;
         case 102://微信登录
+            isLogining = NO;
             [UD setBool:NO forKey:@"bindWX"];//不是绑定,是登录
             [UD synchronize];
             [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(wechatDidLoginNotification:) name:@"wechatDidLoginNotification" object:nil];
@@ -340,10 +342,15 @@
 
 //接收qq登录成功的通知
 - (void)TencentDidLoginNotification:(NSNotification *)notify{
+    
+    if (isLogining) {
+        return;
+    }
+    isLogining = YES;
     NSDictionary *dic = [NSDictionary dictionaryWithDictionary:notify.userInfo];
     [[YKUserManager sharedManager]loginSuccessByTencentDic:dic[@"code"] OnResponse:^(NSDictionary *dic) {
         
-        [UIView animateWithDuration:0. animations:^{
+        [UIView animateWithDuration:0.2 animations:^{
             [self dismiss];
         }completion:^(BOOL finished) {
             if ([[YKUserManager sharedManager].user.phone isEqual:[NSNull null]]) {
@@ -368,7 +375,7 @@
     }
     isLogining = YES;
     [[YKUserManager sharedManager]getWechatAccessTokenWithCode:dict[@"code"] OnResponse:^(NSDictionary *dic) {
-        isLogining = NO;
+        
         
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.8 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
             [self dismiss];

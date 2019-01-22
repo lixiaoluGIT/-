@@ -39,7 +39,8 @@
     [_image sd_setImageWithURL:[NSURL URLWithString:[self URLEncodedString:product[@"clothingImgUrl"]]] placeholderImage:[UIImage imageNamed:@"商品图"]];
     _name.text = [NSString stringWithFormat:@"%@",product[@"clothingName"]];
     _type.text = [NSString stringWithFormat:@"尺码：%@",sizeNum];
-    _price.text = [NSString stringWithFormat:@"¥ %.f",[product[@"clothingPrice"] floatValue]*0.6];
+     int p =  [product[@"clothingPrice"] intValue] * 0.6;
+    _price.text = [NSString stringWithFormat:@"¥ %d",p];
 }
 
 @end

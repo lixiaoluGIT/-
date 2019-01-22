@@ -23,6 +23,7 @@
     self.goodsName = [NSString stringWithFormat:@"%@",dic[@"clothingName"]];
     if (![dic[@"clothingStockDTOS"] isEqual:[NSNull null]]) {
         self.clothingStockId = [NSString stringWithFormat:@"%@",dic[@"clothingStockDTOS"][0][@"clothingStockId"]];
+        self.clothingStockStyle = [NSString stringWithFormat:@"%@",dic[@"clothingStockDTOS"][0][@"clothingStockType"]];
     }
     
     self.imageAttach  = [NSString stringWithFormat:@"%@",[self URLEncodedString:dic[@"clothingImgUrl"]]];

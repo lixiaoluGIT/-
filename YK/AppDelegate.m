@@ -276,7 +276,7 @@ didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
     NSLog(@"推送数据%@",userInfo);
     
     if (userInfo.allKeys.count>0) {//后台消息
-        [[YKMessageManager sharedManager]showMessageWithTitle:@"收到新消息" Content:userInfo[@"aps"][@"alert"]];
+//        [[YKMessageManager sharedManager]showMessageWithTitle:@"收到新消息" Content:userInfo[@"aps"][@"alert"]];
     }else {//其它消息
         [[YKMessageManager sharedManager]showMessageWithTitle:@"收到新消息" Content:userInfo[@"aps"][@"alert"]];
         
@@ -497,7 +497,7 @@ didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
     NSLog(@"\n>>[GTSdk ReceivePayload]:%@\n\n", msg);
     NSDictionary *totalDic = [self dictionaryWithJsonString:payloadMsg];
     if (totalDic.allKeys.count>0) {//后台消息
-        [[YKMessageManager sharedManager]showMessageWithTitle:totalDic[@"title"] Content:totalDic[@"text"]];
+//        [[YKMessageManager sharedManager]showMessageWithTitle:totalDic[@"title"] Content:totalDic[@"text"]];
     }else {//其它消息
         [[YKMessageManager sharedManager]showMessageWithTitle:@"消息提醒" Content:payloadMsg];
         

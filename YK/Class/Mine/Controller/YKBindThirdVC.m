@@ -17,9 +17,13 @@
 @implementation YKBindThirdVC
 
 - (void)viewWillAppear:(BOOL)animated{
+    
     [super viewWillAppear:YES];
+     [UD setBool:NO forKey:@"wxisLogining"];
+     [UD setBool:NO forKey:@"qqisLogining"];
     [self.view removeAllSubviews];
     [self setUpUI];
+    
 }
 
 - (void)viewDidLoad {
@@ -147,6 +151,7 @@
                     [aleart show];
                 }else {
                     //去绑定微信
+                      isLogining = NO;
                     NSLog(@"2");
                     [[YKUserManager sharedManager]loginByWeChatOnResponse:^(NSDictionary *dic) {
                         
@@ -157,12 +162,14 @@
             if (i==1) {
                 if ([YKUserManager sharedManager].user.isBindQQ) {
                     //去解绑QQ
+                    
                     NSLog(@"3");
                     DXAlertView *aleart = [[DXAlertView alloc]initWithTitle:@"温馨提示" message:[NSString stringWithFormat:@"确定要与昵称为%@的qq账号解除绑定吗？",[YKUserManager sharedManager].user.QQNickName] cancelBtnTitle:@"否" otherBtnTitle:@"是"];
                     aleart.tag = 1;
                     aleart.delegate = self;
                     [aleart show];
                 }else {
+                     isLogining = NO;
                     //去绑定QQ
                     [[YKUserManager sharedManager]loginByTencentOnResponse:^(NSDictionary *dic) {
                         
@@ -182,9 +189,11 @@
         return;
     }
     isLogining = YES;
+     [UD setBool:YES forKey:@"wxisLogining"];
     NSDictionary *dict = [notify userInfo];
     [[YKUserManager sharedManager]getWechatAccessTokenWithCode:dict[@"code"] OnResponse:^(NSDictionary *dic) {
-        isLogining = NO;
+//        isLogining = NO;
+        
         [self.view removeAllSubviews];
         [self setUpUI];
         
@@ -193,22 +202,26 @@
 
 //接收qq登录成功的通知
 - (void)TencentDidLoginNotification:(NSNotification *)notify{
+    BOOL i = [UD boolForKey:@"qqisLogining"];
     if (isLogining) {
         return;
     }
+    [UD setBool:YES forKey:@"qqisLogining"];
     isLogining = YES;
+    
     NSDictionary *dic = [NSDictionary dictionaryWithDictionary:notify.userInfo];
     [[YKUserManager sharedManager]loginSuccessByTencentDic:dic[@"code"] OnResponse:^(NSDictionary *dic) {
         
-        isLogining = NO;
         [self.view removeAllSubviews];
         [self setUpUI];
       
     }];
 }
+
 - (void)dxAlertView:(DXAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex   {
     if (buttonIndex==1) {
         [[YKUserManager sharedManager]exitWeChatByTencentType:alertView.tag OnResponse:^(NSDictionary *dic) {
+              isLogining = NO;
             [self.view removeAllSubviews];
             [self setUpUI];
         }];

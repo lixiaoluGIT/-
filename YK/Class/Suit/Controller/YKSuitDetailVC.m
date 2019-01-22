@@ -154,24 +154,56 @@
         return;
     }
     //春节期间物流提示(2月13----2月23)
-    if ([steyHelper validateWithStartTime:@"2018-02-13" withExpireTime:@"2018-02-23"]) {
-        DXAlertView *alertView = [[DXAlertView alloc] initWithTitle:@"平台提示" message:@"小仙女，快递小哥回家过年了，现在下单23号以后才可以正常发货哦!" cancelBtnTitle:@"取消" otherBtnTitle:@"继续确认"];
+    if ([steyHelper validateWithStartTime:@"2019-01-26" withExpireTime:@"2019-02-09"]) {
+        DXAlertView *alertView = [[DXAlertView alloc] initWithTitle:@"平台提示" message:@"小仙女，快递小哥回家过年了，现在下单2月10号以后才可以正常发货哦!" cancelBtnTitle:@"取消" otherBtnTitle:@"继续确认"];
+        alertView.tag = 102;
         alertView.delegate = self;
         [alertView show];
         return;
     }
-//    if ([[self getCurrentTime]intValue]>16) {
-//        DXAlertView *alertView = [[DXAlertView alloc] initWithTitle:@"平台提示" message:@"小仙女，当天17点以后下单，快递小哥可能明天才来取件哦，请您耐心等待！" cancelBtnTitle:@"取消" otherBtnTitle:@"继续确认"];
-//        alertView.delegate = self;
-//        aleartId = 1;
-//        [alertView show];
-//        return;
-//    }
+    if ([[self getCurrentTime]intValue]>16) {
+        DXAlertView *alertView = [[DXAlertView alloc] initWithTitle:@"平台提示" message:@"小仙女，当天17点以后下单，快递小哥可能明天才来取件哦，请您耐心等待！" cancelBtnTitle:@"取消" otherBtnTitle:@"继续确认"];
+        alertView.delegate = self;
+        alertView.tag = 103;
+        [alertView show];
+        return;
+    }
     
     
     [self order];
 }
 
+- (void)dxAlertView:(DXAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
+    if (alertView.tag == 101) {
+        if (buttonIndex==1) {
+            YKUserAccountVC *account = [[YKUserAccountVC alloc]init];
+            [self.navigationController pushViewController:account animated:YES];
+        }
+    }
+    
+    if (alertView.tag == 102) {
+        if (buttonIndex==1) {
+            if ([[self getCurrentTime]intValue]>16) {
+                DXAlertView *alertView = [[DXAlertView alloc] initWithTitle:@"平台提示" message:@"小仙女，当天17点以后下单，快递小哥可能明天才来取件哦，请您耐心等待！" cancelBtnTitle:@"取消" otherBtnTitle:@"继续确认"];
+                alertView.delegate = self;
+                alertView.tag = 103;
+                [alertView show];
+                return;
+            }
+            
+            
+            [self order];
+        }
+    }
+    
+    if (alertView.tag == 103) {
+        if (buttonIndex==1) {
+             [self order];
+        }
+    }
+    
+    
+}
 -(NSString*)getCurrentTime {
     
     NSDateFormatter*formatter = [[NSDateFormatter alloc]init];[formatter setDateFormat:@"HH"];
@@ -225,18 +257,10 @@
 - (void)alert{
     DXAlertView *alertView = [[DXAlertView alloc] initWithTitle:@"温馨提示" message:@"您还没有交押金，是否缴纳押金" cancelBtnTitle:@"取消" otherBtnTitle:@"去交押金"];
     alertView.delegate = self;
+    alertView.tag = 101;
     [alertView show];
 }
 
-- (void)dxAlertView:(DXAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
-    if (buttonIndex==1) {
-        
-    YKUserAccountVC *account = [[YKUserAccountVC alloc]init];
-    [self.navigationController pushViewController:account animated:YES];
-        
-    }
-    
-}
 - (void)leftAction{
     [self.navigationController popViewControllerAnimated:YES];
 }

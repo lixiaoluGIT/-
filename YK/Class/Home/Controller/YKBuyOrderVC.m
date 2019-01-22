@@ -132,7 +132,8 @@
     }];
     
     UILabel *lable2 = [[UILabel alloc]init];
-    lable2.text = [NSString stringWithFormat:@"¥%.f（免运费）",[self.product[@"clothingPrice"] intValue]*0.6];
+     int p = [self.product[@"clothingPrice"] intValue] * 0.6;
+    lable2.text = [NSString stringWithFormat:@"¥%d（免运费）",p];
     lable2.textColor = YKRedColor;
     lable2.font = PingFangSC_Regular(14);
     if (WIDHT==320) {
@@ -171,10 +172,17 @@
         [smartHUD alertText:kWindow alert:@"请选择支付方式" delay:1.0];
         return;
     }
-    //调起支付
-//    [[YKPayManager sharedManager]payWithPayMethod:self.payMethod payType:1 activity:0 channelId:0 inviteCode:@"" OnResponse:^(NSDictionary *dic) {
-//
-//    }];
+    
+
+//春节期间物流提示(2月13----2月23)
+if ([steyHelper validateWithStartTime:@"2019-01-26" withExpireTime:@"2019-02-09"]) {
+    DXAlertView *alertView = [[DXAlertView alloc] initWithTitle:@"平台提示" message:@"小仙女，快递小哥回家过年了，现在下单2月10号以后才可以正常发货哦!" cancelBtnTitle:@"取消" otherBtnTitle:@"继续确认"];
+    alertView.tag = 104;
+    alertView.delegate = self;
+    [alertView show];
+    return;
+}
+ 
     NSMutableArray *a = [NSMutableArray array];
     if (self.isFromOrder) {
          [a addObject:self.product[@"clothingStockId"]];
@@ -253,6 +261,35 @@
         seg.hidesBottomBarWhenPushed = YES;
         [self.navigationController pushViewController:seg animated:YES];
         
+    }
+    
+    if (alertView.tag == 104) {
+        NSMutableArray *a = [NSMutableArray array];
+        if (self.isFromOrder) {
+            [a addObject:self.product[@"clothingStockId"]];
+            
+            //调起支付
+            NSLog(@"调起支付");
+            [[YKPayManager sharedManager]payWithPayMethod:self.payMethod orderNo:self.orderNo couponId:0 OnResponse:^(NSDictionary *dic) {
+                
+            }];
+        }else {
+            [a addObject:self.product[@"clothingStockDTOS"][0][@"clothingStockId"]];
+            
+            //创建订单
+            [[YKOrderManager sharedManager]creatBuyOrderWithAddress:self.addressM  clothingIdList:a OnResponse:^(NSDictionary *dic) {
+                
+                if ([dic[@"status"] intValue] == 413) {//存在未付款订单
+                    [self showAleart];
+                    return ;
+                }
+                
+                //调起支付
+                NSLog(@"调起支付");
+                
+                [self pay:dic[@"orderNo"]];
+            }];
+        }
     }
     
 }
@@ -346,7 +383,11 @@
         mycell = [[NSBundle mainBundle] loadNibNamed:@"YKBuyCashCell" owner:self options:nil][0];
     }
     mycell.selectionStyle = UITableViewCellSelectionStyleNone;
-    mycell.price = [NSString stringWithFormat:@"%.f",[self.product[@"clothingPrice"] intValue] * 0.6];
+    
+   
+    int p =  [self.product[@"clothingPrice"] intValue] * 0.6;
+    
+    mycell.price = [NSString stringWithFormat:@"%d",p];
     return mycell;
     
 }

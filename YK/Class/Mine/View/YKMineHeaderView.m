@@ -63,25 +63,25 @@
     NSArray *imagess=[NSArray arrayWithObjects:[UIImage imageNamed:@"背景1-1"],nil];
 //    背景1-1
     
-//    UIImageView  *_musicImageView2 = [[UIImageView alloc]init];
-//    CATransition *transition = [CATransition animation];
-//    transition.duration = 60;
-//    transition.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
-//    transition.type = kCATransitionFade;
-//    [_musicImageView2.layer addAnimation:transition forKey:@"a"];
+    UIImageView  *_musicImageView2 = [[UIImageView alloc]init];
+    CATransition *transition = [CATransition animation];
+    transition.duration = 60;
+    transition.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
+    transition.type = kCATransitionFade;
+    [_musicImageView2.layer addAnimation:transition forKey:@"a"];
+     [self addSubview:_musicImageView2];
     
-    
-    //定义结构体，方块大小
+//    定义结构体，方块大小
 //    CGRect frame2=CGRectMake(0, -100000, WIDHT, 100000);
-//    [_musicImageView2 mas_makeConstraints:^(MASConstraintMaker *make) {
-//        make.top.mas_equalTo(-100000);
-//        make.centerX.mas_equalTo(self.mas_centerX);
-//        make.width.mas_equalTo(self.mas_width);
-//        make.height.mas_equalTo(100000);
-//    }];
+    [_musicImageView2 mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.mas_equalTo(-100000);
+        make.centerX.mas_equalTo(self.mas_centerX);
+        make.width.mas_equalTo(self.mas_width);
+        make.height.mas_equalTo(100000);
+    }];
     //初始化图像视图对象，大小是frame
 ////    _musicImageView2 = [[UIImageView alloc] initWithFrame:frame2];
-//    _musicImageView2.image = [UIImage imageNamed:@"背景"];
+    _musicImageView2.image = [UIImage imageNamed:@"背景1-1"];
 //    //imageView的动画图片是数组images
 //    _musicImageView2.animationImages = imagess;
 //    //按照原始比例缩放图片，保持纵横比
@@ -106,12 +106,12 @@
     
     UIView *backView = [[UIView alloc]init];
     backView.backgroundColor = YKRedColor;
-    backView.backgroundColor = [UIColor colorWithHexString:@"ff4236"];
+    backView.backgroundColor = [UIColor colorWithHexString:@"ffffff"];
     [self addSubview:backView];
 
     UIImageView  *_musicImageView = [[UIImageView alloc]init];
     CATransition *transition2 = [CATransition animation];
-    transition2.duration = 60;
+    transition2.duration = 0.3;
     transition2.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
     transition2.type = kCATransitionFade;
     [_musicImageView.layer addAnimation:transition2 forKey:@"a"];
@@ -123,18 +123,18 @@
     _musicImageView = [[UIImageView alloc] initWithFrame:frame];
     _musicImageView.image = [UIImage imageNamed:@"背景1-1"];
     //imageView的动画图片是数组images
-    _musicImageView.animationImages = imagess;
-    //按照原始比例缩放图片，保持纵横比
-    _musicImageView.contentMode = UIViewContentModeScaleAspectFit;
-    //切换动作的时间3秒，来控制图像显示的速度有多快，
-    _musicImageView.animationDuration = 60;
-    //动画的重复次数，想让它无限循环就赋成0
-    _musicImageView.animationRepeatCount = 0;
-    //添加控件
+//    _musicImageView.animationImages = imagess;
+//    //按照原始比例缩放图片，保持纵横比
+//    _musicImageView.contentMode = UIViewContentModeScaleAspectFit;
+//    //切换动作的时间3秒，来控制图像显示的速度有多快，
+//    _musicImageView.animationDuration = 60;
+//    //动画的重复次数，想让它无限循环就赋成0
+//    _musicImageView.animationRepeatCount = 0;
+//    //添加控件
     [backView addSubview:_musicImageView];
-    [_musicImageView startAnimating];
-    
-    [UIView animateWithDuration:1 animations:^{ _musicImageView.alpha = 1; } completion:^(BOOL finished){ }];
+//    [_musicImageView startAnimating];
+//
+//    [UIView animateWithDuration:1 animations:^{ _musicImageView.alpha = 1; } completion:^(BOOL finished){ }];
 
     [backView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(0);

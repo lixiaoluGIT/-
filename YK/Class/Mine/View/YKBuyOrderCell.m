@@ -263,7 +263,9 @@
     self.clothingName = self.name.text;
     self.brand.text = [NSString stringWithFormat:@"%@",product[@"clothingBrandName"]];
     self.size.text = [NSString stringWithFormat:@"%@",product[@"clothingStockType"]];
-    self.price.text = [NSString stringWithFormat:@"¥%@",product[@"clothingPrice"]];
+    
+    int p =  [product[@"clothingPrice"] intValue] * 0.6;
+    self.price.text = [NSString stringWithFormat:@"¥%d",p];
 }
 //赋值
 - (void)initWithDic:(NSDictionary *)dic{

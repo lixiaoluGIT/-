@@ -187,20 +187,34 @@
         return;
     }
     
+    //春节期间物流提示(2月13----2月23)
+    if ([steyHelper validateWithStartTime:@"2019-01-26" withExpireTime:@"2019-02-09"]) {
+        DXAlertView *alertView = [[DXAlertView alloc] initWithTitle:@"平台提示" message:@"小仙女，快递小哥回家过年了，现在下单2月9号以后才能上门取件哦！期间浪费的会员天数会有所补偿！" cancelBtnTitle:@"取消" otherBtnTitle:@"继续预约"];
+        alertView.tag = 104;
+        alertView.delegate = self;
+        [alertView show];
+        return;
+    }
+    
     [self alert];
     
 }
 - (void)alert{
-    DXAlertView *alertView = [[DXAlertView alloc] initWithTitle:@"问题解决" message:@"请您确认取件地址是否正确，预约后无法更改信息" cancelBtnTitle:@"取消" otherBtnTitle:@"确定"];
+    DXAlertView *alertView = [[DXAlertView alloc] initWithTitle:@"温馨提示" message:@"请您确认取件地址是否正确，预约后无法更改信息" cancelBtnTitle:@"取消" otherBtnTitle:@"确定"];
     alertView.delegate = self;
     [alertView show];
 }
+
 - (void)dxAlertView:(DXAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
+    if (alertView.tag == 104) {
+        [self alert];
+    }else {
     if (buttonIndex==1) {
         
         [[YKOrderManager sharedManager]orderReceiveWithOrderNo:self.orderId addressId:self.address.addressId time:self.timeStr OnResponse:^(NSDictionary *dic) {
             [self.navigationController popViewControllerAnimated:YES];
         }];
+    }
     }
     
 }

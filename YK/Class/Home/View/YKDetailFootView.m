@@ -11,7 +11,14 @@
 @interface YKDetailFootView()
 {
     UIButton *buyBtn;
+    
+    CALayer     *layer;
+    UILabel     *_cntLabel;
+    NSInteger    _cnt;
+    UIImageView *_imageView;
+    UIButton    *_btn;
 }
+@property (nonatomic,strong) UIBezierPath *path;
 
 @property (weak, nonatomic) IBOutlet UIButton *likeBtn;
 @property (weak, nonatomic) IBOutlet UIImageView *likeImage;
@@ -39,6 +46,79 @@
     if (WIDHT==320) {
         _likeLabel.hidden = YES;
         _yidai.hidden = YES;
+    }
+    
+     _cnt = 0;
+    
+    self.path = [UIBezierPath bezierPath];
+    [_path moveToPoint:CGPointMake(50, 150)];
+    [_path addQuadCurveToPoint:CGPointMake(270, 300) controlPoint:CGPointMake(150, 20)];
+}
+-(void)startAnimation
+{
+    if (!layer) {
+        _btn.enabled = NO;
+        layer = [CALayer layer];
+        layer.contents = (__bridge id)[UIImage imageNamed:@"test01.jpg"].CGImage;
+        layer.contentsGravity = kCAGravityResizeAspectFill;
+        layer.bounds = CGRectMake(0, 0, 50, 50);
+        [layer setCornerRadius:CGRectGetHeight([layer bounds]) / 2];
+        layer.masksToBounds = YES;
+        layer.position =CGPointMake(50, 150);
+        [self.layer addSublayer:layer];
+    }
+    [self groupAnimation];
+}
+-(void)groupAnimation
+{
+    CAKeyframeAnimation *animation = [CAKeyframeAnimation animationWithKeyPath:@"position"];
+    animation.path = _path.CGPath;
+    animation.rotationMode = kCAAnimationRotateAuto;
+    CABasicAnimation *expandAnimation = [CABasicAnimation animationWithKeyPath:@"transform.scale"];
+    expandAnimation.duration = 0.5f;
+    expandAnimation.fromValue = [NSNumber numberWithFloat:1];
+    expandAnimation.toValue = [NSNumber numberWithFloat:2.0f];
+    expandAnimation.timingFunction=[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseIn];
+    
+    CABasicAnimation *narrowAnimation = [CABasicAnimation animationWithKeyPath:@"transform.scale"];
+    narrowAnimation.beginTime = 0.5;
+    narrowAnimation.fromValue = [NSNumber numberWithFloat:2.0f];
+    narrowAnimation.duration = 1.5f;
+    narrowAnimation.toValue = [NSNumber numberWithFloat:0.5f];
+    
+    narrowAnimation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseOut];
+    
+    CAAnimationGroup *groups = [CAAnimationGroup animation];
+    groups.animations = @[animation,expandAnimation,narrowAnimation];
+    groups.duration = 2.0f;
+    groups.removedOnCompletion=NO;
+    groups.fillMode=kCAFillModeForwards;
+    groups.delegate = self;
+    [layer addAnimation:groups forKey:@"group"];
+}
+
+-(void)animationDidStop:(CAAnimation *)anim finished:(BOOL)flag
+{
+    //    [anim def];
+    if (anim == [layer animationForKey:@"group"]) {
+        _btn.enabled = YES;
+        [layer removeFromSuperlayer];
+        layer = nil;
+        _cnt++;
+        if (_owendNumLable) {
+            _owendNumLable.hidden = NO;
+        }
+        CATransition *animation = [CATransition animation];
+        animation.duration = 0.25f;
+        _owendNumLable.text = [NSString stringWithFormat:@"%d",_cnt];
+        [_owendNumLable.layer addAnimation:animation forKey:nil];
+        
+        CABasicAnimation *shakeAnimation = [CABasicAnimation animationWithKeyPath:@"transform.translation.y"];
+        shakeAnimation.duration = 0.25f;
+        shakeAnimation.fromValue = [NSNumber numberWithFloat:-5];
+        shakeAnimation.toValue = [NSNumber numberWithFloat:5];
+        shakeAnimation.autoreverses = YES;
+        [_imageView.layer addAnimation:shakeAnimation forKey:nil];
     }
 }
 

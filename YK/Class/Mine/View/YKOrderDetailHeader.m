@@ -250,6 +250,7 @@
     [address mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(name.mas_bottom).offset(kSuitLength_H(8));
         make.left.mas_equalTo(kSuitLength_H(9));
+        make.right.mas_equalTo(-kSuitLength_H(9));
     }];
     
     UIView *productView = [[UIView alloc]init];
@@ -329,8 +330,14 @@
             make.bottom.mas_equalTo(productImage.mas_bottom);
         }];
         
+        int p = 0;
         UILabel *productPrice = [[UILabel alloc]init];
-        productPrice.text = [NSString stringWithFormat:@"¥%@",product[@"clothingPrice"]];;
+            p =  [product[@"clothingPrice"] intValue] * 0.6;
+       
+        if ([orderDetail.orderType intValue] == 1) {//租衣订单
+            p =  [product[@"clothingPrice"] intValue];
+        }
+         productPrice.text = [NSString stringWithFormat:@"¥%d",p];;
         productPrice.textColor = [UIColor colorWithHexString:@"333333"];
         productPrice.font = PingFangSC_Medium(kSuitLength_H(14));
         [productView addSubview:productPrice];
@@ -416,6 +423,8 @@
         }
     }
     UIView *priceView = [[UIView alloc]init];
+    
+    
     if ([[orderDetail orderType] intValue] == 2) {//买衣
         UIButton *BBtn = [UIButton buttonWithType:UIButtonTypeCustom];
         [BBtn setTitle:@"联系商家" forState:UIControlStateNormal];

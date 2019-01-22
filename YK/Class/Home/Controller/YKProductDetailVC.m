@@ -84,7 +84,16 @@
     UIButton *moreBtn;
     UIButton *shakeBtn;
     YKSizeTitleView *sizeTitleView;
+    
+    //
+    CALayer     *layer;
+    UILabel     *_cntLabel;
+    NSInteger    _cnt;
+    UIImageView *_imageView;
+    UIButton    *_btn;
 }
+@property (nonatomic,strong) UIBezierPath *path;
+
 @property (nonatomic, strong) NSArray * imagesArr;
 @property (nonatomic, strong) UICollectionView *collectionView;
 @property (nonatomic, strong) NSArray *images;
@@ -662,12 +671,93 @@
     }
     [[YKSuitManager sharedManager]addToShoppingCartwithclothingId:self.productId clothingStckType:_sizeNum OnResponse:^(NSDictionary *dic) {
         //添加购物车动画
+        
         [[NSNotificationCenter defaultCenter] postNotificationName:@"addToCartSuccess" object:self userInfo:nil];
+//        [self startAnimation];
         [self disMiss];
         [self getPruductDetail];
         
     }];
 }
+
+-(void)setUI
+{
+  
+    
+    self.path = [UIBezierPath bezierPath];
+    [_path moveToPoint:CGPointMake(50, 150)];
+    [_path addQuadCurveToPoint:CGPointMake(270, 300) controlPoint:CGPointMake(150, 20)];
+    [self.view.layer addSublayer:self.path];
+}
+
+-(void)startAnimation
+{
+    if (!layer) {
+        _btn.enabled = NO;
+        layer = [CALayer layer];
+        layer.contents = (__bridge id)[UIImage imageNamed:@"tt.jpg"].CGImage;
+        layer.contentsGravity = kCAGravityResizeAspectFill;
+        layer.bounds = CGRectMake(0, 0, 50, 50);
+        [layer setCornerRadius:CGRectGetHeight([layer bounds]) / 2];
+        layer.masksToBounds = YES;
+        layer.position =CGPointMake(50, 150);
+        [self.view.layer addSublayer:layer];
+    }
+    [self groupAnimation];
+}
+-(void)groupAnimation
+{
+    CAKeyframeAnimation *animation = [CAKeyframeAnimation animationWithKeyPath:@"position"];
+    animation.path = _path.CGPath;
+    animation.rotationMode = kCAAnimationRotateAuto;
+    CABasicAnimation *expandAnimation = [CABasicAnimation animationWithKeyPath:@"transform.scale"];
+    expandAnimation.duration = 0.5f;
+    expandAnimation.fromValue = [NSNumber numberWithFloat:1];
+    expandAnimation.toValue = [NSNumber numberWithFloat:2.0f];
+    expandAnimation.timingFunction=[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseIn];
+    
+    CABasicAnimation *narrowAnimation = [CABasicAnimation animationWithKeyPath:@"transform.scale"];
+    narrowAnimation.beginTime = 0.5;
+    narrowAnimation.fromValue = [NSNumber numberWithFloat:2.0f];
+    narrowAnimation.duration = 1.5f;
+    narrowAnimation.toValue = [NSNumber numberWithFloat:0.5f];
+    
+    narrowAnimation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseOut];
+    
+    CAAnimationGroup *groups = [CAAnimationGroup animation];
+    groups.animations = @[animation,expandAnimation,narrowAnimation];
+    groups.duration = 2.0f;
+    groups.removedOnCompletion=NO;
+    groups.fillMode=kCAFillModeForwards;
+    groups.delegate = self;
+    [layer addAnimation:groups forKey:@"group"];
+}
+
+-(void)animationDidStop:(CAAnimation *)anim finished:(BOOL)flag
+{
+    //    [anim def];
+    if (anim == [layer animationForKey:@"group"]) {
+        _btn.enabled = YES;
+        [layer removeFromSuperlayer];
+        layer = nil;
+        _cnt++;
+        if (_cnt) {
+            _cntLabel.hidden = NO;
+        }
+        CATransition *animation = [CATransition animation];
+        animation.duration = 0.25f;
+        _cntLabel.text = [NSString stringWithFormat:@"%d",_cnt];
+        [_cntLabel.layer addAnimation:animation forKey:nil];
+        
+        CABasicAnimation *shakeAnimation = [CABasicAnimation animationWithKeyPath:@"transform.translation.y"];
+        shakeAnimation.duration = 0.25f;
+        shakeAnimation.fromValue = [NSNumber numberWithFloat:-5];
+        shakeAnimation.toValue = [NSNumber numberWithFloat:5];
+        shakeAnimation.autoreverses = YES;
+        [_imageView.layer addAnimation:shakeAnimation forKey:nil];
+    }
+}
+
 -(void)dd{
     
     int random = self.images2.count;

@@ -598,11 +598,11 @@
                                                                     options:NSJSONReadingMutableContainers error:nil];
                 
                 NSLog(@"%@",dic);
+                NSString *openId = [dic objectForKey:@"openid"];
+                NSString *memNickName = [dic objectForKey:@"nickname"];
+                NSString *memSex = [dic objectForKey:@"sex"];
                 
                 if ([Token length] == 0) {//未登录，微信登录接口
-                    NSString *openId = [dic objectForKey:@"openid"];
-                    NSString *memNickName = [dic objectForKey:@"nickname"];
-                    NSString *memSex = [dic objectForKey:@"sex"];
                     
                     [self loginWithOpenId:openId memNickName:memNickName memSex:memSex dic:dic OnResponse:^(NSDictionary *dic) {
                         if (onResponse) {
@@ -628,21 +628,10 @@
 - (void)loginWithOpenId:(NSString *)openId memNickName:(NSString *)memNickName memSex:(NSString *)memSex dic:(NSMutableDictionary *)dic OnResponse:(void (^)(NSDictionary *dic))onResponse{
 
     [dic removeObjectForKey:@"privilege"];
-//    city = Haidian;
-//    country = CN;
-//    headimgurl = "http://thirdwx.qlogo.cn/mmopen/vi_32/GlIcUX1eK6DhzGLtZiat03CW0ibG4j1nVWaszqCUcQvznDaHdZumcIs9kvRibZScic0LiavPQ887vVIibg8BRbDnKCNA/132";
-//    language = "zh_CN";
-//    nickname = "\U8d5b";
-//    openid = "oxxn91EVOYUNWeaAJ_QjshamSPmU";
-//    province = Beijing;
-//    sex = 1;
-//    unionid = oMTz10QphHKC3BLL7eWst4nWxGqY;
+
+
       [LBProgressHUD showHUDto:[UIApplication sharedApplication].keyWindow animated:YES];
-    if ([UD boolForKey:@"bindWX"] == YES) {
-        [dic setObject:@"1" forKey:@"type"];//登录
-    }else {
-        [dic setObject:@"0" forKey:@"type"];//绑定
-    }
+    
     [YKHttpClient Method:@"POST" URLString:WeChatLogin_Url paramers:dic success:^(NSDictionary *dict) {
         NSLog(@"微信登录response=%@",dict);
         [LBProgressHUD hideAllHUDsForView:[UIApplication sharedApplication].keyWindow animated:YES];
@@ -678,14 +667,14 @@
 - (void)binWXWithOpenId:(NSString *)openId memNickName:(NSString *)memNickName memSex:(NSString *)memSex dic:(NSMutableDictionary *)dic OnResponse:(void (^)(NSDictionary *dic))onResponse{
     
     [dic removeObjectForKey:@"privilege"];
-    [LBProgressHUD showHUDto:[UIApplication sharedApplication].keyWindow animated:YES];
+//    [LBProgressHUD showHUDto:[UIApplication sharedApplication].keyWindow animated:YES];
     [dic setObject:@"0" forKey:@"type"];//绑定
     [dic setObject:[YKUserManager sharedManager].user.userId forKey:@"userId"];
     
     [YKHttpClient Method:@"POST" URLString:BindWX_Url paramers:dic success:^(NSDictionary *dict) {
     
         [LBProgressHUD hideAllHUDsForView:[UIApplication sharedApplication].keyWindow animated:YES];
-        if ([dict[@"status"] intValue] == 200) {
+        if ([dict[@"status"] intValue] == 200) { 
             [smartHUD alertText:[UIApplication sharedApplication].keyWindow alert:@"微信绑定成功" delay:1.2];
             
             if (![dict[@"data"] isEqual:[NSNull null]]) {
@@ -698,22 +687,9 @@
                 }
             }];
             
-            
-//            [self getUserInforOnResponse:^(NSDictionary *dic) {
-//                //链接融云
-//                [self RongCloudConnect];
-//                //监测登陆成功的事件
-//                [MobClick event:@"__register" attributes:@{@"userid":_user.userId}];
-//                [MobClick event:@"__login" attributes:@{@"userid":_user.userId}];
-//                //主包监测
-//                [MobClick event:@"register"];
-//                if (onResponse) {
-//                    onResponse(nil);
-//                }
-//            }];
-            
-            
-        }else {
+ 
+            }else {
+                 [UD setBool:NO forKey:@"wxisLogining"];
             [smartHUD alertText:[UIApplication sharedApplication].keyWindow alert:dict[@"msg"] delay:2.5];
         }
         
@@ -800,7 +776,8 @@
                 }
             }];
         }else {
-            [smartHUD alertText:[UIApplication sharedApplication].keyWindow alert:dict[@"message"] delay:1.8];
+//             [UD setBool:NO forKey:@"qqisLogining"];
+            [smartHUD alertText:[UIApplication sharedApplication].keyWindow alert:dict[@"msg"] delay:1.8];
         }
         
     } failure:^(NSError *error) {
@@ -820,13 +797,7 @@
 //            [self saveCurrentToken:dict[@"data"][@"token"]];
             
             [self getUserInforOnResponse:^(NSDictionary *dic) {
-//                //链接融云
-//                [self RongCloudConnect];
-//                //监测登陆成功的事件
-//                [MobClick event:@"__register" attributes:@{@"userid":_user.userId}];
-//                [MobClick event:@"__login" attributes:@{@"userid":_user.userId}];
-//                //主包监测
-//                [MobClick event:@"register"];
+//
                 
                 if (onResponse) {
                     onResponse(nil);
@@ -834,6 +805,7 @@
                 }
             }];
         }else {
+             [UD setBool:NO forKey:@"qqisLogining"];
             [smartHUD alertText:[UIApplication sharedApplication].keyWindow alert:dict[@"msg"] delay:1.2];
         }
         
@@ -1214,6 +1186,8 @@
     [YKHttpClient Method:@"POST" URLString:url paramers:nil success:^(NSDictionary *dict) {
         [LBProgressHUD hideAllHUDsForView:[UIApplication sharedApplication].keyWindow animated:YES];
         if ([dict[@"status"] intValue] == 200) {
+             [UD setBool:NO forKey:@"wxisLogining"];
+             [UD setBool:NO forKey:@"qqisLogining"];
             [smartHUD alertText:kWindow alert:dict[@"msg"] delay:1.2];
             
             [self getUserInforOnResponse:^(NSDictionary *dic) {

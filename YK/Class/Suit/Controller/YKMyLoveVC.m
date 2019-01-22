@@ -405,10 +405,12 @@
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
     
-    CGQCollectionViewCell *cell = (CGQCollectionViewCell *)[self.collectionView cellForItemAtIndexPath:indexPath];
+        CGQCollectionViewCell *cell = (CGQCollectionViewCell *)[self.collectionView cellForItemAtIndexPath:indexPath];
         YKProductDetailVC *detail = [[YKProductDetailVC alloc]init];
         detail.productId = cell.goodsId;
         detail.titleStr = cell.goodsName;
+        detail.sizeNum = cell.clothingStockId;
+        detail.sizeType = cell.product.clothingStockStyle;
         detail.hidesBottomBarWhenPushed = YES;
         [self.navigationController pushViewController:detail animated:YES];
     

@@ -31,7 +31,10 @@
     
     //价钱
     UILabel *price = [[UILabel alloc]init];
-    price.text = [NSString stringWithFormat:@"¥%@",Dic[@"price"]];
+    int p =  [Dic[@"price"] intValue] * 0.6;
+//    CGFloat n = round(p);
+    
+    price.text = [NSString stringWithFormat:@"¥%d",p];
     price.textColor = YKRedColor;
     price.font = PingFangSC_Medium(kSuitLength_H(14));
     price.frame = CGRectMake(image.frame.size.width + image.frame.origin.x+kSuitLength_H(15), view.bottom+kSuitLength_H(24.7), 100, kSuitLength_H(20));

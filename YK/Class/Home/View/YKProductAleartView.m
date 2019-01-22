@@ -46,14 +46,22 @@
     _type = type;
     if (type==2) {
         [self.addBtn setTitle:@"买这件" forState:UIControlStateNormal];
+       
+        int p = [_product[@"clothingPrice"] intValue] * 0.6;
+        _price.text = [NSString stringWithFormat:@"%d",p];
+        
     }
         
     if (type==1) {
         [self.addBtn setTitle:@"加入心愿单" forState:UIControlStateNormal];
+        int p = [_product[@"clothingPrice"] intValue] * 1;
+        _price.text = [NSString stringWithFormat:@"%d",p];
     }
     
     if (type==3) {
         [self.addBtn setTitle:@"租这件" forState:UIControlStateNormal];
+        int p = [_product[@"clothingPrice"] intValue] * 1;
+        _price.text = [NSString stringWithFormat:@"%d",p];
     }
 }
 - (void)setProduct:(NSDictionary *)product{
@@ -66,6 +74,7 @@
     _brand.text = [NSString stringWithFormat:@"%@",product[@"brandName"]];
     _price.text = [NSString stringWithFormat:@"%@",product[@"clothingPrice"]];
     
+   
     self.stockArray = [NSArray arrayWithArray:product[@"clothingStockDTOS"]];
     //尺码显示
     self.sizeView = [[YKNewSizeView alloc]init];
