@@ -37,9 +37,10 @@
         [image setUserInteractionEnabled:YES];
         NSString *placeStr;
         if (self.isNewerPlay) {
-            placeStr = @"新人玩转衣库";
-            image.image = [UIImage imageNamed:placeStr];
+            placeStr = @"商品详情头图";
+//            image.image = [UIImage imageNamed:placeStr];
             image.frame = CGRectMake(10, 0, w, kSuitLength_H(210));
+             [image sd_setImageWithURL:[NSURL URLWithString:[self URLEncodedString:dic[@"picture"]]] placeholderImage:[UIImage imageNamed:placeStr]];
         }else {
             
              placeStr = @"商品详情头图";
@@ -48,14 +49,20 @@
         
         [self.scrollView addSubview:image];
         UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc]initWithActionBlock:^(id  _Nonnull sender) {
-            
-//            if ([Token length] == 0) {
+     
+            if (self.isNewerPlay) {
+                if (self.toDetailBlock) {
+                    self.toDetailBlock(dic[@"jumpLink"]);
+                }
+            }else {
                 if (self.toDetailBlock) {
                     self.toDetailBlock(dic[@"specialLink"]);
-//                }
+
+                }
             }
             
         }];
+        
         [image addGestureRecognizer:tap];
         
     }

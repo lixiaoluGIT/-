@@ -45,7 +45,7 @@
     UILabel *status = [[UILabel alloc]init];
     status.font = PingFangSC_Medium(kSuitLength_H(14));
     status.textColor = mainColor;
-    status.text = @"衣袋状态：待付款";
+    status.text = @"";
     self.orderStatusLabel = status;
     [self addSubview:status];
     [status mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -109,7 +109,7 @@
         make.left.mas_equalTo(kSuitLength_H(16));
         make.top.mas_equalTo(line2.mas_bottom).offset(kSuitLength_H(10));
         make.width.mas_equalTo(kSuitLength_H(76));
-        make.height.mas_equalTo(kSuitLength_H(100));
+        make.height.mas_equalTo(kSuitLength_H(93));
     }];
     
     UILabel *name = [[UILabel alloc]init];
@@ -242,7 +242,9 @@
         case 5:
             self.orderStatusLabel.text = @"衣箱状态：已取消";
             self.leftBtn.hidden = YES;
-            self.rightBtn.hidden = YES;
+            self.rightBtn.hidden = NO;
+             [self.rightBtn setTitle:@"再次购买" forState:UIControlStateNormal];
+             [self.rightBtn setUserInteractionEnabled:YES];
             break;
         default:
             break;
@@ -337,7 +339,10 @@
                     }
                     break;
                 case 5:
-                    
+                    NSLog(@"再次购买");
+                    if (self.btnActionBlock) {
+                        self.btnActionBlock(buyAgain,self.orderId,self.clothingId,self.clothingName);
+                    }
                     break;
                     
                 default:

@@ -183,13 +183,13 @@
     
     if (alertView.tag == 102) {
         if (buttonIndex==1) {
-            if ([[self getCurrentTime]intValue]>16) {
-                DXAlertView *alertView = [[DXAlertView alloc] initWithTitle:@"平台提示" message:@"小仙女，当天17点以后下单，快递小哥可能明天才来取件哦，请您耐心等待！" cancelBtnTitle:@"取消" otherBtnTitle:@"继续确认"];
-                alertView.delegate = self;
-                alertView.tag = 103;
-                [alertView show];
-                return;
-            }
+//            if ([[self getCurrentTime]intValue]>16) {
+//                DXAlertView *alertView = [[DXAlertView alloc] initWithTitle:@"平台提示" message:@"小仙女，当天17点以后下单，快递小哥可能明天才来取件哦，请您耐心等待！" cancelBtnTitle:@"取消" otherBtnTitle:@"继续确认"];
+//                alertView.delegate = self;
+//                alertView.tag = 103;
+//                [alertView show];
+//                return;
+//            }
             
             
             [self order];

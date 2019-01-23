@@ -38,6 +38,9 @@
        
         [self setUpUI];//输入手机号界面
         [self setUpCodeView];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(wechatDidLoginNotification:) name:@"wechatDidLoginNotification" object:nil];
+        
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(TencentDidLoginNotification:) name:@"TencentDidLoginNotification" object:nil];
     }
     return self;
 }
@@ -243,6 +246,11 @@
     [codeView resetDefaultStatus];
 }
 
+- (void)dealloc{
+    [NC removeObserver:self name:@"wechatDidLoginNotification" object:nil];
+    [NC removeObserver:self name:@"TencentDidLoginNotification" object:nil];
+}
+
 - (void)showContain{
 
     [UIView animateWithDuration:0.25 animations:^{
@@ -263,9 +271,9 @@
             break;
         case 101://qq登录
              isLogining = NO;
-            [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(wechatDidLoginNotification:) name:@"wechatDidLoginNotification" object:nil];
-            
-            [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(TencentDidLoginNotification:) name:@"TencentDidLoginNotification" object:nil];
+//            [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(wechatDidLoginNotification:) name:@"wechatDidLoginNotification" object:nil];
+//
+//            [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(TencentDidLoginNotification:) name:@"TencentDidLoginNotification" object:nil];
             
             [[YKUserManager sharedManager]loginByTencentOnResponse:^(NSDictionary *dic) {
                 
@@ -276,9 +284,9 @@
             isLogining = NO;
             [UD setBool:NO forKey:@"bindWX"];//不是绑定,是登录
             [UD synchronize];
-            [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(wechatDidLoginNotification:) name:@"wechatDidLoginNotification" object:nil];
-            
-            [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(TencentDidLoginNotification:) name:@"TencentDidLoginNotification" object:nil];
+//            [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(wechatDidLoginNotification:) name:@"wechatDidLoginNotification" object:nil];
+//
+//            [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(TencentDidLoginNotification:) name:@"TencentDidLoginNotification" object:nil];
             [[YKUserManager sharedManager]loginByWeChatOnResponse:^(NSDictionary *dic) {
                 
             }];
@@ -350,20 +358,27 @@
     NSDictionary *dic = [NSDictionary dictionaryWithDictionary:notify.userInfo];
     [[YKUserManager sharedManager]loginSuccessByTencentDic:dic[@"code"] OnResponse:^(NSDictionary *dic) {
         
-        [UIView animateWithDuration:0.2 animations:^{
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.8 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
             [self dismiss];
-        }completion:^(BOOL finished) {
-            if ([[YKUserManager sharedManager].user.phone isEqual:[NSNull null]]) {
-                YKChangePhoneVC *changePhone = [YKChangePhoneVC new];
-                changePhone.isFromThirdLogin = YES;
-                changePhone.hidesBottomBarWhenPushed = YES;
-                [[self getCurrentVC].navigationController pushViewController:changePhone animated:YES];
-            }else {
-                if (self.loginSuccess) {
-                    self.loginSuccess();
-                }
-            }
-        }];
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                [UIView animateWithDuration:0.4 animations:^{
+                    //                    [self dismiss];
+                }completion:^(BOOL finished) {
+                    if ([[YKUserManager sharedManager].user.phone isEqual:[NSNull null]]) {
+                        YKChangePhoneVC *changePhone = [YKChangePhoneVC new];
+                        changePhone.isFromThirdLogin = YES;
+                        changePhone.hidesBottomBarWhenPushed = YES;
+                        [[self getCurrentVC].navigationController pushViewController:changePhone animated:YES];
+                    }else {
+                        if (self.loginSuccess) {
+                            self.loginSuccess();
+                        }
+                    }
+                }];
+                
+            });
+            
+        });
     }];
 }
 

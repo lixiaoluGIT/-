@@ -57,7 +57,7 @@
                 <outlet property="headIma" destination="2Mf-n9-S77" id="bG5-gq-lK1"/>
                 <outlet property="title" destination="s4k-O6-hFo" id="Vej-F7-cH9"/>
             </connections>
-            <point key="canvasLocation" x="-224" y="-146"/>
+            <point key="canvasLocation" x="-43" y="-161"/>
         </tableViewCell>
         <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="187" id="piW-2t-gvZ" customClass="YKMineCell">
             <rect key="frame" x="0.0" y="0.0" width="380" height="187"/>
@@ -84,14 +84,14 @@
                         <color key="textColor" red="0.4039215686" green="0.40784313729999999" blue="0.41176470590000003" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="媒体与商务合作:public@yiku.com" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ORI-kv-UeZ">
-                        <rect key="frame" x="26" y="127" width="186" height="15"/>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="媒体与商务合作:yikuyy@ykkoo.com" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ORI-kv-UeZ">
+                        <rect key="frame" x="26" y="127" width="197" height="15"/>
                         <fontDescription key="fontDescription" type="system" pointSize="12"/>
                         <color key="textColor" red="0.4039215686" green="0.40784313729999999" blue="0.41176470590000003" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="服装品牌合作:public@yiku.com" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="IFl-Q1-i9g">
-                        <rect key="frame" x="26" y="158" width="173" height="15"/>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="服装品牌合作:yikuppzs@ykkoo.com" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="IFl-Q1-i9g">
+                        <rect key="frame" x="26" y="158" width="199" height="15"/>
                         <fontDescription key="fontDescription" type="system" pointSize="12"/>
                         <color key="textColor" red="0.4039215686" green="0.40784313729999999" blue="0.41176470590000003" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
@@ -111,7 +111,7 @@
                     <constraint firstItem="ORI-kv-UeZ" firstAttribute="leading" secondItem="zkf-YF-uGy" secondAttribute="leading" id="z3w-8l-A7s"/>
                 </constraints>
             </tableViewCellContentView>
-            <point key="canvasLocation" x="71" y="41"/>
+            <point key="canvasLocation" x="-72" y="21"/>
         </tableViewCell>
         <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="198" id="tHE-Zp-gAt" customClass="YKMineCell">
             <rect key="frame" x="0.0" y="0.0" width="377" height="198"/>

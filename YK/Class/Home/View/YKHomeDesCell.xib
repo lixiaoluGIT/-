@@ -32,13 +32,14 @@
             </tableViewCellContentView>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
             <connections>
+                <outlet property="bannerImage" destination="zow-rZ-Ixj" id="leL-dh-NIP"/>
                 <outlet property="editBtn" destination="6qq-IV-Zf8" id="nSh-gi-jYD"/>
                 <outlet property="gap" destination="kg2-I6-cwK" id="Yfp-Sb-vev"/>
                 <outlet property="image" destination="zow-rZ-Ixj" id="Zfg-d2-kh9"/>
                 <outlet property="lll" destination="E6Z-5e-SZq" id="vON-Wa-nw9"/>
                 <outlet property="mySize" destination="j2v-h8-YZx" id="fC2-gd-dCk"/>
             </connections>
-            <point key="canvasLocation" x="625.60000000000002" y="157.42128935532236"/>
+            <point key="canvasLocation" x="-18" y="137"/>
         </tableViewCell>
         <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="153" id="GU5-XR-B9g" customClass="YKHomeDesCell">
             <rect key="frame" x="0.0" y="0.0" width="489" height="153"/>

@@ -36,6 +36,8 @@
 @property (nonatomic,strong)NSDictionary *headerActivity;
 @property (nonatomic,strong)NSMutableArray *a;
 
+@property (nonatomic,strong)NSDictionary *communityGuidePictures;
+
 @end
 
 @implementation NewDynamicsViewController
@@ -183,8 +185,21 @@
         _activity = [[YKActivity alloc]init];
         [_activity initWithDic:_headerActivity];
         _cycleView.imagesArr = _a;
-        _comHeader.imageArray = _imageArray;
-        _comHeader.clickUrlArray = _clickImageUrls;
+        
+        //小banner图
+        NSMutableArray *a = [NSMutableArray array];
+        if (dic[@"data"][@"communityGuidePictures"][@"picture"]) {
+            [a addObject:dic[@"data"][@"communityGuidePictures"][@"picture"]];
+        }
+        
+         NSMutableArray *b = [NSMutableArray array];
+        if (dic[@"data"][@"communityGuidePictures"][@"jumpLink"]) {
+           [b addObject:dic[@"data"][@"communityGuidePictures"][@"jumpLink"]];
+        }
+       
+        _comHeader.imageArray = a;
+        _comHeader.clickUrlArray = b;
+        
         [self.dynamicsTable.mj_header endRefreshing];
     }];
 }

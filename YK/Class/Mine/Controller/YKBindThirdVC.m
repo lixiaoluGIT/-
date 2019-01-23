@@ -19,8 +19,9 @@
 - (void)viewWillAppear:(BOOL)animated{
     
     [super viewWillAppear:YES];
-     [UD setBool:NO forKey:@"wxisLogining"];
-     [UD setBool:NO forKey:@"qqisLogining"];
+//     [UD setBool:NO forKey:@"wxisLogining"];
+//     [UD setBool:NO forKey:@"qqisLogining"];
+    isLogining  = NO;
     [self.view removeAllSubviews];
     [self setUpUI];
     
@@ -191,6 +192,7 @@
     isLogining = YES;
      [UD setBool:YES forKey:@"wxisLogining"];
     NSDictionary *dict = [notify userInfo];
+    NSLog(@"AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
     [[YKUserManager sharedManager]getWechatAccessTokenWithCode:dict[@"code"] OnResponse:^(NSDictionary *dic) {
 //        isLogining = NO;
         
@@ -227,5 +229,11 @@
         }];
     }
 }
+
+- (void)dealloc{
+    [NC removeObserver:self name:@"wechatDidLoginNotification" object:nil];
+    [NC removeObserver:self name:@"TencentDidLoginNotification" object:nil];
+}
+
 
 @end

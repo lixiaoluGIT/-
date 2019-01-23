@@ -96,6 +96,9 @@
 
 @property (nonatomic,strong)NSArray *beautifulClothes;//美衣
 @property (nonatomic,strong)NSArray *beautifulPS;//配饰
+
+@property (nonatomic,strong)NSDictionary *navigationPictures;///成为会员
+@property (nonatomic,strong)NSDictionary *guidePictures;//引导图
 @end
 
 @implementation YKHomeVC
@@ -358,6 +361,7 @@
                     [self checkVersion];
                     hadAppearCheckVersion = YES;
                 }
+        
         [self performSelector:@selector(aleart) withObject:nil afterDelay:1.0];
         self.collectionView.hidden = NO;
         NSArray *array = [NSArray arrayWithArray:dic[@"data"][@"loopPic"]];
@@ -382,6 +386,9 @@
             detail.hidesBottomBarWhenPushed = YES;
             [weakSelf.navigationController pushViewController:detail animated:YES];
         }];
+        
+        self.navigationPictures = [NSDictionary dictionaryWithDictionary:dic[@"data"][@"navigationPictures"]];
+        self.guidePictures = [NSDictionary dictionaryWithDictionary:dic[@"data"][@"guidePictures"]];
        
         self.beautifulPS = [NSArray arrayWithArray:dic[@"data"][@"ornaments"][@"content"]];
         [_psScrollView initWithType:2 productList:self.beautifulPS OnResponse:^{
@@ -486,12 +493,17 @@
         YKHomeActivityView * _activity = [[NSBundle mainBundle]loadNibNamed:@"YKHomeActivityView" owner:nil options:nil][0];
         _activity.frame = CGRectMake(kSuitLength_H(0), cycleView.bottom+kSuitLength_H(18),WIDHT-kSuitLength_H(0)*2, kSuitLength_H(210));
         //随便传个值过去，实际是本地图片
+        NSMutableArray *a = [NSMutableArray array];
+        if (self.navigationPictures.allKeys!=0) {
+            [a addObject:self.navigationPictures];
+        }
+        
         _activity.isNewerPlay = YES;
-        _activity.imageArray = [NSMutableArray arrayWithArray:self.brandArray];
+        _activity.imageArray = [NSMutableArray arrayWithArray:a];
         _activity.toDetailBlock = ^(NSString *activityID){
             YKLinkWebVC *web =[YKLinkWebVC new];
             web.needShare = YES;
-            web.url = @"http://activity.xykoo.cn/appHtml/paly/play.html";
+            web.url = activityID;
             if (web.url.length == 0) {
                 return;
             }
@@ -506,6 +518,7 @@
         //文字miao s
         YKHomeDesCell *desCell = [[NSBundle mainBundle] loadNibNamed:@"YKHomeDesCell" owner:self options:nil][0];
         desCell.selectionStyle = UITableViewCellEditingStyleNone;
+        [desCell.bannerImage sd_setImageWithURL:[NSURL URLWithString:[self URLEncodedString:self.guidePictures[@"picture"]]] placeholderImage:[UIImage imageNamed:@"商品详情头图"]];
         desCell.frame = CGRectMake(0, _activity.bottom, WIDHT, kSuitLength_H(106));
         [headerView addSubview:desCell];
         
@@ -815,6 +828,16 @@
     }
     
     return nil;
+}
+- (NSString *)URLEncodedString:(NSString *)str
+{
+    NSString *encodedString = (NSString *)
+    CFBridgingRelease(CFURLCreateStringByAddingPercentEscapes(kCFAllocatorDefault,
+                                                              (CFStringRef)str,
+                                                              (CFStringRef)@"!$&'()*+,-./:;=?@_~%#[]",
+                                                              NULL,
+                                                              kCFStringEncodingUTF8));
+    return encodedString;
 }
 -(void)cycleScrollView:(DCCycleScrollView *)cycleScrollView didSelectItemAtIndex:(NSInteger)index
 {

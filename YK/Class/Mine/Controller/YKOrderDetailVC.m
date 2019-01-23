@@ -86,6 +86,8 @@
     [self.collectionView registerClass:[UICollectionReusableView class] forSupplementaryViewOfKind:UICollectionElementKindSectionFooter withReuseIdentifier:@"footer2"];
     self.collectionView.hidden = YES;
 //    self.collectionView.sc
+    
+     [self getOrderDetail:self.orderId];
    
 }
 
@@ -124,7 +126,10 @@
     [self.navigationController.navigationBar setBackgroundImage:UIGraphicsGetImageFromCurrentImageContext()  forBarMetrics:UIBarMetricsDefault];
     
     //请求订单详情数据
-    [self getOrderDetail:self.orderId];
+    if ([self.orderDetail.orderType intValue]==1 && [self.orderDetail.orderState intValue]==2) {
+        [self getOrderDetail:self.orderId];
+    }
+    
 }
 
 - (void)getOrderDetail:(NSString *)orderId{
@@ -375,7 +380,7 @@
     YKProductDetailVC  *detail = [[YKProductDetailVC alloc]init];
     detail.canBuy = YES;
     detail.productId = clothingId;
-    detail.titleS = title;
+    detail.titleStr = title;
     [self.navigationController pushViewController:detail animated:YES];
 }
 //申请售后

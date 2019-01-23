@@ -597,7 +597,11 @@
                 NSMutableDictionary *dic = [NSJSONSerialization JSONObjectWithData:data
                                                                     options:NSJSONReadingMutableContainers error:nil];
                 
-                NSLog(@"%@",dic);
+                NSLog(@"微信response：%@",dic);
+                if ([dic[@"errcode"] intValue] == 40001) {
+//                    [smartHUD alertText:kWindow alert:@"微信请求过于频繁" delay:1.0];
+                    return ;
+                }
                 NSString *openId = [dic objectForKey:@"openid"];
                 NSString *memNickName = [dic objectForKey:@"nickname"];
                 NSString *memSex = [dic objectForKey:@"sex"];
@@ -609,7 +613,7 @@
                             onResponse(nil);
                         }
                     }];
-                }else {//已登录，绑定微信接口（提现的时候用）
+                }else {//已登录，绑定微信接口（提现的时候用或绑定微信）
                     [self binWXWithOpenId:openId memNickName:@"" memSex:@"" dic:dic OnResponse:^(NSDictionary *dic) {
                         if (onResponse) {
                             onResponse(nil);
@@ -644,10 +648,12 @@
                 //链接融云
                 [self RongCloudConnect];
                 //监测登陆成功的事件
-                [MobClick event:@"__register" attributes:@{@"userid":_user.userId}];
-                [MobClick event:@"__login" attributes:@{@"userid":_user.userId}];
+                if (_user.userId) {
+                    [MobClick event:@"__register" attributes:@{@"userid":_user.userId}];
+                    [MobClick event:@"__login" attributes:@{@"userid":_user.userId}];
+                }
                 //主包监测
-                [MobClick event:@"register"];
+//                [MobClick event:@"register"];
                 if (onResponse) {
                     onResponse(nil);
                 }
@@ -669,7 +675,10 @@
     [dic removeObjectForKey:@"privilege"];
 //    [LBProgressHUD showHUDto:[UIApplication sharedApplication].keyWindow animated:YES];
     [dic setObject:@"0" forKey:@"type"];//绑定
-    [dic setObject:[YKUserManager sharedManager].user.userId forKey:@"userId"];
+    if ([YKUserManager sharedManager].user.userId) {
+         [dic setObject:[YKUserManager sharedManager].user.userId forKey:@"userId"];
+    }
+   
     
     [YKHttpClient Method:@"POST" URLString:BindWX_Url paramers:dic success:^(NSDictionary *dict) {
     
@@ -765,8 +774,11 @@
                 //链接融云
                 [self RongCloudConnect];
                 //监测登陆成功的事件
-                [MobClick event:@"__register" attributes:@{@"userid":_user.userId}];
-                [MobClick event:@"__login" attributes:@{@"userid":_user.userId}];
+                if (_user.userId) {
+                    [MobClick event:@"__register" attributes:@{@"userid":_user.userId}];
+                    [MobClick event:@"__login" attributes:@{@"userid":_user.userId}];
+                }
+               
                 //主包监测
                 [MobClick event:@"register"];
                 

@@ -268,11 +268,12 @@
     }
 }
 
-- (void)toProductDetailclothingId:(NSString *)clothingId title:(NSString *)title{
+- (void)toProductDetailclothingId:(NSString *)clothingId title:(NSString *)titleStr{
+   
     YKProductDetailVC  *detail = [[YKProductDetailVC alloc]init];
     detail.canBuy = YES;
     detail.productId = clothingId;
-    detail.titleS = title;
+    detail.titleStr = titleStr;
     [self.navigationController pushViewController:detail animated:YES];
 }
 

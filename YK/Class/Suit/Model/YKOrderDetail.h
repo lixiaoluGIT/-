@@ -19,7 +19,7 @@
 @property (nonatomic,strong)NSString *address;//详细地址
 @property (nonatomic,strong)NSArray *productList;//用户商品列表
 @property (nonatomic,strong)NSString *orderType;//订单类型（1-租衣 2-买衣）
-@property (nonatomic,strong)NSString *orderState;//买衣订单状态
+@property (nonatomic,strong)NSString *orderState;//订单状态
 @property (nonatomic,strong)NSString *orderStatus;//租衣订单状态
 @property (nonatomic,strong)NSString *orderAmount;//订单总价
 @property (nonatomic,strong)NSArray *recommentProductList;//推荐商品列表

@@ -596,7 +596,8 @@
             case 5://已取消
                 BBtn.hidden = NO;
                 [BBtn setTitle:@"联系商家" forState:UIControlStateNormal];
-                rightBtn.hidden = YES;
+                rightBtn.hidden = NO;
+                 [rightBtn setTitle:@"再次购买" forState:UIControlStateNormal];
                 [leftBtn setTitle:@"删除订单" forState:UIControlStateNormal];
                 
                 break;
@@ -749,7 +750,9 @@
                 }
                 break;
             case 5://已取消
-               
+                if (self.btnActionBlock) {
+                    self.btnActionBlock(buyAgain);
+                }
                 break;
                 
             default:
